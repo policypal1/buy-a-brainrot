@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>U4GM — Neo Shop</title>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand"><span class="logo">U4</span> <span class="accent">GM</span></div>
+    <nav class="nav">
+      <a href="index.html" class="active">Shop</a>
+      <a href="about.html">About</a>
+      <button class="cart-btn" id="openCart" aria-label="Open cart">
+        <span>Cart</span><span id="cartCount" class="badge">0</span>
+      </button>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <div class="hero__inner">
+      <h1 class="glow">Neo-Market</h1>
+      <p>Fast delivery. Private servers. Zero hassle. <span class="accent">Redline</span> edition.</p>
+    </div>
+  </section>
+
+  <main class="container">
+    <div class="toolbar">
+      <div class="pill">HOT</div>
+      <div class="search">
+        <input id="searchInput" type="search" placeholder="Search items…" />
+      </div>
+    </div>
+
+    <!-- GRID -->
+    <section id="grid" class="grid">
+
+      <!-- Card template (duplicate/edit to add items).  Slightly higher prices than screenshot -->
+      <article class="card" data-name="La Vacca Saturno Saturnita">
+        <div class="flag flag--hot">HOT</div>
+        <img src="https://placehold.co/260x200/png?text=Saturno" alt="La Vacca Saturno Saturnita" />
+        <h3>La Vacca Saturno Saturnita</h3>
+        <div class="qty">
+          <button class="qty__btn" data-step="-1">−</button>
+          <input class="qty__input" type="number" value="1" min="1" />
+          <button class="qty__btn" data-step="1">+</button>
+        </div>
+        <div class="price">$2.49</div><!-- was $1.99 -->
+        <div class="actions">
+          <button class="btn btn--ghost add">Add to Cart</button>
+          <button class="btn buy">Buy Now</button>
+        </div>
+      </article>
+
+      <article class="card" data-name="Quesadilla Crocodila">
+        <div class="flag flag--new">NEW</div>
+        <img src="https://placehold.co/260x200/png?text=Crocodila" alt="Quesadilla Crocodila" />
+        <h3>Quesadilla Crocodila</h3>
+        <div class="qty">
+          <button class="qty__btn" data-step="-1">−</button>
+          <input class="qty__input" type="number" value="1" min="1" />
+          <button class="qty__btn" data-step="1">+</button>
+        </div>
+        <div class="price">$6.49</div><!-- was $5.99 -->
+        <div class="actions">
+          <button class="btn btn--ghost add">Add to Cart</button>
+          <button class="btn buy">Buy Now</button>
+        </div>
+      </article>
+
+      <article class="card" data-name="Karker Sahur">
+        <div class="flag flag--new">NEW</div>
+        <img src="https://placehold.co/260x200/png?text=Sahur" alt="Karker Sahur" />
+        <h3>Karker Sahur</h3>
+        <div class="qty">
+          <button class="qty__btn" data-step="-1">−</button>
+          <input class="qty__input" type="number" value="1" min="1" />
+          <button class="qty__btn" data-step="1">+</button>
+        </div>
+        <div class="price">$3.49</div><!-- was $2.99 -->
+        <div class="actions">
+          <button class="btn btn--ghost add">Add to Cart</button>
+          <button class="btn buy">Buy Now</button>
+        </div>
+      </article>
+
+      <article class="card" data-name="bisonte giuppitere">
+        <img src="https://placehold.co/260x200/png?text=Bisonte" alt="bisonte giuppitere" />
+        <h3>bisonte giuppitere</h3>
+        <div class="qty">
+          <button class="qty__btn" data-step="-1">−</button>
+          <input class="qty__input" type="number" value="1" min="1" />
+          <button class="qty__btn" data-step="1">+</button>
+        </div>
+        <div class="price">$1.99</div><!-- was $1.49 -->
+        <div class="actions">
+          <button class="btn btn--ghost add">Add to Cart</button>
+          <button class="btn buy">Buy Now</button>
+        </div>
+      </article>
+
+      <article class="card" data-name="Los Nooo My Hotspotsitos">
+        <div class="flag flag--hot">HOT</div>
+        <img src="https://placehold.co/260x200/png?text=Hotspotsitos" alt="Los Nooo My Hotspotsitos" />
+        <h3>Los Nooo My Hotspotsitos</h3>
+        <div class="qty">
+          <button class="qty__btn" data-step="-1">−</button>
+          <input class="qty__input" type="number" value="1" min="1" />
+          <button class="qty__btn" data-step="1">+</button>
+        </div>
+        <div class="price">$8.49</div><!-- was $7.99 -->
+        <div class="actions">
+          <button class="btn btn--ghost add">Add to Cart</button>
+          <button class="btn buy">Buy Now</button>
+        </div>
+      </article>
+
+      <article class="card" data-name="Esok Sekolah">
+        <div class="flag flag--hot">HOT</div>
+        <!-- If you want your screenshot on this card, replace src with your data URL -->
+        <!-- <img src="data:image/jpeg;base64,PASTE_YOUR_LONG_DATA_URL_HERE" alt="Esok Sekolah" /> -->
+        <img src="https://placehold.co/260x200/png?text=Esok+Sekolah" alt="Esok Sekolah" />
+        <h3><a class="link" href="#esok">Esok Sekolah</a></h3>
+        <div class="qty">
+          <button class="qty__btn" data-step="-1">−</button>
+          <input class="qty__input" type="number" value="1" min="1" />
+          <button class="qty__btn" data-step="1">+</button>
+        </div>
+        <div class="price">$15.49</div><!-- was $14.48 -->
+        <div class="actions">
+          <button class="btn btn--ghost add">Add to Cart</button>
+          <button class="btn buy">Buy Now</button>
+        </div>
+      </article>
+
+      <article class="card" data-name="Job Job Job Sahur">
+        <img src="https://placehold.co/260x200/png?text=Job+Sahur" alt="Job Job Job Sahur" />
+        <h3>Job Job Job Sahur</h3>
+        <div class="qty">
+          <button class="qty__btn" data-step="-1">−</button>
+          <input class="qty__input" type="number" value="1" min="1" />
+          <button class="qty__btn" data-step="1">+</button>
+        </div>
+        <div class="price">$2.99</div><!-- was $2.49 -->
+        <div class="actions">
+          <button class="btn btn--ghost add">Add to Cart</button>
+          <button class="btn buy">Buy Now</button>
+        </div>
+      </article>
+
+      <article class="card" data-name="Blackhole Goat">
+        <img src="https://placehold.co/260x200/png?text=Blackhole+Goat" alt="Blackhole Goat" />
+        <h3>Blackhole Goat</h3>
+        <div class="qty">
+          <button class="qty__btn" data-step="-1">−</button>
+          <input class="qty__input" type="number" value="1" min="1" />
+          <button class="qty__btn" data-step="1">+</button>
+        </div>
+        <div class="price">$1.99</div><!-- was $1.49 -->
+        <div class="actions">
+          <button class="btn btn--ghost add">Add to Cart</button>
+          <button class="btn buy">Buy Now</button>
+        </div>
+      </article>
+
+      <article class="card" data-name="La Karkerkar Combinasio">
+        <img src="https://placehold.co/260x200/png?text=Combinasio" alt="La Karkerkar Combinasio" />
+        <h3>La Karkerkar Combinasio</h3>
+        <div class="qty">
+          <button class="qty__btn" data-step="-1">−</button>
+          <input class="qty__input" type="number" value="1" min="1" />
+          <button class="qty__btn" data-step="1">+</button>
+        </div>
+        <div class="price">$2.49</div><!-- was $1.99 -->
+        <div class="actions">
+          <button class="btn btn--ghost add">Add to Cart</button>
+          <button class="btn buy">Buy Now</button>
+        </div>
+      </article>
+
+      <article class="card" data-name="Dul Dul Dul">
+        <div class="flag flag--hot">HOT</div>
+        <img src="https://placehold.co/260x200/png?text=Dul+Dul+Dul" alt="Dul Dul Dul" />
+        <h3>Dul Dul Dul</h3>
+        <div class="qty">
+          <button class="qty__btn" data-step="-1">−</button>
+          <input class="qty__input" type="number" value="1" min="1" />
+          <button class="qty__btn" data-step="1">+</button>
+        </div>
+        <div class="price">$2.39</div><!-- was $1.89 -->
+        <div class="actions">
+          <button class="btn btn--ghost add">Add to Cart</button>
+          <button class="btn buy">Buy Now</button>
+        </div>
+      </article>
+
+    </section>
+  </main>
+
+  <!-- Drawer Cart -->
+  <aside id="cartDrawer" class="drawer">
+    <div class="drawer__header">
+      <h3>Your Cart</h3>
+      <button id="closeCart" aria-label="Close cart">✕</button>
+    </div>
+    <div id="cartItems" class="drawer__body empty">Cart is empty.</div>
+    <div class="drawer__footer">
+      <div>Total: <strong id="cartTotal">$0.00</strong></div>
+      <button class="btn" id="checkoutBtn">Checkout</button>
+    </div>
+  </aside>
+
+  <footer class="footer">
+    <p>© <span id="y"></span> Neo-Market Redline • <a class="link" href="about.html">About</a></p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
