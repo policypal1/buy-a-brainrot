@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Reviews — buy-a-brainrot</title>
+
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/style.css?v=10" />
+</head>
+<body>
+  <!-- Header -->
+  <header class="topbar">
+    <div class="brand">
+      <span class="logo">BA</span><span class="accent">Brainrot</span>
+    </div>
+    <nav class="nav">
+      <a href="index.html">Shop</a>
+      <a href="about.html">About</a>
+      <a href="reviews.html" class="active">Reviews</a>
+    </nav>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero hero--small">
+    <div class="hero__inner">
+      <h1 class="glow">Player Reviews</h1>
+      <p>Real feedback from people who trade and buy through buy-a-brainrot.</p>
+    </div>
+  </section>
+
+  <main class="container">
+    <!-- Traded Reviews -->
+    <section class="panel">
+      <h2>People who traded</h2>
+      <div class="grid" style="grid-template-columns:repeat(auto-fill,minmax(260px,1fr));">
+        <article class="card" style="min-height:auto">
+          <h3>⭐️⭐️⭐️⭐️⭐️</h3>
+          <p>“He made me give my stuff first, but as soon as I did, he sent me a <b>flying carpet</b> instantly. Super legit.”</p>
+        </article>
+        <article class="card" style="min-height:auto">
+          <h3>⭐️⭐️⭐️⭐️⭐️</h3>
+          <p>“Was nervous at first. Gave my items, and he delivered an <b>admin panel</b> right after. Clean and fast trade.”</p>
+        </article>
+        <article class="card" style="min-height:auto">
+          <h3>⭐️⭐️⭐️⭐️⭐️</h3>
+          <p>“Traded in a private server. I went first; he immediately sent a <b>SLAP</b>. Communication was clear.”</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- Bought Reviews -->
+    <section class="panel">
+      <h2>People who bought</h2>
+      <p style="color:var(--muted)">No reviews yet.</p>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>© <span id="y"></span> buy-a-brainrot • Private-server trades via <b>samsalt294</b></p>
+  </footer>
+
+  <script>
+    document.getElementById('y').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
