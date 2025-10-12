@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>About — Neo Shop</title>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand"><span class="logo">U4</span> <span class="accent">GM</span></div>
+    <nav class="nav">
+      <a href="index.html">Shop</a>
+      <a href="about.html" class="active">About</a>
+    </nav>
+  </header>
+
+  <section class="hero hero--small">
+    <div class="hero__inner">
+      <h1 class="glow">About Us</h1>
+      <p>Private-server item delivery with speed, safety, and style.</p>
+    </div>
+  </section>
+
+  <main class="container narrow">
+    <article class="panel">
+      <h2>Who we are</h2>
+      <p>
+        We’re a small, trusted team delivering in-game items fast. Every order is verified,
+        delivered in a secured private server, and backed by responsive support.
+      </p>
+      <h2>How it works</h2>
+      <ol>
+        <li>Choose your items and place an order.</li>
+        <li>We add the account <code>u4gmxxxxx</code> as a friend and move you into a private server.</li>
+        <li>We trade/deliver your items—usually within minutes.</li>
+      </ol>
+      <h2>Contact</h2>
+      <p>Email: <a class="link" href="mailto:support@neoshop.example">support@neoshop.example</a></p>
+    </article>
+  </main>
+
+  <footer class="footer">
+    <p>© <span id="y"></span> Neo-Market Redline • <a class="link" href="index.html">Shop</a></p>
+  </footer>
+
+  <script>
+    document.getElementById('y').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
