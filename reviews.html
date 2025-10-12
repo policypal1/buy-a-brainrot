@@ -7,7 +7,35 @@
 
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/style.css?v=10" />
+  <link rel="stylesheet" href="/style.css?v=11" />
+  <style>
+    /* minimal carousel styles that match your theme */
+    .carousel { position: relative; margin-top: 14px; }
+    .carousel__track {
+      display: flex; gap: 16px; overflow-x: auto; scroll-snap-type: x mandatory;
+      padding-bottom: 8px;
+    }
+    .carousel__track::-webkit-scrollbar{height:8px}
+    .carousel__track::-webkit-scrollbar-thumb{background:var(--line-2);border-radius:6px}
+    .review-card{
+      min-width: 320px; max-width: 360px; scroll-snap-align: start;
+      background: var(--card); border:1px solid var(--line);
+      border-radius: 14px; padding: 16px; box-shadow: var(--shadow);
+    }
+    .review-meta{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+    .avatar{width:34px;height:34px;border-radius:50%;background:#202027;border:1px solid var(--line)}
+    .uname{font-weight:800}
+    .stars{color:#ffc94d;letter-spacing:1px}
+    .carousel__btn{
+      position:absolute; top:50%; transform:translateY(-50%);
+      background:var(--surface); border:1px solid var(--line); color:#fff;
+      width:36px;height:36px;border-radius:10px; cursor:pointer;
+    }
+    .carousel__btn:hover{background:var(--accent)}
+    .carousel__btn--prev{left:-8px}
+    .carousel__btn--next{right:-8px}
+    @media (max-width: 680px){ .carousel__btn{display:none} }
+  </style>
 </head>
 <body>
   <!-- Header -->
@@ -26,7 +54,7 @@
   <section class="hero hero--small">
     <div class="hero__inner">
       <h1 class="glow">Player Reviews</h1>
-      <p>Real feedback from people who trade and buy through buy-a-brainrot.</p>
+      <p>Real feedback from players who trade and buy through buy-a-brainrot.</p>
     </div>
   </section>
 
@@ -34,19 +62,52 @@
     <!-- Traded Reviews -->
     <section class="panel">
       <h2>People who traded</h2>
-      <div class="grid" style="grid-template-columns:repeat(auto-fill,minmax(260px,1fr));">
-        <article class="card" style="min-height:auto">
-          <h3>⭐️⭐️⭐️⭐️⭐️</h3>
-          <p>“He made me give my stuff first, but as soon as I did, he sent me a <b>flying carpet</b> instantly. Super legit.”</p>
-        </article>
-        <article class="card" style="min-height:auto">
-          <h3>⭐️⭐️⭐️⭐️⭐️</h3>
-          <p>“Was nervous at first. Gave my items, and he delivered an <b>admin panel</b> right after. Clean and fast trade.”</p>
-        </article>
-        <article class="card" style="min-height:auto">
-          <h3>⭐️⭐️⭐️⭐️⭐️</h3>
-          <p>“Traded in a private server. I went first; he immediately sent a <b>SLAP</b>. Communication was clear.”</p>
-        </article>
+
+      <div class="carousel">
+        <button aria-label="Prev" class="carousel__btn carousel__btn--prev" id="prevTraded">‹</button>
+        <div class="carousel__track" id="trackTraded">
+          <article class="review-card">
+            <div class="review-meta">
+              <div class="avatar"></div>
+              <div class="uname">@PixelPwner_43</div>
+              <div class="stars" aria-hidden="true">★★★★★</div>
+            </div>
+            <p>“He made me give my stuff first, but as soon as I did, he sent me a <b>flying carpet</b> instantly. Super legit.”</p>
+          </article>
+          <article class="review-card">
+            <div class="review-meta">
+              <div class="avatar"></div>
+              <div class="uname">@NoClipNeko</div>
+              <div class="stars" aria-hidden="true">★★★★★</div>
+            </div>
+            <p>“Was nervous at first. Gave my items, and he delivered an <b>admin panel</b> right after. Clean and fast trade.”</p>
+          </article>
+          <article class="review-card">
+            <div class="review-meta">
+              <div class="avatar"></div>
+              <div class="uname">@RiftRunner</div>
+              <div class="stars" aria-hidden="true">★★★★★</div>
+            </div>
+            <p>“Traded in a private server. I went first; he immediately sent a <b>SLAP</b>. Communication was clear.”</p>
+          </article>
+          <article class="review-card">
+            <div class="review-meta">
+              <div class="avatar"></div>
+              <div class="uname">@Toast3dUp</div>
+              <div class="stars" aria-hidden="true">★★★★★</div>
+            </div>
+            <p>“Quick add on samsalt294, joined PS, trade done in 5 mins. Chill vibes.”</p>
+          </article>
+          <article class="review-card">
+            <div class="review-meta">
+              <div class="avatar"></div>
+              <div class="uname">@o7Vortex</div>
+              <div class="stars" aria-hidden="true">★★★★★</div>
+            </div>
+            <p>“Reliable. I went first for a bundle, got everything as promised.”</p>
+          </article>
+        </div>
+        <button aria-label="Next" class="carousel__btn carousel__btn--next" id="nextTraded">›</button>
       </div>
     </section>
 
@@ -63,6 +124,15 @@
 
   <script>
     document.getElementById('y').textContent = new Date().getFullYear();
+
+    // simple carousel controls
+    const track = document.getElementById('trackTraded');
+    document.getElementById('prevTraded').addEventListener('click', () => {
+      track.scrollBy({ left: -340, behavior: 'smooth' });
+    });
+    document.getElementById('nextTraded').addEventListener('click', () => {
+      track.scrollBy({ left: 340, behavior: 'smooth' });
+    });
   </script>
 </body>
 </html>
