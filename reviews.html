@@ -7,34 +7,54 @@
 
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/style.css?v=11" />
+  <link rel="stylesheet" href="/style.css?v=12" />
+
   <style>
-    /* minimal carousel styles that match your theme */
-    .carousel { position: relative; margin-top: 14px; }
+    /* Refined carousel & card look */
+    .carousel { position: relative; margin-top: 18px; }
     .carousel__track {
-      display: flex; gap: 16px; overflow-x: auto; scroll-snap-type: x mandatory;
-      padding-bottom: 8px;
+      display: flex; gap: 22px; overflow-x: auto; scroll-snap-type: x mandatory;
+      padding: 6px 6px 14px;
     }
-    .carousel__track::-webkit-scrollbar{height:8px}
-    .carousel__track::-webkit-scrollbar-thumb{background:var(--line-2);border-radius:6px}
+    .carousel__track::-webkit-scrollbar{height:10px}
+    .carousel__track::-webkit-scrollbar-thumb{background:var(--line-2);border-radius:8px}
+
     .review-card{
-      min-width: 320px; max-width: 360px; scroll-snap-align: start;
+      min-width: 340px; max-width: 380px; scroll-snap-align: start;
       background: var(--card); border:1px solid var(--line);
-      border-radius: 14px; padding: 16px; box-shadow: var(--shadow);
+      border-radius: 16px; padding: 18px 18px 20px;
+      box-shadow: var(--shadow);
     }
-    .review-meta{display:flex;align-items:center;gap:10px;margin-bottom:8px}
-    .avatar{width:34px;height:34px;border-radius:50%;background:#202027;border:1px solid var(--line)}
+    .review-meta{
+      display:flex; align-items:center; gap:12px; margin-bottom:10px;
+    }
+    .avatar{
+      width:40px; height:40px; border-radius:50%;
+      background:linear-gradient(180deg,#1b1b22,#101015); 
+      border:1px solid var(--line);
+    }
     .uname{font-weight:800}
-    .stars{color:#ffc94d;letter-spacing:1px}
+    .stars{color:#ffc94d;letter-spacing:1px;font-size:.95rem}
+    .review-text{
+      margin-top:6px; color:#e8e8ee; line-height:1.55;
+    }
+    .review-date{
+      color:var(--muted); font-size:.8rem; margin-top:10px;
+    }
+    .quote {
+      display:inline-block; width:20px; height:20px; margin-right:6px;
+      filter: drop-shadow(0 0 6px rgba(255,43,69,.25));
+    }
+
     .carousel__btn{
       position:absolute; top:50%; transform:translateY(-50%);
       background:var(--surface); border:1px solid var(--line); color:#fff;
-      width:36px;height:36px;border-radius:10px; cursor:pointer;
+      width:38px;height:38px;border-radius:10px; cursor:pointer;
     }
     .carousel__btn:hover{background:var(--accent)}
-    .carousel__btn--prev{left:-8px}
-    .carousel__btn--next{right:-8px}
-    @media (max-width: 680px){ .carousel__btn{display:none} }
+    .carousel__btn--prev{left:-10px}
+    .carousel__btn--next{right:-10px}
+    @media (max-width: 720px){ .carousel__btn{display:none} }
   </style>
 </head>
 <body>
@@ -69,42 +89,66 @@
           <article class="review-card">
             <div class="review-meta">
               <div class="avatar"></div>
-              <div class="uname">@PixelPwner_43</div>
+              <div class="uname">@grayfield_91</div>
               <div class="stars" aria-hidden="true">★★★★★</div>
             </div>
-            <p>“He made me give my stuff first, but as soon as I did, he sent me a <b>flying carpet</b> instantly. Super legit.”</p>
+            <p class="review-text">
+              <img class="quote" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' fill='%23ff2b45' viewBox='0 0 24 24'><path d='M7.17 6C4.94 6 3 7.94 3 10.17c0 2.18 1.71 3.83 3.83 3.83-.11 1.83-1.06 3.3-2.83 4v1c3.11-.61 5-3 5-6.33V6H7.17zm9 0C13.94 6 12 7.94 12 10.17c0 2.18 1.71 3.83 3.83 3.83-.11 1.83-1.06 3.3-2.83 4v1c3.11-.61 5-3 5-6.33V6h-1.83z'/></svg>" alt="">
+              went first, he sent the carpet right away. smooth trade, no weird stuff.
+            </p>
+            <div class="review-date">2 days ago</div>
           </article>
+
           <article class="review-card">
             <div class="review-meta">
               <div class="avatar"></div>
-              <div class="uname">@NoClipNeko</div>
+              <div class="uname">@makoDrift</div>
               <div class="stars" aria-hidden="true">★★★★★</div>
             </div>
-            <p>“Was nervous at first. Gave my items, and he delivered an <b>admin panel</b> right after. Clean and fast trade.”</p>
+            <p class="review-text">
+              <img class="quote" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' fill='%23ff2b45' viewBox='0 0 24 24'><path d='M7.17 6C4.94 6 3 7.94 3 10.17c0 2.18 1.71 3.83 3.83 3.83-.11 1.83-1.06 3.3-2.83 4v1c3.11-.61 5-3 5-6.33V6H7.17zm9 0C13.94 6 12 7.94 12 10.17c0 2.18 1.71 3.83 3.83 3.83-.11 1.83-1.06 3.3-2.83 4v1c3.11-.61 5-3 5-6.33V6h-1.83z'/></svg>" alt="">
+              added fast, private server, took like 5 mins total. legit.
+            </p>
+            <div class="review-date">this week</div>
           </article>
+
           <article class="review-card">
             <div class="review-meta">
               <div class="avatar"></div>
-              <div class="uname">@RiftRunner</div>
+              <div class="uname">@NovaCables</div>
               <div class="stars" aria-hidden="true">★★★★★</div>
             </div>
-            <p>“Traded in a private server. I went first; he immediately sent a <b>SLAP</b>. Communication was clear.”</p>
+            <p class="review-text">
+              <img class="quote" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' fill='%23ff2b45' viewBox='0 0 24 24'><path d='M7.17 6C4.94 6 3 7.94 3 10.17c0 2.18 1.71 3.83 3.83 3.83-.11 1.83-1.06 3.3-2.83 4v1c3.11-.61 5-3 5-6.33V6H7.17zm9 0C13.94 6 12 7.94 12 10.17c0 2.18 1.71 3.83 3.83 3.83-.11 1.83-1.06 3.3-2.83 4v1c3.11-.61 5-3 5-6.33V6h-1.83z'/></svg>" alt="">
+              i was kinda nervous but it was fine. got the admin panel after i sent.
+            </p>
+            <div class="review-date">3 days ago</div>
           </article>
+
           <article class="review-card">
             <div class="review-meta">
               <div class="avatar"></div>
-              <div class="uname">@Toast3dUp</div>
+              <div class="uname">@sandwichrx</div>
               <div class="stars" aria-hidden="true">★★★★★</div>
             </div>
-            <p>“Quick add on samsalt294, joined PS, trade done in 5 mins. Chill vibes.”</p>
+            <p class="review-text">
+              <img class="quote" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' fill='%23ff2b45' viewBox='0 0 24 24'><path d='M7.17 6C4.94 6 3 7.94 3 10.17c0 2.18 1.71 3.83 3.83 3.83-.11 1.83-1.06 3.3-2.83 4v1c3.11-.61 5-3 5-6.33V6H7.17zm9 0C13.94 6 12 7.94 12 10.17c0 2.18 1.71 3.83 3.83 3.83-.11 1.83-1.06 3.3-2.83 4v1c3.11-.61 5-3 5-6.33V6h-1.83z'/></svg>" alt="">
+              bro’s legit. joined, traded, done. thanks.
+            </p>
+            <div class="review-date">yesterday</div>
           </article>
+
           <article class="review-card">
             <div class="review-meta">
               <div class="avatar"></div>
-              <div class="uname">@o7Vortex</div>
+              <div class="uname">@hex_mason</div>
               <div class="stars" aria-hidden="true">★★★★★</div>
             </div>
-            <p>“Reliable. I went first for a bundle, got everything as promised.”</p>
+            <p class="review-text">
+              <img class="quote" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' fill='%23ff2b45' viewBox='0 0 24 24'><path d='M7.17 6C4.94 6 3 7.94 3 10.17c0 2.18 1.71 3.83 3.83 3.83-.11 1.83-1.06 3.3-2.83 4v1c3.11-.61 5-3 5-6.33V6H7.17zm9 0C13.94 6 12 7.94 12 10.17c0 2.18 1.71 3.83 3.83 3.83-.11 1.83-1.06 3.3-2.83 4v1c3.11-.61 5-3 5-6.33V6h-1.83z'/></svg>" alt="">
+              got what i paid for. no issues.
+            </p>
+            <div class="review-date">today</div>
           </article>
         </div>
         <button aria-label="Next" class="carousel__btn carousel__btn--next" id="nextTraded">›</button>
@@ -119,7 +163,7 @@
   </main>
 
   <footer class="footer">
-    <p>© <span id="y"></span> buy-a-brainrot • Private-server trades via <b>samsalt294</b></p>
+    <p>© <span id="y"></span> buy-a-brainrot • Private-server trades via <b>samsalt294</b> & <b>muddymicah</b></p>
   </footer>
 
   <script>
@@ -128,10 +172,10 @@
     // simple carousel controls
     const track = document.getElementById('trackTraded');
     document.getElementById('prevTraded').addEventListener('click', () => {
-      track.scrollBy({ left: -340, behavior: 'smooth' });
+      track.scrollBy({ left: -360, behavior: 'smooth' });
     });
     document.getElementById('nextTraded').addEventListener('click', () => {
-      track.scrollBy({ left: 340, behavior: 'smooth' });
+      track.scrollBy({ left: 360, behavior: 'smooth' });
     });
   </script>
 </body>
