@@ -3,32 +3,23 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>buy-a-brainrot — Neo-Market</title>
+  <title>buy-a-brainrot — Shop</title>
 
   <!-- Fonts + CSS -->
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/style.css?v=4" />
+  <link rel="stylesheet" href="/style.css?v=7" />
 </head>
 <body>
-  <!-- Announcement -->
-  <div class="topbar" style="position:static; border-bottom:none; padding:8px 20px; background:linear-gradient(180deg, rgba(255,43,69,.08), rgba(11,11,16,.0));">
-    <div style="font-weight:700;">🚀 Weekend Drop: First 25 orders get express delivery.</div>
-    <div class="pill" style="border-color:#fff;color:#fff;">Secure & Private</div>
-  </div>
-
   <!-- Header -->
-  <header class="topbar" style="position:sticky;">
+  <header class="topbar">
     <div class="brand">
       <span class="logo">BA</span><span class="accent">Brainrot</span>
     </div>
     <nav class="nav">
       <a href="index.html" class="active">Shop</a>
       <a href="about.html">About</a>
-      <label class="pill" style="cursor:pointer; user-select:none;">
-        <input id="toggleAvailable" type="checkbox" style="accent-color:#ff2b45; margin-right:6px;"> Show available only
-      </label>
-      <button class="cart-btn" id="openCart" aria-label="Open cart">
+      <button class="cart-btn" id="openCart">
         <span>Cart</span><span id="cartCount" class="badge">0</span>
       </button>
     </nav>
@@ -38,267 +29,100 @@
   <section class="hero">
     <div class="hero__inner">
       <h1 class="glow">buy-a-brainrot</h1>
-      <p>Instant trade. Private servers. Zero hassle. <span class="accent">Redline</span> edition.</p>
+      <p>Fast. Verified. Private-server delivery — powered by <b>samsalt294</b>.</p>
     </div>
   </section>
 
-  <!-- Trust strip -->
-  <section class="container" style="margin-top:18px;">
-    <div class="panel" style="display:flex;gap:10px;justify-content:space-between;flex-wrap:wrap;align-items:center">
-      <div>🛡️ Verified Trades</div>
-      <div>⚡ Fast Delivery</div>
-      <div>🔒 Private Servers</div>
-      <div>💬 Live Support</div>
-      <div>💸 Safe Checkout</div>
-    </div>
-  </section>
-
-  <!-- Toolbar -->
+  <!-- Product Grid -->
   <main class="container">
     <div class="toolbar">
-      <div class="pill">HOT</div>
-      <div class="search">
-        <input id="searchInput" type="search" placeholder="Search items…" />
-      </div>
+      <div class="pill">LIVE STOCK</div>
     </div>
 
-    <!-- GRID -->
     <section id="grid" class="grid">
-
-      <!-- ====== IN-STOCK (4 real cards) ====== -->
+      <!-- Esok Sekolah -->
       <article class="card" data-name="Esok Sekolah" data-available="true">
         <div class="flag flag--hot">IN STOCK</div>
-        <img src="https://placehold.co/260x200/png?text=Esok+Sekolah" alt="Esok Sekolah" />
+        <img src="https://static.wikia.nocookie.net/stealabr/images/2/2a/EsokSekolah2.png/revision/latest?cb=20250819001020" alt="Esok Sekolah" />
         <h3>Esok Sekolah</h3>
+        <p class="speed">⚡ 30 million /s</p>
         <div class="qty">
           <button class="qty__btn" data-step="-1">−</button>
           <input class="qty__input" type="number" value="1" min="1" />
           <button class="qty__btn" data-step="1">+</button>
         </div>
-        <div class="price">$15.49</div>
+        <div class="price">$64.99</div>
         <div class="actions">
           <button class="btn btn--ghost add">Add to Cart</button>
           <button class="btn buy">Buy Now</button>
         </div>
       </article>
 
-      <article class="card" data-name="La Vacca Saturno Saturnita" data-available="true">
+      <!-- Los Primos -->
+      <article class="card" data-name="Los Primos" data-available="true">
         <div class="flag flag--hot">IN STOCK</div>
-        <img src="https://placehold.co/260x200/png?text=Saturno" alt="La Vacca Saturno Saturnita" />
-        <h3>La Vacca Saturno Saturnita</h3>
+        <img src="https://static.wikia.nocookie.net/stealabr/images/9/96/LosPrimos.png/revision/latest?cb=20251006044831" alt="Los Primos" />
+        <h3>Los Primos</h3>
+        <p class="speed">🔥 180 million /s</p>
         <div class="qty">
           <button class="qty__btn" data-step="-1">−</button>
           <input class="qty__input" type="number" value="1" min="1" />
           <button class="qty__btn" data-step="1">+</button>
         </div>
-        <div class="price">$2.49</div>
+        <div class="price">$85.00</div>
         <div class="actions">
           <button class="btn btn--ghost add">Add to Cart</button>
           <button class="btn buy">Buy Now</button>
         </div>
       </article>
 
-      <article class="card" data-name="Quesadilla Crocodila" data-available="true">
+      <!-- Garama and Madundung -->
+      <article class="card" data-name="Garama and Madundung" data-available="true">
         <div class="flag flag--new">IN STOCK</div>
-        <img src="https://placehold.co/260x200/png?text=Crocodila" alt="Quesadilla Crocodila" />
-        <h3>Quesadilla Crocodila</h3>
+        <img src="https://static.wikia.nocookie.net/stealabr/images/e/ee/Garamadundung.png/revision/latest?cb=20250816022557" alt="Garama and Madundung" />
+        <h3>Garama and Madundung</h3>
+        <p class="speed">💨 50 million /s</p>
         <div class="qty">
           <button class="qty__btn" data-step="-1">−</button>
           <input class="qty__input" type="number" value="1" min="1" />
           <button class="qty__btn" data-step="1">+</button>
         </div>
-        <div class="price">$6.49</div>
+        <div class="price">$49.99</div>
         <div class="actions">
           <button class="btn btn--ghost add">Add to Cart</button>
           <button class="btn buy">Buy Now</button>
         </div>
       </article>
 
-      <article class="card" data-name="Dul Dul Dul" data-available="true">
-        <div class="flag flag--hot">IN STOCK</div>
-        <img src="https://placehold.co/260x200/png?text=Dul+Dul+Dul" alt="Dul Dul Dul" />
-        <h3>Dul Dul Dul</h3>
+      <!-- La Granda -->
+      <article class="card" data-name="La Granda" data-available="true">
+        <div class="flag flag--new">IN STOCK</div>
+        <img src="https://static.wikia.nocookie.net/stealabr/images/d/d8/Carti.png/revision/latest?cb=20250909171004" alt="La Granda" />
+        <h3>La Granda</h3>
+        <p class="speed">⚙️ 25 million /s</p>
         <div class="qty">
           <button class="qty__btn" data-step="-1">−</button>
           <input class="qty__input" type="number" value="1" min="1" />
           <button class="qty__btn" data-step="1">+</button>
         </div>
-        <div class="price">$2.39</div>
+        <div class="price">$39.99</div>
         <div class="actions">
           <button class="btn btn--ghost add">Add to Cart</button>
           <button class="btn buy">Buy Now</button>
         </div>
       </article>
-
-      <!-- ====== PLACEHOLDERS (show as coming soon) ====== -->
-      <article class="card" data-name="bisonte giuppitere (Placeholder)" data-available="false">
-        <div class="flag">Placeholder</div>
-        <img src="https://placehold.co/260x200/png?text=Placeholder" alt="Placeholder" />
-        <h3>bisonte giuppitere (Placeholder)</h3>
-        <div class="qty">
-          <button class="qty__btn" data-step="-1">−</button>
-          <input class="qty__input" type="number" value="1" min="1" disabled />
-          <button class="qty__btn" data-step="1">+</button>
-        </div>
-        <div class="price">$—</div>
-        <div class="actions">
-          <button class="btn btn--ghost" disabled>Coming Soon</button>
-          <button class="btn" disabled>—</button>
-        </div>
-      </article>
-
-      <article class="card" data-name="Karker Sahur (Placeholder)" data-available="false">
-        <div class="flag">Placeholder</div>
-        <img src="https://placehold.co/260x200/png?text=Placeholder" alt="Placeholder" />
-        <h3>Karker Sahur (Placeholder)</h3>
-        <div class="qty">
-          <button class="qty__btn" data-step="-1">−</button>
-          <input class="qty__input" type="number" value="1" min="1" disabled />
-          <button class="qty__btn" data-step="1">+</button>
-        </div>
-        <div class="price">$—</div>
-        <div class="actions">
-          <button class="btn btn--ghost" disabled>Coming Soon</button>
-          <button class="btn" disabled>—</button>
-        </div>
-      </article>
-
-      <article class="card" data-name="Blackhole Goat (Placeholder)" data-available="false">
-        <div class="flag">Placeholder</div>
-        <img src="https://placehold.co/260x200/png?text=Placeholder" alt="Placeholder" />
-        <h3>Blackhole Goat (Placeholder)</h3>
-        <div class="qty">
-          <button class="qty__btn" data-step="-1">−</button>
-          <input class="qty__input" type="number" value="1" min="1" disabled />
-          <button class="qty__btn" data-step="1">+</button>
-        </div>
-        <div class="price">$—</div>
-        <div class="actions">
-          <button class="btn btn--ghost" disabled>Coming Soon</button>
-          <button class="btn" disabled>—</button>
-        </div>
-      </article>
-
-      <article class="card" data-name="La Karkerkar Combinasio (Placeholder)" data-available="false">
-        <div class="flag">Placeholder</div>
-        <img src="https://placehold.co/260x200/png?text=Placeholder" alt="Placeholder" />
-        <h3>La Karkerkar Combinasio (Placeholder)</h3>
-        <div class="qty">
-          <button class="qty__btn" data-step="-1">−</button>
-          <input class="qty__input" type="number" value="1" min="1" disabled />
-          <button class="qty__btn" data-step="1">+</button>
-        </div>
-        <div class="price">$—</div>
-        <div class="actions">
-          <button class="btn btn--ghost" disabled>Coming Soon</button>
-          <button class="btn" disabled>—</button>
-        </div>
-      </article>
-
     </section>
   </main>
 
-  <!-- Feature Section -->
-  <section class="container">
-    <div class="panel">
-      <h2 style="margin-top:0">Why buy-a-brainrot?</h2>
-      <div class="grid" style="grid-template-columns:repeat(auto-fill,minmax(220px,1fr));">
-        <div class="card" style="min-height:unset;">
-          <h3>⚡ Instant Delivery</h3>
-          <p>Most trades complete within minutes in a private server.</p>
-        </div>
-        <div class="card" style="min-height:unset;">
-          <h3>🛡️ Safe & Verified</h3>
-          <p>We never ask for your password. Secure trading only.</p>
-        </div>
-        <div class="card" style="min-height:unset;">
-          <h3>📦 Guaranteed Stock</h3>
-          <p>Items marked <b>IN STOCK</b> are ready to ship now.</p>
-        </div>
-        <div class="card" style="min-height:unset;">
-          <h3>💬 Real Support</h3>
-          <p>Questions? We reply fast via email or in-site chat.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- How it works -->
-  <section class="container">
-    <div class="panel">
-      <h2 style="margin-top:0">How it works</h2>
-      <ol>
-        <li>Add items to cart and checkout.</li>
-        <li>We add user <code>u4gmxxxxx</code> as a friend and move you to a private server.</li>
-        <li>We trade the items to you—done.</li>
-      </ol>
-    </div>
-  </section>
-
-  <!-- FAQ -->
-  <section class="container">
-    <div class="panel">
-      <h2 style="margin-top:0">FAQ</h2>
-      <details>
-        <summary>How fast is delivery?</summary>
-        <p>Usually within minutes (queue dependent). IN STOCK items are prioritized.</p>
-      </details>
-      <details>
-        <summary>Do you need my password?</summary>
-        <p>No. We never ask for credentials. Only in-game trading inside private servers.</p>
-      </details>
-      <details>
-        <summary>Refunds?</summary>
-        <p>If we can’t deliver an IN STOCK item within the stated window, you get a refund.</p>
-      </details>
-    </div>
-  </section>
-
-  <!-- CTA -->
-  <section class="container">
-    <div class="panel center" style="text-align:center">
-      <h2 style="margin:0 0 6px">Ready to buy a brainrot?</h2>
-      <p style="color:var(--muted); margin:0 0 12px">Pick any IN STOCK item and check out.</p>
-      <a href="#grid" class="btn" style="max-width:280px">Browse Items</a>
-    </div>
-  </section>
-
-  <!-- Drawer Cart -->
-  <aside id="cartDrawer" class="drawer">
-    <div class="drawer__header">
-      <h3>Your Cart</h3>
-      <button id="closeCart" aria-label="Close cart">✕</button>
-    </div>
-    <div id="cartItems" class="drawer__body empty">Cart is empty.</div>
-    <div class="drawer__footer">
-      <div>Total: <strong id="cartTotal">$0.00</strong></div>
-      <button class="btn" id="checkoutBtn">Checkout</button>
-    </div>
-  </aside>
-
   <!-- Footer -->
   <footer class="footer">
-    <p>© <span id="y"></span> buy-a-brainrot • <a class="link" href="about.html">About</a></p>
+    <p>© <span id="y"></span> buy-a-brainrot • Fast Delivery via <b>samsalt294</b></p>
   </footer>
 
-  <!-- Scripts -->
-  <script src="/script.js?v=2"></script>
+  <!-- Script -->
+  <script src="/script.js?v=3"></script>
   <script>
-    // Year
     document.getElementById('y').textContent = new Date().getFullYear();
-
-    // "Show available only" toggle (works with existing cards via data-available)
-    const toggle = document.getElementById('toggleAvailable');
-    const cards = [...document.querySelectorAll('#grid .card')];
-    const applyFilter = () => {
-      const only = toggle.checked;
-      cards.forEach(c => {
-        const ok = c.dataset.available === 'true' || !only;
-        c.style.display = ok ? '' : 'none';
-      });
-    };
-    toggle.addEventListener('change', applyFilter);
-    applyFilter(); // initialize
   </script>
 </body>
 </html>
