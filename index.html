@@ -19,6 +19,212 @@
       <a href="index.html" class="active">Shop</a>
       <a href="about.html">About</a>
       <a href="reviews.html">Reviews</a>
+      <button class="cart-btn" id="openCart" aria-label="Open cart">
+        <span>Cart</span><span id="cartCount" class="badge">0</span>
+      </button>
+    </nav>
+  </header>
+
+  <!-- Hero with local background image + Verified Traders badge -->
+  <section class="hero hero--image" style="
+    background:
+      linear-gradient(180deg, rgba(12,11,15,.88) 0%, rgba(12,11,15,.74) 40%, rgba(12,11,15,.90) 100%),
+      url('/Taco_Tuesday.webp');
+    background-size:cover; background-position:center 40%;
+    padding:110px 5% 90px; text-align:center; position:relative; border-bottom:1px solid var(--line);">
+    <div class="hero__inner">
+      <h1 class="glow" style="font-size:2.9rem; margin-bottom:10px;">buy-a-brainrot</h1>
+      <p style="font-size:1.05rem; color:var(--muted);">
+        Fast, secure, verified trades — coordinated via
+        <b>samsalt294</b>, <b>muddymicah</b>, &amp; <b>mcdonald1182</b>.
+      </p>
+      <p style="color:var(--muted); margin-top:6px; font-size:0.95rem;">
+        Trusted private-server delivery. No middlemen. No risk.
+      </p>
+
+      <!-- Verified Traders Badge -->
+      <div class="verified-badge" style="
+        display:inline-flex; align-items:center; justify-content:center; gap:8px;
+        margin-top:26px; background:var(--card); padding:10px 18px; border-radius:16px;
+        border:1px solid var(--line); box-shadow:0 0 15px rgba(255,43,69,.3);
+        color:var(--text); font-weight:700; letter-spacing:.3px; transition:all .25s ease;">
+        <span style="color:var(--accent);">🧩</span>
+        <span>Verified Traders:</span>
+        <span style="color:var(--accent-600); font-weight:800;">samsalt294</span>
+        <span style="color:var(--muted);">•</span>
+        <span style="color:var(--accent-600); font-weight:800;">muddymicah</span>
+        <span style="color:var(--muted);">•</span>
+        <span style="color:var(--accent-600); font-weight:800;">mcdonald1182</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Product Grid -->
+  <main class="container">
+    <div class="toolbar">
+      <div class="pill">LIVE STOCK</div>
+    </div>
+
+    <section id="grid" class="grid">
+      <!-- Esok Sekolah -->
+      <article class="card" data-name="Esok Sekolah">
+        <div class="flag flag--hot">IN STOCK</div>
+        <img class="thumb" src="/EsokSekolah2.webp" alt="Esok Sekolah" />
+        <h3>Esok Sekolah</h3>
+        <p class="speed">⚡ 30 million /s</p>
+        <div class="qty">
+          <button class="qty__btn" data-step="-1" aria-label="Decrease quantity">−</button>
+          <input class="qty__input" type="number" value="1" min="1" inputmode="numeric" />
+          <button class="qty__btn" data-step="1" aria-label="Increase quantity">+</button>
+        </div>
+        <div class="price">$30.00</div>
+        <div class="actions">
+          <button class="btn btn--ghost add">Add to Cart</button>
+          <button class="btn buy">Buy Now</button>
+        </div>
+      </article>
+
+      <!-- Los Primos -->
+      <article class="card" data-name="Los Primos">
+        <div class="flag flag--hot">IN STOCK</div>
+        <img class="thumb" src="/LosPrimos.webp" alt="Los Primos" />
+        <h3>Los Primos</h3>
+        <p class="speed">🔥 180 million /s</p>
+        <div class="qty">
+          <button class="qty__btn" data-step="-1" aria-label="Decrease quantity">−</button>
+          <input class="qty__input" type="number" value="1" min="1" inputmode="numeric" />
+          <button class="qty__btn" data-step="1" aria-label="Increase quantity">+</button>
+        </div>
+        <div class="price">$85.00</div>
+        <div class="actions">
+          <button class="btn btn--ghost add">Add to Cart</button>
+          <button class="btn buy">Buy Now</button>
+        </div>
+      </article>
+
+      <!-- Garama and Madundung -->
+      <article class="card" data-name="Garama and Madundung">
+        <div class="flag flag--hot">IN STOCK</div>
+        <img class="thumb" src="/Garamadundung.webp" alt="Garama and Madundung" />
+        <h3>Garama and Madundung</h3>
+        <p class="speed">💨 50 million /s</p>
+        <div class="qty">
+          <button class="qty__btn" data-step="-1" aria-label="Decrease quantity">−</button>
+          <input class="qty__input" type="number" value="1" min="1" inputmode="numeric" />
+          <button class="qty__btn" data-step="1" aria-label="Increase quantity">+</button>
+        </div>
+        <div class="price">$40.00</div>
+        <div class="actions">
+          <button class="btn btn--ghost add">Add to Cart</button>
+          <button class="btn buy">Buy Now</button>
+        </div>
+      </article>
+
+      <!-- La Granda -->
+      <article class="card" data-name="La Granda">
+        <div class="flag flag--hot">IN STOCK</div>
+        <img class="thumb" src="/Carti.webp" alt="La Granda" />
+        <h3>La Granda</h3>
+        <p class="speed">⚙️ 25 million /s</p>
+        <div class="qty">
+          <button class="qty__btn" data-step="-1" aria-label="Decrease quantity">−</button>
+          <input class="qty__input" type="number" value="1" min="1" inputmode="numeric" />
+          <button class="qty__btn" data-step="1" aria-label="Increase quantity">+</button>
+        </div>
+        <div class="price">$15.00</div>
+        <div class="actions">
+          <button class="btn btn--ghost add">Add to Cart</button>
+          <button class="btn buy">Buy Now</button>
+        </div>
+      </article>
+
+      <!-- NEW: Pot Hot Spot -->
+      <article class="card" data-name="Pot Hot Spot">
+        <div class="flag flag--hot">IN STOCK</div>
+        <img class="thumb" src="/Pot_Hotspot.webp" alt="Pot Hot Spot" />
+        <h3>Pot Hot Spot</h3>
+        <p class="speed">🚀 55 million /s</p>
+        <div class="qty">
+          <button class="qty__btn" data-step="-1" aria-label="Decrease quantity">−</button>
+          <input class="qty__input" type="number" value="1" min="1" inputmode="numeric" />
+          <button class="qty__btn" data-step="1" aria-label="Increase quantity">+</button>
+        </div>
+        <div class="price">$25.00</div>
+        <div class="actions">
+          <button class="btn btn--ghost add">Add to Cart</button>
+          <button class="btn buy">Buy Now</button>
+        </div>
+      </article>
+
+      <!-- 3 Trade Placeholders -->
+      <article class="card">
+        <div class="thumb thumb--placeholder">
+          <span class="thumb__label">Looking to trade brainrots for admin panel or carpet</span>
+        </div>
+        <h3>Placeholder #1</h3>
+      </article>
+
+      <article class="card">
+        <div class="thumb thumb--placeholder">
+          <span class="thumb__label">Looking to trade brainrots for admin panel or carpet</span>
+        </div>
+        <h3>Placeholder #2</h3>
+      </article>
+
+      <article class="card">
+        <div class="thumb thumb--placeholder">
+          <span class="thumb__label">Looking to trade brainrots for admin panel or carpet</span>
+        </div>
+        <h3>Placeholder #3</h3>
+      </article>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>© <span id="y"></span> buy-a-brainrot • Private-server delivery via
+      <b>samsalt294</b>, <b>muddymicah</b>, &amp; <b>mcdonald1182</b>
+    </p>
+  </footer>
+
+  <script>
+    // Year
+    document.getElementById('y').textContent = new Date().getFullYear();
+
+    // Subtle glow pulse for the verified badge
+    const badge = document.querySelector('.verified-badge');
+    if (badge) {
+      let on = false;
+      setInterval(() => {
+        on = !on;
+        badge.style.boxShadow = on
+          ? '0 0 24px rgba(255,43,69,0.45)'
+          : '0 0 14px rgba(255,43,69,0.28)';
+      }, 1600);
+    }
+  </script>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>buy-a-brainrot — Shop</title>
+
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/style.css?v=11" />
+</head>
+<body>
+  <!-- Header -->
+  <header class="topbar">
+    <div class="brand">
+      <span class="logo">BA</span><span class="accent">Brainrot</span>
+    </div>
+    <nav class="nav">
+      <a href="index.html" class="active">Shop</a>
+      <a href="about.html">About</a>
+      <a href="reviews.html">Reviews</a>
       <button class="cart-btn" id="openCart">
         <span>Cart</span><span id="cartCount" class="badge">0</span>
       </button>
