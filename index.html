@@ -25,7 +25,7 @@
     </nav>
   </header>
 
-  <!-- Hero with local background image + Verified Traders badge -->
+  <!-- Hero -->
   <section class="hero hero--image" style="
     background:
       linear-gradient(180deg, rgba(12,11,15,.88) 0%, rgba(12,11,15,.74) 40%, rgba(12,11,15,.90) 100%),
@@ -57,6 +57,20 @@
         <span style="color:var(--accent-600); font-weight:800;">mcdonald1182</span>
       </div>
     </div>
+  </section>
+
+  <!-- Proof Section -->
+  <section class="proof" style="padding:70px 5%; text-align:center; background:var(--background-alt); border-bottom:1px solid var(--line);">
+    <h2 style="font-size:2rem; margin-bottom:18px; font-family:'Orbitron', sans-serif; color:var(--accent-600);">
+      🎥 Recent Trade Vouches
+    </h2>
+    <p style="color:var(--muted); font-size:1rem; margin-bottom:30px;">
+      Proof of real, verified trades from trusted members of our community.
+    </p>
+    <video controls playsinline style="max-width:720px; width:100%; border-radius:16px; border:1px solid var(--line); box-shadow:0 0 20px rgba(255,43,69,0.25);">
+      <source src="/video-output-71F14AA5-B197-490B-BB34-302B38B5F382-3 (1).mov" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
   </section>
 
   <!-- Product Grid -->
@@ -138,7 +152,7 @@
         </div>
       </article>
 
-      <!-- NEW: Pot Hot Spot -->
+      <!-- Pot Hot Spot -->
       <article class="card" data-name="Pot Hot Spot">
         <div class="flag flag--hot">IN STOCK</div>
         <img class="thumb" src="/Pot_Hotspot.webp" alt="Pot Hot Spot" />
@@ -156,7 +170,7 @@
         </div>
       </article>
 
-      <!-- 3 Trade Placeholders -->
+      <!-- Placeholders -->
       <article class="card">
         <div class="thumb thumb--placeholder">
           <span class="thumb__label">Looking to trade brainrots for admin panel or carpet</span>
@@ -187,10 +201,8 @@
   </footer>
 
   <script>
-    // Year
     document.getElementById('y').textContent = new Date().getFullYear();
 
-    // Subtle glow pulse for the verified badge
     const badge = document.querySelector('.verified-badge');
     if (badge) {
       let on = false;
