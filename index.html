@@ -7,9 +7,8 @@
 
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/style.css?v=13" />
+  <link rel="stylesheet" href="/style.css?v=14" />
 
-  <!-- Compact carousel styles (no dots, hidden scrollbar, corrected arrows) -->
   <style>
     :root {
       --carousel-h: clamp(220px, 45vh, 480px);
@@ -41,12 +40,11 @@
       margin: 0 0 16px;
     }
 
-    /* Carousel shell */
     .carousel { position: relative; }
     .carousel__viewport {
       display: flex;
       gap: var(--carousel-pad);
-      overflow-x: auto;      /* horizontal scroll for swipe/drag */
+      overflow-x: auto;
       overflow-y: hidden;
       scroll-snap-type: x mandatory;
       scroll-behavior: smooth;
@@ -56,16 +54,15 @@
       border-radius: 16px;
       background: linear-gradient(180deg, rgba(26,24,30,.55), rgba(12,11,15,.55));
       box-shadow: 0 0 18px rgba(255,43,69,.12) inset, 0 0 18px rgba(255,43,69,.08);
+      scrollbar-width: none; -ms-overflow-style: none;
     }
-    /* Hide the horizontal scrollbar (removes the white bar) */
-    .carousel__viewport { scrollbar-width: none; -ms-overflow-style: none; }
     .carousel__viewport::-webkit-scrollbar { height: 0; width: 0; }
     .carousel__viewport::-webkit-scrollbar-thumb { background: transparent; }
 
     .carousel__slide {
       scroll-snap-align: center;
-      flex: 0 0 88vw;         /* phone width */
-      max-width: 900px;       /* desktop cap */
+      flex: 0 0 88vw;
+      max-width: 900px;
       height: var(--carousel-h);
       border-radius: 14px;
       border: 1px solid var(--line);
@@ -88,7 +85,6 @@
       display: block;
     }
 
-    /* Arrow buttons */
     .carousel__btn {
       position: absolute;
       top: 50%;
@@ -105,13 +101,13 @@
       transition: transform .12s ease, box-shadow .2s ease, background .2s ease;
       box-shadow: 0 0 10px rgba(255,43,69,.28);
       color: var(--text);
+      -webkit-tap-highlight-color: transparent;
     }
     .carousel__btn:hover { transform: translateY(-50%) scale(1.06); }
     .carousel__btn:active { transform: translateY(-50%) scale(.98); }
     .carousel__btn svg { width: 22px; height: 22px; fill: currentColor; }
     .carousel__btn--prev { left: 10px; }
     .carousel__btn--next { right: 10px; }
-
     @media (min-width: 640px) {
       .carousel__btn--prev { left: 14px; }
       .carousel__btn--next { right: 14px; }
@@ -172,7 +168,7 @@
     </div>
   </section>
 
-  <!-- Compact Video Carousel (no dots) -->
+  <!-- Video Carousel (no dots, no page-jump) -->
   <section class="video-section" aria-label="Recent Trade Vouches">
     <div class="wrap">
       <h2>🎥 Recent Trade Vouches</h2>
@@ -180,64 +176,43 @@
 
       <div class="carousel">
         <div class="carousel__viewport" id="videoTrack" tabindex="0" aria-roledescription="carousel" aria-label="Trade vouch videos">
-          <!-- 1 -->
           <figure class="carousel__slide" aria-label="Video 1">
             <video controls playsinline preload="metadata">
               <source src="/video-output-44054E84-E6D3-4EC2-9D08-3EA0AFDA8ED6-3 (1).mov" type="video/quicktime" />
               <source src="/video-output-44054E84-E6D3-4EC2-9D08-3EA0AFDA8ED6-3 (1).mov" type="video/mp4" />
-              Your browser does not support the video tag.
             </video>
           </figure>
-
-          <!-- 2 -->
           <figure class="carousel__slide" aria-label="Video 2">
             <video controls playsinline preload="metadata">
               <source src="/video-output-4E00A256-5DDF-4BC6-B662-8BAC754ADAA1-3 (1).mov" type="video/quicktime" />
               <source src="/video-output-4E00A256-5DDF-4BC6-B662-8BAC754ADAA1-3 (1).mov" type="video/mp4" />
-              Your browser does not support the video tag.
             </video>
           </figure>
-
-          <!-- 3 -->
           <figure class="carousel__slide" aria-label="Video 3">
             <video controls playsinline preload="metadata">
               <source src="/video-output-7155673F-F0C3-4E78-A39E-8F7406E680B8-3 (1).mov" type="video/quicktime" />
               <source src="/video-output-7155673F-F0C3-4E78-A39E-8F7406E680B8-3 (1).mov" type="video/mp4" />
-              Your browser does not support the video tag.
             </video>
           </figure>
-
-          <!-- 4 -->
           <figure class="carousel__slide" aria-label="Video 4">
             <video controls playsinline preload="metadata">
               <source src="/video-output-71F14AA5-B197-490B-BB34-302B38B5F382-3 (1).mov" type="video/quicktime" />
               <source src="/video-output-71F14AA5-B197-490B-BB34-302B38B5F382-3 (1).mov" type="video/mp4" />
-              Your browser does not support the video tag.
             </video>
           </figure>
-
-          <!-- 5 -->
           <figure class="carousel__slide" aria-label="Video 5">
             <video controls playsinline preload="metadata">
               <source src="/video-output-CD1A6E42-AB0A-42D0-999F-19B9D0E63530-3 (1).mov" type="video/quicktime" />
               <source src="/video-output-CD1A6E42-AB0A-42D0-999F-19B9D0E63530-3 (1).mov" type="video/mp4" />
-              Your browser does not support the video tag.
             </video>
           </figure>
         </div>
 
-        <!-- Arrow buttons -->
         <button class="carousel__btn carousel__btn--prev" id="btnPrev" aria-label="Previous video">
-          <!-- LEFT chevron -->
-          <svg viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M15.41 7.41 14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
-          </svg>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15.41 7.41 14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
         </button>
         <button class="carousel__btn carousel__btn--next" id="btnNext" aria-label="Next video">
-          <!-- RIGHT chevron (corrected direction) -->
-          <svg viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M8.59 16.59 13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/>
-          </svg>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8.59 16.59 13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/></svg>
         </button>
       </div>
     </div>
@@ -246,9 +221,7 @@
   <!-- Product Grid -->
   <main class="container">
     <div class="toolbar"><div class="pill">LIVE STOCK</div></div>
-
     <section id="grid" class="grid">
-      <!-- Esok Sekolah -->
       <article class="card" data-name="Esok Sekolah">
         <div class="flag flag--hot">IN STOCK</div>
         <img class="thumb" src="/EsokSekolah2.webp" alt="Esok Sekolah" />
@@ -266,7 +239,6 @@
         </div>
       </article>
 
-      <!-- Los Primos -->
       <article class="card" data-name="Los Primos">
         <div class="flag flag--hot">IN STOCK</div>
         <img class="thumb" src="/LosPrimos.webp" alt="Los Primos" />
@@ -284,7 +256,6 @@
         </div>
       </article>
 
-      <!-- Garama and Madundung -->
       <article class="card" data-name="Garama and Madundung">
         <div class="flag flag--hot">IN STOCK</div>
         <img class="thumb" src="/Garamadundung.webp" alt="Garama and Madundung" />
@@ -302,7 +273,6 @@
         </div>
       </article>
 
-      <!-- La Granda -->
       <article class="card" data-name="La Granda">
         <div class="flag flag--hot">IN STOCK</div>
         <img class="thumb" src="/Carti.webp" alt="La Granda" />
@@ -320,7 +290,6 @@
         </div>
       </article>
 
-      <!-- Pot Hot Spot -->
       <article class="card" data-name="Pot Hot Spot">
         <div class="flag flag--hot">IN STOCK</div>
         <img class="thumb" src="/Pot_Hotspot.webp" alt="Pot Hot Spot" />
@@ -338,21 +307,18 @@
         </div>
       </article>
 
-      <!-- Placeholders -->
       <article class="card">
         <div class="thumb thumb--placeholder">
           <span class="thumb__label">Looking to trade brainrots for admin panel or carpet</span>
         </div>
         <h3>Placeholder #1</h3>
       </article>
-
       <article class="card">
         <div class="thumb thumb--placeholder">
           <span class="thumb__label">Looking to trade brainrots for admin panel or carpet</span>
         </div>
         <h3>Placeholder #2</h3>
       </article>
-
       <article class="card">
         <div class="thumb thumb--placeholder">
           <span class="thumb__label">Looking to trade brainrots for admin panel or carpet</span>
@@ -360,71 +326,4 @@
         <h3>Placeholder #3</h3>
       </article>
     </section>
-  </main>
-
-  <footer class="footer">
-    <p>© <span id="y"></span> buy-a-brainrot • Private-server delivery via
-      <b>samsalt294</b>, <b>muddymicah</b>, &amp; <b>mcdonald1182</b>
-    </p>
-  </footer>
-
-  <!-- Scripts -->
-  <script>
-    // Footer year
-    document.getElementById('y').textContent = new Date().getFullYear();
-
-    // Verified badge subtle pulse
-    const badge = document.querySelector('.verified-badge');
-    if (badge) {
-      let on = false;
-      setInterval(() => {
-        on = !on;
-        badge.style.boxShadow = on
-          ? '0 0 24px rgba(255,43,69,0.45)'
-          : '0 0 14px rgba(255,43,69,0.28)';
-      }, 1600);
-    }
-
-    // Video Carousel Controller (no dots)
-    (function () {
-      const track = document.getElementById('videoTrack');
-      const btnPrev = document.getElementById('btnPrev');
-      const btnNext = document.getElementById('btnNext');
-      if (!track) return;
-
-      const slides = Array.from(track.querySelectorAll('.carousel__slide'));
-
-      function activeIndex() {
-        const tr = track.getBoundingClientRect();
-        let idx = 0, best = Infinity;
-        slides.forEach((slide, i) => {
-          const r = slide.getBoundingClientRect();
-          const c = r.left + r.width / 2;
-          const tc = tr.left + tr.width / 2;
-          const d = Math.abs(c - tc);
-          if (d < best) { best = d; idx = i; }
-        });
-        return idx;
-      }
-      function scrollBySlide(dir) {
-        const i = activeIndex();
-        const next = Math.max(0, Math.min(slides.length - 1, i + dir));
-        slides[next].scrollIntoView({ behavior: 'smooth', inline: 'center' });
-      }
-
-      btnPrev?.addEventListener('click', () => scrollBySlide(-1));
-      btnNext?.addEventListener('click', () => scrollBySlide(1));
-      track.addEventListener('keydown', (e) => {
-        if (e.key === 'ArrowLeft') { e.preventDefault(); scrollBySlide(-1); }
-        if (e.key === 'ArrowRight') { e.preventDefault(); scrollBySlide(1); }
-      });
-
-      // Pause other videos when one plays
-      const videos = Array.from(track.querySelectorAll('video'));
-      videos.forEach(v => v.addEventListener('play', () => {
-        videos.forEach(o => { if (o !== v) o.pause(); });
-      }));
-    })();
-  </script>
-</body>
-</html>
+  </
