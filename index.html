@@ -9,133 +9,74 @@
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/style.css?v=11" />
 
-  <!-- Inline styles for the video carousel -->
+  <!-- Inline styles for a compact, responsive video grid -->
   <style>
-    :root {
-      --carousel-h: min(78vh, 760px);
-      --carousel-pad: clamp(12px, 3vw, 28px);
-    }
-
-    .video-section {
-      padding: 64px 0;
+    .video-proof {
+      padding: 48px 5%;
       background: var(--background-alt);
       border-bottom: 1px solid var(--line);
     }
-    .video-section .wrap {
-      padding: 0 5%;
-      max-width: 1440px;
+    .video-proof h2 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: clamp(1.4rem, 2vw, 2rem);
+      color: var(--accent-600);
+      margin: 0 0 8px;
+      text-align: center;
+    }
+    .video-proof p.lead {
+      color: var(--muted);
+      margin: 0 0 20px;
+      text-align: center;
+      font-size: 0.98rem;
+    }
+    .video-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 22px;
+      max-width: 1200px;
       margin: 0 auto;
     }
-    .video-section h2 {
-      font-size: clamp(1.6rem, 2.2vw, 2.2rem);
-      margin: 0 0 8px;
-      font-family: 'Orbitron', sans-serif;
-      color: var(--accent-600);
-      text-align: center;
-    }
-    .video-section p.lead {
-      color: var(--muted);
-      font-size: 1rem;
-      margin: 0 0 22px;
-      text-align: center;
+    @media (min-width: 900px) {
+      .video-grid { grid-template-columns: 1fr 1fr; }
     }
 
-    /* Carousel Shell */
-    .carousel {
-      position: relative;
-      padding: 0;
-    }
-    .carousel__viewport {
-      overflow-x: auto;
-      overflow-y: hidden;
-      scroll-snap-type: x mandatory;
-      scroll-behavior: smooth;
-      -webkit-overflow-scrolling: touch;
-      display: flex;
-      gap: var(--carousel-pad);
-      padding: var(--carousel-pad);
+    .vcard {
       border: 1px solid var(--line);
-      border-radius: 20px;
-      background: linear-gradient(180deg, rgba(22,20,26,.6), rgba(12,11,15,.6));
-      box-shadow: 0 0 24px rgba(255,43,69,0.18) inset, 0 0 30px rgba(255,43,69,0.12);
+      border-radius: 16px;
+      background: rgba(30,30,35,0.6);
+      box-shadow: 0 0 18px rgba(255,43,69,0.18);
+      padding: 12px;
     }
-    .carousel__slide {
-      scroll-snap-align: center;
-      flex: 0 0 88vw;                 /* mobile: fills most of the width */
-      max-width: 1100px;              /* desktop cap */
-      position: relative;
-      height: var(--carousel-h);
-      border-radius: 18px;
-      border: 1px solid var(--line);
-      background: rgba(30,30,35,.6);
-      box-shadow: 0 0 20px rgba(255,43,69,0.22);
-      display: grid;
-      place-items: center;
+    .vwrap {
+      /* Keep videos consistent without being huge */
+      aspect-ratio: 16 / 9;
+      background: #000;
+      border-radius: 12px;
+      overflow: hidden;
     }
-    .carousel__slide video {
+    .vwrap video {
       width: 100%;
       height: 100%;
-      object-fit: contain;            /* keeps full frame without cropping */
-      border-radius: 16px;
+      object-fit: contain; /* show full frame without cropping */
+      display: block;
       background: #000;
     }
-
-    /* Nav Buttons */
-    .carousel__nav {
-      pointer-events: none;
-    }
-    .carousel__btn {
-      pointer-events: auto;
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 46px;
-      height: 46px;
-      border-radius: 50%;
-      border: 1px solid var(--line);
-      background: rgba(18,18,22,.75);
-      display: grid;
-      place-items: center;
-      cursor: pointer;
-      transition: transform .12s ease, background .2s ease, box-shadow .2s ease;
-      box-shadow: 0 0 12px rgba(255,43,69,.28);
-    }
-    .carousel__btn:hover { transform: translateY(-50%) scale(1.05); }
-    .carousel__btn:active { transform: translateY(-50%) scale(0.98); }
-    .carousel__btn svg { width: 22px; height: 22px; fill: currentColor; color: var(--text); }
-    .carousel__btn--prev { left: 16px; }
-    .carousel__btn--next { right: 16px; }
-
-    /* Dots */
-    .carousel__dots {
+    .vmeta {
       display: flex;
-      gap: 10px;
-      justify-content: center;
-      margin-top: 16px;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      margin-top: 10px;
+      color: var(--muted);
+      font-size: 0.9rem;
     }
-    .carousel__dot {
-      width: 9px;
-      height: 9px;
-      border-radius: 50%;
-      background: rgba(255,255,255,.25);
+    .vmeta .tag {
+      padding: 4px 10px;
       border: 1px solid var(--line);
-      transition: transform .15s ease, background .2s ease;
-    }
-    .carousel__dot.is-active {
-      background: var(--accent-600);
-      transform: scale(1.15);
-      box-shadow: 0 0 10px rgba(255,43,69,.45);
-    }
-
-    @media (min-width: 920px) {
-      .carousel__slide { flex-basis: min(60vw, 1000px); }
-    }
-
-    /* Reduce motion preference */
-    @media (prefers-reduced-motion: reduce) {
-      .carousel__viewport { scroll-behavior: auto; }
-      .carousel__btn,
-      .carousel__dot { transition: none; }
+      border-radius: 999px;
+      font-size: 0.78rem;
+      color: var(--text);
+      background: rgba(18,18,22,.5);
     }
   </style>
 </head>
@@ -189,64 +130,86 @@
     </div>
   </section>
 
-  <!-- Video Carousel: Recent Trade Vouches -->
-  <section class="video-section" aria-label="Recent Trade Vouches">
-    <div class="wrap">
-      <h2>🎥 Recent Trade Vouches</h2>
-      <p class="lead">Swipe or use arrows to browse verified trade proof videos.</p>
+  <!-- Compact Proof Section (no carousel) -->
+  <section class="video-proof" aria-label="Recent Trade Vouches">
+    <h2>🎥 Recent Trade Vouches</h2>
+    <p class="lead">Quick, scrollable proof of verified trades. Tap to play; videos open inline.</p>
 
-      <div class="carousel">
-        <div class="carousel__viewport" id="videoTrack" tabindex="0" aria-roledescription="carousel" aria-label="Trade vouch videos">
-          <!-- Slide 1 -->
-          <figure class="carousel__slide" aria-label="Video 1">
-            <video
-              controls
-              playsinline
-              preload="metadata"
-            >
-              <source src="/video-output-CD1A6E42-AB0A-42D0-999F-19B9D0E63530-3 (1).mov" type="video/quicktime" />
-              Your browser does not support the video tag.
-            </video>
-          </figure>
-
-          <!-- Slide 2 -->
-          <figure class="carousel__slide" aria-label="Video 2">
-            <video
-              controls
-              playsinline
-              preload="metadata"
-            >
-              <source src="/video-output-4E00A256-5DDF-4BC6-B662-8BAC754ADAA1-3 (1).mov" type="video/quicktime" />
-              Your browser does not support the video tag.
-            </video>
-          </figure>
-
-          <!-- Slide 3 -->
-          <figure class="carousel__slide" aria-label="Video 3">
-            <video
-              controls
-              playsinline
-              preload="metadata"
-            >
-              <source src="/video-output-7155673F-F0C3-4E78-A39E-8F7406E680B8-3 (1).mov" type="video/quicktime" />
-              Your browser does not support the video tag.
-            </video>
-          </figure>
+    <div class="video-grid">
+      <!-- 1 -->
+      <article class="vcard">
+        <div class="vwrap">
+          <video controls playsinline preload="metadata">
+            <source src="/video-output-44054E84-E6D3-4EC2-9D08-3EA0AFDA8ED6-3 (1).mov" type="video/quicktime" />
+            <source src="/video-output-44054E84-E6D3-4EC2-9D08-3EA0AFDA8ED6-3 (1).mov" type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
         </div>
-
-        <!-- Nav Buttons -->
-        <div class="carousel__nav" aria-hidden="false">
-          <button class="carousel__btn carousel__btn--prev" id="btnPrev" aria-label="Previous video">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15.41 7.41 14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
-          </button>
-          <button class="carousel__btn carousel__btn--next" id="btnNext" aria-label="Next video">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m10 6 1.41 1.41L8.83 10H18v2H8.83l2.58 2.59L10 16l-6-6z"/></svg>
-          </button>
+        <div class="vmeta">
+          <span>Trade Vouch #1</span>
+          <span class="tag">Verified</span>
         </div>
-      </div>
+      </article>
 
-      <!-- Dots -->
-      <div class="carousel__dots" id="dots" aria-hidden="false" aria-label="Slide indicators"></div>
+      <!-- 2 -->
+      <article class="vcard">
+        <div class="vwrap">
+          <video controls playsinline preload="metadata">
+            <source src="/video-output-4E00A256-5DDF-4BC6-B662-8BAC754ADAA1-3 (1).mov" type="video/quicktime" />
+            <source src="/video-output-4E00A256-5DDF-4BC6-B662-8BAC754ADAA1-3 (1).mov" type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
+        </div>
+        <div class="vmeta">
+          <span>Trade Vouch #2</span>
+          <span class="tag">Verified</span>
+        </div>
+      </article>
+
+      <!-- 3 -->
+      <article class="vcard">
+        <div class="vwrap">
+          <video controls playsinline preload="metadata">
+            <source src="/video-output-7155673F-F0C3-4E78-A39E-8F7406E680B8-3 (1).mov" type="video/quicktime" />
+            <source src="/video-output-7155673F-F0C3-4E78-A39E-8F7406E680B8-3 (1).mov" type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
+        </div>
+        <div class="vmeta">
+          <span>Trade Vouch #3</span>
+          <span class="tag">Verified</span>
+        </div>
+      </article>
+
+      <!-- 4 -->
+      <article class="vcard">
+        <div class="vwrap">
+          <video controls playsinline preload="metadata">
+            <source src="/video-output-71F14AA5-B197-490B-BB34-302B38B5F382-3 (1).mov" type="video/quicktime" />
+            <source src="/video-output-71F14AA5-B197-490B-BB34-302B38B5F382-3 (1).mov" type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
+        </div>
+        <div class="vmeta">
+          <span>Trade Vouch #4</span>
+          <span class="tag">Verified</span>
+        </div>
+      </article>
+
+      <!-- 5 (duplicate filename as requested) -->
+      <article class="vcard">
+        <div class="vwrap">
+          <video controls playsinline preload="metadata">
+            <source src="/video-output-71F14AA5-B197-490B-BB34-302B38B5F382-3 (1).mov" type="video/quicktime" />
+            <source src="/video-output-71F14AA5-B197-490B-BB34-302B38B5F382-3 (1).mov" type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
+        </div>
+        <div class="vmeta">
+          <span>Trade Vouch #5</span>
+          <span class="tag">Verified</span>
+        </div>
+      </article>
     </div>
   </section>
 
@@ -377,7 +340,6 @@
     </p>
   </footer>
 
-  <!-- Scripts -->
   <script>
     // Footer year
     document.getElementById('y').textContent = new Date().getFullYear();
@@ -394,93 +356,12 @@
       }, 1600);
     }
 
-    // ---------------------------
-    // Video Carousel Controller
-    // ---------------------------
+    // Pause other videos when one starts playing
     (function () {
-      const track = document.getElementById('videoTrack');
-      const btnPrev = document.getElementById('btnPrev');
-      const btnNext = document.getElementById('btnNext');
-      const dotsWrap = document.getElementById('dots');
-
-      if (!track) return;
-
-      const slides = Array.from(track.querySelectorAll('.carousel__slide'));
-
-      // Build dots
-      slides.forEach((_, i) => {
-        const dot = document.createElement('button');
-        dot.className = 'carousel__dot' + (i === 0 ? ' is-active' : '');
-        dot.type = 'button';
-        dot.setAttribute('aria-label', 'Go to slide ' + (i + 1));
-        dot.addEventListener('click', () => {
-          slides[i].scrollIntoView({ behavior: 'smooth', inline: 'center' });
-        });
-        dotsWrap.appendChild(dot);
-      });
-
-      const dots = Array.from(dotsWrap.querySelectorAll('.carousel__dot'));
-
-      function updateDots() {
-        // Find the slide closest to the center
-        const trackRect = track.getBoundingClientRect();
-        let idx = 0, best = Infinity;
-        slides.forEach((slide, i) => {
-          const r = slide.getBoundingClientRect();
-          const slideCenter = r.left + r.width / 2;
-          const trackCenter = trackRect.left + trackRect.width / 2;
-          const dist = Math.abs(slideCenter - trackCenter);
-          if (dist < best) { best = dist; idx = i; }
-        });
-        dots.forEach((d, i) => d.classList.toggle('is-active', i === idx));
-      }
-
-      // Nav buttons
-      function scrollBySlide(dir) {
-        const currentIndex = (() => {
-          const trackRect = track.getBoundingClientRect();
-          let idx = 0, best = Infinity;
-          slides.forEach((slide, i) => {
-            const r = slide.getBoundingClientRect();
-            const slideCenter = r.left + r.width / 2;
-            const trackCenter = trackRect.left + trackRect.width / 2;
-            const dist = Math.abs(slideCenter - trackCenter);
-            if (dist < best) { best = dist; idx = i; }
-          });
-          return idx;
-        })();
-        const nextIndex = Math.max(0, Math.min(slides.length - 1, currentIndex + dir));
-        slides[nextIndex].scrollIntoView({ behavior: 'smooth', inline: 'center' });
-      }
-
-      btnPrev?.addEventListener('click', () => scrollBySlide(-1));
-      btnNext?.addEventListener('click', () => scrollBySlide(1));
-
-      // Keyboard arrows when the viewport is focused
-      track.addEventListener('keydown', (e) => {
-        if (e.key === 'ArrowLeft') { e.preventDefault(); scrollBySlide(-1); }
-        if (e.key === 'ArrowRight') { e.preventDefault(); scrollBySlide(1); }
-      });
-
-      // Update dots on scroll/resize
-      let raf = null;
-      function onScroll() {
-        if (raf) cancelAnimationFrame(raf);
-        raf = requestAnimationFrame(updateDots);
-      }
-      track.addEventListener('scroll', onScroll, { passive: true });
-      window.addEventListener('resize', onScroll);
-
-      // Pause other videos when one starts playing
-      const videos = Array.from(track.querySelectorAll('video'));
-      videos.forEach(v => {
-        v.addEventListener('play', () => {
-          videos.forEach(o => { if (o !== v) { o.pause(); } });
-        });
-      });
-
-      // Initial dot state
-      updateDots();
+      const vids = Array.from(document.querySelectorAll('.video-proof video'));
+      vids.forEach(v => v.addEventListener('play', () => {
+        vids.forEach(o => { if (o !== v) o.pause(); });
+      }));
     })();
   </script>
 </body>
