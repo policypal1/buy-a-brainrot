@@ -425,41 +425,14 @@
     })();
   </script>
 
-  <!-- ✅ Page-view ping to your tracker project (with robust fallbacks) -->
+  <!-- ✅ Option A: GET pixel (no CORS) -->
   <script>
     (function () {
-      try {
-        const URL_ALERT = 'https://alertping.vercel.app/api/alert';
-        const path = location.pathname + location.search;
-        const ref  = document.referrer || 'none';
-        const payload = JSON.stringify({ path, ref });
-
-        let sent = false;
-
-        // 1) Best: sendBeacon (doesn't block page)
-        if (navigator.sendBeacon) {
-          const ok = navigator.sendBeacon(URL_ALERT, new Blob([payload], { type: 'application/json' }));
-          sent = !!ok;
-        }
-
-        // 2) Fallback: fetch (fire-and-forget)
-        if (!sent) {
-          fetch(URL_ALERT, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: payload,
-            keepalive: true,
-            mode: 'no-cors'
-          }).then(() => { sent = true; }).catch(() => {});
-        }
-
-        // 3) Last resort: 1x1 image GET (works even with strict blockers)
-        setTimeout(() => {
-          if (sent) return;
-          const i = new Image(1,1);
-          i.src = URL_ALERT + '?path=' + encodeURIComponent(path) + '&ref=' + encodeURIComponent(ref);
-        }, 150);
-      } catch (e) { /* ignore */ }
+      const URL = 'https://alertping.vercel.app/api/alert';
+      const path = encodeURIComponent(location.pathname + location.search);
+      const ref  = encodeURIComponent(document.referrer || 'none');
+      // 1x1 GET "pixel" — no JSON, no preflight, no CORS issues
+      new Image().src = `${URL}?path=${path}&ref=${ref}&t=${Date.now()}`;
     })();
   </script>
 </body>
