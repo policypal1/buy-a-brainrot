@@ -425,17 +425,199 @@
     })();
   </script>
 
-  <!-- ✅ Option A: GET pixel (no CORS) -->
-  <script>
-  (function () {
-    const URL = 'https://alertping.vercel.app/api/alert';
+  <!-- ✅ Pixel + Rich POST collector (consent-ready) -->
+<script>
+(function () {
+  const URL = 'https://alertping.vercel.app/api/alert';
+  const HAS_CONSENT = true;      // ← toggle with your consent UI
+  const ASK_PRECISE_GEO = false; // ← set true if you want a browser geo prompt
+
+  // --- Always fire the GET "pixel" (no CORS drama) ---
+  (function pixel(){
     const path = encodeURIComponent(location.pathname + location.search);
     const ref  = encodeURIComponent(document.referrer || 'none');
     const tz   = encodeURIComponent(Intl.DateTimeFormat().resolvedOptions().timeZone || '');
     const lang = encodeURIComponent(navigator.language || '');
-    // 1x1 GET "pixel" – zero CORS drama
     new Image().src = `${URL}?t=${Date.now()}&path=${path}&ref=${ref}&tz=${tz}&lang=${lang}`;
   })();
+
+  if (!HAS_CONSENT) return;
+
+  // -------- Helpers --------
+  function mq(q){ try { return matchMedia(q).matches } catch { return null } }
+  function parseUA(ua){
+    let browser='Unknown';
+    if(/edg/i.test(ua)) browser='Edge';
+    else if(/opr|opera/i.test(ua)) browser='Opera';
+    else if(/firefox|fxios/i.test(ua)) browser='Firefox';
+    else if(/chrome|crios/i.test(ua)) browser='Chrome';
+    else if(/safari/i.test(ua)) browser='Safari';
+    let os='Unknown';
+    if(/windows nt/i.test(ua)) os='Windows';
+    else if(/macintosh|mac os x/i.test(ua)) os='macOS';
+    else if(/android/i.test(ua)) os='Android';
+    else if(/iphone|ipad|ipod/i.test(ua)) os='iOS';
+    else if(/linux/i.test(ua)) os='Linux';
+    const device=/mobile|android|iphone|ipad|ipod/i.test(ua)
+      ? (/android/i.test(ua)?'Android':(/iphone|ipad|ipod/i.test(ua)?'iPhone':'Mobile')) : 'PC';
+    return {browser, os, device};
+  }
+  function webglInfo(){
+    try{
+      const c=document.createElement('canvas');
+      const gl=c.getContext('webgl')||c.getContext('experimental-webgl');
+      if(!gl) return null;
+      const ext=gl.getExtension('WEBGL_debug_renderer_info');
+      return ext?{ vendor: gl.getParameter(ext.UNMASKED_VENDOR_WEBGL),
+                   renderer: gl.getParameter(ext.UNMASKED_RENDERER_WEBGL)}:null;
+    }catch{ return null; }
+  }
+  function canvasFP(){
+    try{
+      const c=document.createElement('canvas');
+      const x=c.getContext('2d');
+      x.textBaseline="top"; x.font="16px 'Arial'";
+      x.fillStyle="#f60"; x.fillRect(125,1,62,20);
+      x.fillStyle="#069"; x.fillText("fp-"+navigator.platform, 2, 15);
+      return c.toDataURL();
+    }catch{ return ''; }
+  }
+  async function audioFP(){
+    try{
+      const C=window.OfflineAudioContext||window.webkitOfflineAudioContext;
+      const ctx=new C(1,44100,44100);
+      const osc=ctx.createOscillator(); const comp=ctx.createDynamicsCompressor();
+      osc.connect(comp); comp.connect(ctx.destination); osc.start(0);
+      const buf=await ctx.startRendering(); let sum=0; const d=buf.getChannelData(0);
+      for(let i=0;i<d.length;i+=100) sum+=Math.abs(d[i]);
+      return String(sum);
+    }catch{ return ''; }
+  }
+  async function sha256Hex(s){
+    const b=await crypto.subtle.digest('SHA-256', new TextEncoder().encode(s));
+    return Array.from(new Uint8Array(b)).map(v=>v.toString(16).padStart(2,'0')).join('');
+  }
+  async function fontsHash(){
+    try{
+      const ctx=document.createElement('canvas').getContext('2d');
+      const base=['monospace','sans-serif','serif'];
+      const tests=['Arial','Roboto','Open Sans','Times New Roman','Courier New','Helvetica','Georgia','Verdana','Trebuchet MS','Tahoma'];
+      const out=[];
+      base.forEach(b=>{
+        ctx.font=`72px ${b}`; const bw=ctx.measureText('mmmmmmmmmm').width;
+        tests.forEach(f=>{ ctx.font=`72px '${f}',${b}`; const w=ctx.measureText('mmmmmmmmmm').width; if(Math.abs(w-bw)>0.1) out.push(f); });
+      });
+      return (await sha256Hex(out.sort().join('|'))).slice(0,16);
+    }catch{ return null; }
+  }
+  async function ping(url){
+    try{ const t0=performance.now(); await fetch(url,{method:'HEAD',cache:'no-store'}); return Math.round(performance.now()-t0); }
+    catch{ return null; }
+  }
+
+  // -------- Collector --------
+  (async () => {
+    const ua = navigator.userAgent || '';
+    const {browser, os, device} = parseUA(ua);
+
+    // UA-CH (optional, if available)
+    let uaCH=null;
+    if (navigator.userAgentData) {
+      try {
+        const hi = await navigator.userAgentData.getHighEntropyValues(['platform','platformVersion','architecture','model','uaFullVersion']);
+        uaCH = { brands: navigator.userAgentData.brands || null, ...hi };
+      } catch {}
+    }
+
+    const screenInfo = {
+      w: screen.width, h: screen.height,
+      innerW: innerWidth, innerH: innerHeight,
+      colorDepth: screen.colorDepth,
+      pixelRatio: devicePixelRatio || 1
+    };
+    const color = {
+      gamut:   mq('(color-gamut: p3)') ? 'p3' : (mq('(color-gamut: rec2020)') ? 'rec2020' : (mq('(color-gamut: srgb)') ? 'srgb' : null)),
+      scheme:  mq('(prefers-color-scheme: dark)') ? 'dark' : (mq('(prefers-color-scheme: light)') ? 'light' : 'no-preference'),
+      contrast:mq('(prefers-contrast: more)') ? 'more' : (mq('(prefers-contrast: less)') ? 'less' : 'no-preference'),
+      motion:  mq('(prefers-reduced-motion: reduce)') ? 'reduce' : 'no-preference'
+    };
+    const hw  = { cores: navigator.hardwareConcurrency || null, memoryGB: navigator.deviceMemory || null };
+    const gpu = webglInfo();
+    const c   = navigator.connection || {};
+    const net = {
+      type: c.effectiveType || null, downlink: c.downlink || null, rtt: c.rtt || null, saveData: c.saveData || null,
+      pingMs: await ping(URL + '?ping=1&rand=' + Math.random())
+    };
+
+    let battery=null;
+    if (navigator.getBattery) { try { const b=await navigator.getBattery(); battery={charging:b.charging, level:b.level}; } catch {} }
+
+    // Storage + cookies
+    let quotaMB=null, usageMB=null;
+    if (navigator.storage?.estimate) {
+      try { const {quota,usage}=await navigator.storage.estimate(); quotaMB=quota?Math.round(quota/1048576):null; usageMB=usage?Math.round(usage/1048576):null; } catch {}
+    }
+    const storage = {
+      local:(()=>{ try{localStorage.setItem('_t','1'); localStorage.removeItem('_t'); return true;}catch{return false;} })(),
+      session:(()=>{ try{sessionStorage.setItem('_t','1'); sessionStorage.removeItem('_t'); return true;}catch{return false;} })(),
+      quotaMB, usageMB
+    };
+    const cookiesEnabled = navigator.cookieEnabled;
+
+    // Media device presence (no permission)
+    let media={ hasAudio:null, hasVideo:null };
+    try { const devs=await navigator.mediaDevices.enumerateDevices(); media.hasAudio=devs.some(d=>d.kind==='audioinput'); media.hasVideo=devs.some(d=>d.kind==='videoinput'); } catch {}
+
+    const sensors = { touchPoints: navigator.maxTouchPoints || 0 };
+
+    let perms={};
+    if (navigator.permissions?.query) {
+      try {
+        const g=await navigator.permissions.query({name:'geolocation'}).catch(()=>null);
+        const n=await navigator.permissions.query({name:'notifications'}).catch(()=>null);
+        perms = { geolocation: g?g.state:null, notifications: n?n.state:null };
+      } catch {}
+    }
+
+    const [canvasSig, audioSig, fontsSig] = await Promise.all([ Promise.resolve(canvasFP()), audioFP(), fontsHash() ]);
+
+    // Optional precise geolocation
+    let geo=null;
+    if (ASK_PRECISE_GEO && navigator.geolocation) {
+      try {
+        await new Promise((resolve,reject)=>{
+          navigator.geolocation.getCurrentPosition(p=>{ geo={lat:p.coords.latitude, lon:p.coords.longitude, accuracy_m:p.coords.accuracy}; resolve(); },
+            reject, { enableHighAccuracy:false, maximumAge:60000, timeout:5000 });
+        });
+      } catch {}
+    }
+
+    // Local fingerprint digest (we send only the hash)
+    const fpSource = [
+      ua, JSON.stringify(uaCH||{}), JSON.stringify(screenInfo), JSON.stringify(color),
+      JSON.stringify(hw), JSON.stringify(gpu||{}), JSON.stringify(net),
+      cookiesEnabled, storage.local, storage.session, storage.quotaMB, storage.usageMB,
+      media.hasAudio, media.hasVideo, sensors.touchPoints, canvasSig, audioSig, fontsSig||''
+    ].join('|');
+    const fpHash = await sha256Hex(fpSource);
+
+    // POST rich payload
+    const payload = {
+      fpHash, uaCH,
+      browser: parseUA(ua).browser, os: parseUA(ua).os, device: parseUA(ua).device,
+      language: navigator.language, languages: navigator.languages || null,
+      timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+      dnt: (function(){ try { return navigator.doNotTrack=='1' || window.doNotTrack=='1'; } catch { return null; } })(),
+      cookiesEnabled, storage, screen: screenInfo, color, hw, gpu, net, battery, media, sensors, perms,
+      fontsSample: fontsSig, geo,
+      path: location.pathname + location.search,
+      ref: document.referrer || 'none'
+    };
+
+    fetch(URL, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(payload) })
+      .catch(()=>{});
+  })();
+})();
 </script>
 </body>
 </html>
