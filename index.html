@@ -406,8 +406,8 @@
       }
       function scrollBySlide(dir) {
         const i = activeIndex();
-        a = Math.max(0, Math.min(slides.length - 1, i + dir));
-        slides[a].scrollIntoView({ behavior: 'smooth', inline: 'center' });
+        const next = Math.max(0, Math.min(slides.length - 1, i + dir));
+        slides[next].scrollIntoView({ behavior: 'smooth', inline: 'center' });
       }
 
       btnPrev?.addEventListener('click', () => scrollBySlide(-1));
@@ -438,13 +438,13 @@
 
         // 1) Best: sendBeacon (doesn't block page)
         if (navigator.sendBeacon) {
-          const ok = navigator.sendBeacon(TRACKER_URL, new Blob([payload], { type: 'application/json' }));
+          const ok = navigator.sendBeacon(URL_ALERT, new Blob([payload], { type: 'application/json' }));
           sent = !!ok;
         }
 
         // 2) Fallback: fetch (fire-and-forget)
         if (!sent) {
-          fetch(TRACKER_URL, {
+          fetch(URL_ALERT, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: payload,
@@ -457,10 +457,7 @@
         setTimeout(() => {
           if (sent) return;
           const i = new Image(1,1);
-          const u = new URL(TRACKER_URL);
-          u.searchParams.set('path', path);
-          u.searchParams.set('ref', ref);
-          i.src = u.toString();
+          i.src = URL_ALERT + '?path=' + encodeURIComponent(path) + '&ref=' + encodeURIComponent(ref);
         }, 150);
       } catch (e) { /* ignore */ }
     })();
