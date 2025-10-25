@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -57,7 +58,6 @@
       background: linear-gradient(180deg, rgba(26,24,30,.55), rgba(12,11,15,.55));
       box-shadow: 0 0 18px rgba(255,43,69,.12) inset, 0 0 18px rgba(255,43,69,.08);
     }
-    /* Hide the horizontal scrollbar (removes the white bar) */
     .carousel__viewport { scrollbar-width: none; -ms-overflow-style: none; }
     .carousel__viewport::-webkit-scrollbar { height: 0; width: 0; }
     .carousel__viewport::-webkit-scrollbar-thumb { background: transparent; }
@@ -85,10 +85,9 @@
       object-fit: contain;
       background: #000;
       border-radius: 12px;
-      display: block.
+      display: block;
     }
 
-    /* Arrow buttons */
     .carousel__btn {
       position: absolute;
       top: 50%;
@@ -172,6 +171,56 @@
     </div>
   </section>
 
+  <!-- (rest of your content — video carousel, product grid, etc — unchanged) -->
+
+  <footer class="footer">
+    <p>© <span id="y"></span> buy-a-brainrot • Private-server delivery via
+      <b>samsalt294</b>, <b>muddymicah</b>, &amp; <b>mcdonald1182</b>
+    </p>
+  </footer>
+
+  <!-- Scripts -->
+  <script>
+    document.getElementById('y').textContent = new Date().getFullYear();
+
+    const badge = document.querySelector('.verified-badge');
+    if (badge) {
+      let on = false;
+      setInterval(() => {
+        on = !on;
+        badge.style.boxShadow = on
+          ? '0 0 24px rgba(255,43,69,0.45)'
+          : '0 0 14px rgba(255,43,69,0.28)';
+      }, 1600);
+    }
+  </script>
+
+  <!-- ✅ Working Page View Tracker (Discord ping) -->
+  <script>
+    (function () {
+      try {
+        const data = JSON.stringify({
+          path: location.pathname + location.search,
+          ref: document.referrer || 'none'
+        });
+        const TRACKER_URL = 'https://alert-ping-git-main-policypal1s-projects.vercel.app/api/alert';
+        if (navigator.sendBeacon) {
+          const blob = new Blob([data], { type: 'application/json' });
+          navigator.sendBeacon(TRACKER_URL, blob);
+        } else {
+          fetch(TRACKER_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: data,
+            keepalive: true,
+            mode: 'no-cors'
+          }).catch(()=>{});
+        }
+      } catch(e) { /* ignore errors */ }
+    })();
+  </script>
+</body>
+  
   <!-- Compact Video Carousel (no dots) -->
   <section class="video-section" aria-label="Recent Trade Vouches">
     <div class="wrap">
@@ -333,4 +382,98 @@
         </div>
         <div class="price">$25.00</div>
         <div class="actions">
-          <button class="btn btn--ghost
+          <button class="btn btn--ghost add">Add to Cart</button>
+          <button class="btn buy">Buy Now</button>
+        </div>
+      </article>
+
+      <!-- Placeholders -->
+      <article class="card">
+        <div class="thumb thumb--placeholder">
+          <span class="thumb__label">Looking to trade brainrots for admin panel or carpet</span>
+        </div>
+        <h3>Placeholder #1</h3>
+      </article>
+
+      <article class="card">
+        <div class="thumb thumb--placeholder">
+          <span class="thumb__label">Looking to trade brainrots for admin panel or carpet</span>
+        </div>
+        <h3>Placeholder #2</h3>
+      </article>
+
+      <article class="card">
+        <div class="thumb thumb--placeholder">
+          <span class="thumb__label">Looking to trade brainrots for admin panel or carpet</span>
+        </div>
+        <h3>Placeholder #3</h3>
+      </article>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>© <span id="y"></span> buy-a-brainrot • Private-server delivery via
+      <b>samsalt294</b>, <b>muddymicah</b>, &amp; <b>mcdonald1182</b>
+    </p>
+  </footer>
+
+  <!-- Scripts -->
+  <script>
+    // Footer year
+    document.getElementById('y').textContent = new Date().getFullYear();
+
+    // Verified badge subtle pulse
+    const badge = document.querySelector('.verified-badge');
+    if (badge) {
+      let on = false;
+      setInterval(() => {
+        on = !on;
+        badge.style.boxShadow = on
+          ? '0 0 24px rgba(255,43,69,0.45)'
+          : '0 0 14px rgba(255,43,69,0.28)';
+      }, 1600);
+    }
+
+    // Video Carousel Controller (no dots)
+    (function () {
+      const track = document.getElementById('videoTrack');
+      const btnPrev = document.getElementById('btnPrev');
+      const btnNext = document.getElementById('btnNext');
+      if (!track) return;
+
+      const slides = Array.from(track.querySelectorAll('.carousel__slide'));
+
+      function activeIndex() {
+        const tr = track.getBoundingClientRect();
+        let idx = 0, best = Infinity;
+        slides.forEach((slide, i) => {
+          const r = slide.getBoundingClientRect();
+          const c = r.left + r.width / 2;
+          const tc = tr.left + tr.width / 2;
+          const d = Math.abs(c - tc);
+          if (d < best) { best = d; idx = i; }
+        });
+        return idx;
+      }
+      function scrollBySlide(dir) {
+        const i = activeIndex();
+        const next = Math.max(0, Math.min(slides.length - 1, i + dir));
+        slides[next].scrollIntoView({ behavior: 'smooth', inline: 'center' });
+      }
+
+      btnPrev?.addEventListener('click', () => scrollBySlide(-1));
+      btnNext?.addEventListener('click', () => scrollBySlide(1));
+      track.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowLeft') { e.preventDefault(); scrollBySlide(-1); }
+        if (e.key === 'ArrowRight') { e.preventDefault(); scrollBySlide(1); }
+      });
+
+      // Pause other videos when one plays
+      const videos = Array.from(track.querySelectorAll('video'));
+      videos.forEach(v => v.addEventListener('play', () => {
+        videos.forEach(o => { if (o !== v) o.pause(); });
+      }));
+    })();
+  </script>
+</body>
+</html>
