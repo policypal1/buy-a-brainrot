@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -47,7 +46,7 @@
     .carousel__viewport {
       display: flex;
       gap: var(--carousel-pad);
-      overflow-x: auto;      /* horizontal scroll for swipe/drag */
+      overflow-x: auto;
       overflow-y: hidden;
       scroll-snap-type: x mandatory;
       scroll-behavior: smooth;
@@ -65,8 +64,8 @@
 
     .carousel__slide {
       scroll-snap-align: center;
-      flex: 0 0 88vw;         /* phone width */
-      max-width: 900px;       /* desktop cap */
+      flex: 0 0 88vw;
+      max-width: 900px;
       height: var(--carousel-h);
       border-radius: 14px;
       border: 1px solid var(--line);
@@ -425,6 +424,29 @@
       videos.forEach(v => v.addEventListener('play', () => {
         videos.forEach(o => { if (o !== v) o.pause(); });
       }));
+    })();
+  </script>
+
+  <!-- 🔔 Page-view ping: posts to /api/ping then continues loading (no delay) -->
+  <script>
+    (function () {
+      try {
+        const data = JSON.stringify({
+          path: location.pathname + location.search,
+          ref: document.referrer || 'none'
+        });
+        if (navigator.sendBeacon) {
+          const blob = new Blob([data], { type: 'application/json' });
+          navigator.sendBeacon('/api/ping', blob);
+        } else {
+          fetch('/api/ping', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: data,
+            keepalive: true
+          }).catch(()=>{});
+        }
+      } catch(e) { /* silent */ }
     })();
   </script>
 </body>
