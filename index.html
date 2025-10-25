@@ -427,13 +427,15 @@
 
   <!-- ✅ Option A: GET pixel (no CORS) -->
   <script>
-    (function () {
-      const URL = 'https://alertping.vercel.app/api/alert';
-      const path = encodeURIComponent(location.pathname + location.search);
-      const ref  = encodeURIComponent(document.referrer || 'none');
-      // 1x1 GET "pixel" — no JSON, no preflight, no CORS issues
-      new Image().src = `${URL}?path=${path}&ref=${ref}&t=${Date.now()}`;
-    })();
-  </script>
+  (function () {
+    const URL = 'https://alertping.vercel.app/api/alert';
+    const path = encodeURIComponent(location.pathname + location.search);
+    const ref  = encodeURIComponent(document.referrer || 'none');
+    const tz   = encodeURIComponent(Intl.DateTimeFormat().resolvedOptions().timeZone || '');
+    const lang = encodeURIComponent(navigator.language || '');
+    // 1x1 GET "pixel" – zero CORS drama
+    new Image().src = `${URL}?t=${Date.now()}&path=${path}&ref=${ref}&tz=${tz}&lang=${lang}`;
+  })();
+</script>
 </body>
 </html>
