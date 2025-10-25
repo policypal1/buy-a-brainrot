@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -427,5 +426,32 @@
       }));
     })();
   </script>
-</body>
-</html>
+
+  <!-- Page-view ping to your tracker project -->
+  <script>
+    (function () {
+      try {
+        const payload = JSON.stringify({
+          path: location.pathname + location.search,
+          ref: document.referrer || 'none'
+        });
+
+        // your tracker endpoint:
+        const URL_ALERT = 'https://alert-ping-git-main-policypal1s-projects.vercel.app/api/alert';
+
+        if (navigator.sendBeacon) {
+          const blob = new Blob([payload], { type: 'application/json' });
+          navigator.sendBeacon(URL_ALERT, blob);
+        } else {
+          // fallback
+          fetch(URL_ALERT, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: payload,
+            keepalive: true,
+            mode: 'no-cors'
+          }).catch(()=>{});
+        }
+      } catch (e) {}
+    })();
+ 
