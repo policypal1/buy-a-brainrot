@@ -228,13 +228,11 @@
 
         <!-- Arrow buttons -->
         <button class="carousel__btn carousel__btn--prev" id="btnPrev" aria-label="Previous video">
-          <!-- LEFT chevron -->
           <svg viewBox="0 0 24 24" aria-hidden="true">
             <path d="M15.41 7.41 14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
           </svg>
         </button>
         <button class="carousel__btn carousel__btn--next" id="btnNext" aria-label="Next video">
-          <!-- RIGHT chevron (corrected direction) -->
           <svg viewBox="0 0 24 24" aria-hidden="true">
             <path d="M8.59 16.59 13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/>
           </svg>
@@ -408,8 +406,8 @@
       }
       function scrollBySlide(dir) {
         const i = activeIndex();
-        const next = Math.max(0, Math.min(slides.length - 1, i + dir));
-        slides[next].scrollIntoView({ behavior: 'smooth', inline: 'center' });
+        a = Math.max(0, Math.min(slides.length - 1, i + dir));
+        slides[a].scrollIntoView({ behavior: 'smooth', inline: 'center' });
       }
 
       btnPrev?.addEventListener('click', () => scrollBySlide(-1));
@@ -427,31 +425,45 @@
     })();
   </script>
 
-  <!-- Page-view ping to your tracker project -->
+  <!-- ✅ Page-view ping to your tracker project (with robust fallbacks) -->
   <script>
     (function () {
       try {
-        const payload = JSON.stringify({
-          path: location.pathname + location.search,
-          ref: document.referrer || 'none'
-        });
+        const TRACKER_URL = 'https://alert-ping-git-main-policypal1s-projects.vercel.app/api/alert';
+        const path = location.pathname + location.search;
+        const ref  = document.referrer || 'none';
+        const payload = JSON.stringify({ path, ref });
 
-        // your tracker endpoint:
-        const URL_ALERT = 'https://alert-ping-git-main-policypal1s-projects.vercel.app/api/alert';
+        let sent = false;
 
+        // 1) Best: sendBeacon (doesn't block page)
         if (navigator.sendBeacon) {
-          const blob = new Blob([payload], { type: 'application/json' });
-          navigator.sendBeacon(URL_ALERT, blob);
-        } else {
-          // fallback
-          fetch(URL_ALERT, {
+          const ok = navigator.sendBeacon(TRACKER_URL, new Blob([payload], { type: 'application/json' }));
+          sent = !!ok;
+        }
+
+        // 2) Fallback: fetch (fire-and-forget)
+        if (!sent) {
+          fetch(TRACKER_URL, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: payload,
             keepalive: true,
             mode: 'no-cors'
-          }).catch(()=>{});
+          }).then(() => { sent = true; }).catch(() => {});
         }
-      } catch (e) {}
+
+        // 3) Last resort: 1x1 image GET (works even with strict blockers)
+        setTimeout(() => {
+          if (sent) return;
+          const i = new Image(1,1);
+          const u = new URL(TRACKER_URL);
+          u.searchParams.set('path', path);
+          u.searchParams.set('ref', ref);
+          i.src = u.toString();
+        }, 150);
+      } catch (e) { /* ignore */ }
     })();
- 
+  </script>
+</body>
+</html>
