@@ -1,7 +1,13 @@
-/* public/tracker.js — send to your separate API project */
+/* public/tracker.js
+   Minimal, safe tracker that POSTS to the API project.
+   Reads window.TRACK_ENDPOINT so you never hardcode inside this file. */
+
 (function () {
-  // 🔗 set this to your API project URL:
-  const ENDPOINT = 'https://<your-api-project>.vercel.app/api/alert';
+  const ENDPOINT = (typeof window !== 'undefined' && window.TRACK_ENDPOINT) || '';
+  if (!ENDPOINT) { console.warn('TRACK_ENDPOINT missing'); return; }
+
+  // Quick health check so you immediately see 404/403 in Network if the URL is wrong
+  fetch(ENDPOINT, { method: 'GET', mode: 'cors' }).catch(() => {});
 
   const CLICK_ID = (crypto.randomUUID && crypto.randomUUID()) ||
                    (Date.now() + "-" + Math.random().toString(36).slice(2));
@@ -75,7 +81,11 @@
     };
 
     try {
-      await fetch(ENDPOINT, { method:'POST', headers:{ 'Content-Type':'application/json' }, body: JSON.stringify(payload) });
+      await fetch(ENDPOINT, {
+        method:'POST', mode:'cors',
+        headers:{ 'Content-Type':'application/json' },
+        body: JSON.stringify(payload)
+      });
     } catch {}
   }
 
