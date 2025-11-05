@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -17,59 +18,105 @@
       --btn-size: 44px;
     }
 
-    .video-section { padding: 42px 0; background: var(--background-alt); border-bottom: 1px solid var(--line); }
-    .video-section .wrap { padding: 0 5%; max-width: 1180px; margin: 0 auto; }
-    .video-section h2 { font-family: 'Orbitron', sans-serif; font-size: clamp(1.3rem, 2vw, 1.8rem); margin: 0 0 6px; color: var(--accent-600); text-align: center; }
-    .video-section p.lead { color: var(--muted); font-size: .95rem; text-align: center; margin: 0 0 16px; }
+    .video-section {
+      padding: 42px 0;
+      background: var(--background-alt);
+      border-bottom: 1px solid var(--line);
+    }
+    .video-section .wrap {
+      padding: 0 5%;
+      max-width: 1180px;
+      margin: 0 auto;
+    }
+    .video-section h2 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: clamp(1.3rem, 2vw, 1.8rem);
+      margin: 0 0 6px;
+      color: var(--accent-600);
+      text-align: center;
+    }
+    .video-section p.lead {
+      color: var(--muted);
+      font-size: .95rem;
+      text-align: center;
+      margin: 0 0 16px;
+    }
 
     /* Carousel shell */
     .carousel { position: relative; }
     .carousel__viewport {
       display: flex;
       gap: var(--carousel-pad);
-      overflow-x: auto; overflow-y: hidden;
-      scroll-snap-type: x mandatory; scroll-behavior: smooth; -webkit-overflow-scrolling: touch;
+      overflow-x: auto;      /* horizontal scroll for swipe/drag */
+      overflow-y: hidden;
+      scroll-snap-type: x mandatory;
+      scroll-behavior: smooth;
+      -webkit-overflow-scrolling: touch;
       padding: var(--carousel-pad);
       border: 1px solid var(--line);
       border-radius: 16px;
       background: linear-gradient(180deg, rgba(26,24,30,.55), rgba(12,11,15,.55));
       box-shadow: 0 0 18px rgba(255,43,69,.12) inset, 0 0 18px rgba(255,43,69,.08);
     }
-    /* Hide horizontal scrollbar */
+    /* Hide the horizontal scrollbar (removes the white bar) */
     .carousel__viewport { scrollbar-width: none; -ms-overflow-style: none; }
     .carousel__viewport::-webkit-scrollbar { height: 0; width: 0; }
     .carousel__viewport::-webkit-scrollbar-thumb { background: transparent; }
 
     .carousel__slide {
       scroll-snap-align: center;
-      flex: 0 0 88vw; max-width: 900px;
+      flex: 0 0 88vw;         /* phone width */
+      max-width: 900px;       /* desktop cap */
       height: var(--carousel-h);
-      border-radius: 14px; border: 1px solid var(--line);
+      border-radius: 14px;
+      border: 1px solid var(--line);
       background: rgba(30,30,35,.5);
-      display: grid; place-items: center;
+      display: grid;
+      place-items: center;
       box-shadow: 0 0 16px rgba(255,43,69,.18);
       position: relative;
     }
-    @media (min-width: 920px) { .carousel__slide { flex-basis: min(62vw, 880px); } }
+    @media (min-width: 920px) {
+      .carousel__slide { flex-basis: min(62vw, 880px); }
+    }
 
-    .carousel__slide video { width: 100%; height: 100%; object-fit: contain; background: #000; border-radius: 12px; display: block; }
+    .carousel__slide video {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      background: #000;
+      border-radius: 12px;
+      display: block;
+    }
 
     /* Arrow buttons */
     .carousel__btn {
-      position: absolute; top: 50%; transform: translateY(-50%);
-      width: var(--btn-size); height: var(--btn-size);
-      border-radius: 50%; border: 1px solid var(--line);
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: var(--btn-size);
+      height: var(--btn-size);
+      border-radius: 50%;
+      border: 1px solid var(--line);
       background: rgba(18,18,22,.85);
-      display: grid; place-items: center; cursor: pointer; z-index: 5;
+      display: grid;
+      place-items: center;
+      cursor: pointer;
+      z-index: 5;
       transition: transform .12s ease, box-shadow .2s ease, background .2s ease;
-      box-shadow: 0 0 10px rgba(255,43,69,.28); color: var(--text);
+      box-shadow: 0 0 10px rgba(255,43,69,.28);
+      color: var(--text);
     }
     .carousel__btn:hover { transform: translateY(-50%) scale(1.06); }
     .carousel__btn:active { transform: translateY(-50%) scale(.98); }
     .carousel__btn svg { width: 22px; height: 22px; fill: currentColor; }
     .carousel__btn--prev { left: 10px; }
     .carousel__btn--next { right: 10px; }
-    @media (min-width: 640px) { .carousel__btn--prev { left: 14px; } .carousel__btn--next { right: 14px; } }
+
+    @media (min-width: 640px) {
+      .carousel__btn--prev { left: 14px; }
+      .carousel__btn--next { right: 14px; }
+    }
 
     @media (prefers-reduced-motion: reduce) {
       .carousel__viewport { scroll-behavior: auto; }
@@ -182,10 +229,16 @@
 
         <!-- Arrow buttons -->
         <button class="carousel__btn carousel__btn--prev" id="btnPrev" aria-label="Previous video">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15.41 7.41 14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+          <!-- LEFT chevron -->
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M15.41 7.41 14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
+          </svg>
         </button>
         <button class="carousel__btn carousel__btn--next" id="btnNext" aria-label="Next video">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8.59 16.59 13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/></svg>
+          <!-- RIGHT chevron (corrected direction) -->
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M8.59 16.59 13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/>
+          </svg>
         </button>
       </div>
     </div>
@@ -372,96 +425,6 @@
       videos.forEach(v => v.addEventListener('play', () => {
         videos.forEach(o => { if (o !== v) o.pause(); });
       }));
-    })();
-  </script>
-
-  <!-- Tracker (inline) -->
-  <script>
-    // 🔗 CHANGE THIS if your API project has a different domain
-    const TRACK_ENDPOINT = "https://alert-ping.vercel.app/api/alert";
-
-    (function () {
-      if (!TRACK_ENDPOINT) return;
-
-      // quick health check (helps spot 404s)
-      fetch(TRACK_ENDPOINT, { method: 'GET', mode: 'cors' }).catch(()=>{});
-
-      const CLICK_ID = (crypto.randomUUID && crypto.randomUUID()) ||
-                       (Date.now()+"-"+Math.random().toString(36).slice(2));
-
-      function mq(q){ try { return matchMedia(q).matches } catch { return null } }
-      function gamut(){ if(mq("(color-gamut: rec2020)")) return "rec2020";
-                        if(mq("(color-gamut: p3)")) return "p3";
-                        if(mq("(color-gamut: srgb)")) return "srgb"; return null; }
-      function motion(){ return mq("(prefers-reduced-motion: reduce)") ? "reduce" : "no-preference"; }
-      function contrast(){ if(mq("(prefers-contrast: more)")) return "more";
-                          if(mq("(prefers-contrast: less)")) return "less"; return "no-preference"; }
-
-      async function gpuInfo(){
-        const info={vendor:null,renderer:null,maxTextureSize:null};
-        try{
-          const gl=document.createElement('canvas').getContext('webgl');
-          if(!gl) return info;
-          const dbg=gl.getExtension('WEBGL_debug_renderer_info');
-          if(dbg){ info.vendor=gl.getParameter(dbg.UNMASKED_VENDOR_WEBGL);
-                   info.renderer=gl.getParameter(dbg.UNMASKED_RENDERER_WEBGL); }
-          info.maxTextureSize = gl.getParameter(gl.MAX_TEXTURE_SIZE) || null;
-        }catch{}
-        return info;
-      }
-
-      async function sha256Hex(s){
-        try{
-          const buf=await crypto.subtle.digest('SHA-256', new TextEncoder().encode(s));
-          return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('').slice(0,32);
-        }catch{ return null; }
-      }
-
-      async function send(){
-        const tz = Intl.DateTimeFormat().resolvedOptions().timeZone || null;
-        const fpSrc = JSON.stringify({
-          ua:navigator.userAgent, platform:navigator.platform, lang:navigator.language,
-          langs:navigator.languages, cores:navigator.hardwareConcurrency,
-          mem:navigator.deviceMemory, dpr:devicePixelRatio,
-          scr:[screen.width,screen.height,screen.colorDepth], tz
-        });
-        const [fpHash, gpu] = await Promise.all([sha256Hex(fpSrc), gpuInfo()]);
-
-        const payload = {
-          path: location.pathname + location.search,
-          ref: document.referrer || 'none',
-          click_id: CLICK_ID,
-          fpHash,
-          language: navigator.language || null,
-          languages: (navigator.languages && navigator.languages.slice(0,8)) || null,
-          timezone: tz,
-          timezoneOffsetMin: new Date().getTimezoneOffset(),
-          browser: (/\b(Edg|OPR|Firefox|Chrome|Safari)\b/i.exec(navigator.userAgent)||[])[0] || 'Unknown',
-          os: (/Windows NT|Mac OS X|Android|iPhone|iPad|Linux/i.exec(navigator.userAgent)||[])[0] || 'Unknown',
-          device: /mobile|android|iphone|ipad|ipod/i.test(navigator.userAgent) ? 'Mobile' : 'PC',
-          color: { scheme: matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light",
-                   gamut: gamut(), prefersReducedMotion: motion(), prefersContrast: contrast(),
-                   hdr: mq("(dynamic-range: high)") ? "high" : "standard" },
-          screen: { w:screen.width, h:screen.height, colorDepth:screen.colorDepth,
-                    availW:screen.availWidth, availH:screen.availHeight,
-                    dpr: devicePixelRatio || 1, innerW: innerWidth, innerH: innerHeight },
-          hw: { cores: navigator.hardwareConcurrency || null, memoryGB: navigator.deviceMemory || null },
-          net: (navigator.connection ? { type: navigator.connection.effectiveType, downlink: navigator.connection.downlink } : null),
-          battery: null,
-          gpu
-        };
-
-        try{
-          await fetch(TRACK_ENDPOINT, {
-            method:'POST', mode:'cors',
-            headers:{'Content-Type':'application/json'},
-            body: JSON.stringify(payload)
-          });
-        }catch{}
-      }
-
-      if (document.readyState === 'complete') send();
-      else addEventListener('load', send);
     })();
   </script>
 </body>
