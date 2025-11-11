@@ -7,79 +7,196 @@
 
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./style.css?v=30" />
+  <link rel="stylesheet" href="./style.css?v=40" />
+
   <style>
-    .checkout{width:90%;max-width:980px;margin:36px auto}
-    .ck-grid{display:grid;grid-template-columns:2fr 1fr;gap:18px}
-    @media(max-width:860px){ .ck-grid{grid-template-columns:1fr} }
-    .ck-card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:18px}
-    .ck-title{font-family:Orbitron,Inter,sans-serif;margin:0 0 8px}
-    .ck-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--line)}
-    .ck-total{display:flex;justify-content:space-between;margin-top:12px;font-weight:800}
+    /* ===== Page shell ===== */
+    .checkout{width:92%;max-width:1100px;margin:24px auto 80px}
+    .steps{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0 18px}
+    .step{display:inline-flex;align-items:center;gap:8px;background:#101014;border:1px solid var(--line);border-radius:999px;padding:6px 10px;font-weight:800}
+    .step.active{background:var(--accent);border-color:var(--accent);color:#fff}
+
+    .ck-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:20px}
+    @media(max-width:900px){ .ck-grid{grid-template-columns:1fr} }
+
+    .ck-card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:18px;box-shadow:var(--shadow)}
+    .ck-title{font-family:Orbitron,Inter,sans-serif;margin:0 0 10px;letter-spacing:.02em}
+
+    /* ===== Summary items ===== */
+    .ck-list{display:grid;gap:10px}
+    .ck-item{display:flex;align-items:center;justify-content:space-between;border:1px solid var(--line);background:#101014;border-radius:12px;padding:10px}
+    .ck-item__left{display:flex;gap:10px;align-items:center}
+    .ck-thumb{width:56px;height:56px;object-fit:contain;border:1px solid var(--line);border-radius:10px;background:#0f0f14}
+    .ck-name{font-weight:800}
+    .ck-variant{color:#a9adc0;font-size:.9rem}
+    .ck-price{font-weight:800}
+
+    .ck-total{display:flex;justify-content:space-between;margin-top:12px;font-weight:800;font-size:1.05rem}
+
+    /* Sticky summary on wide screens */
+    .ck-aside{position:sticky;top:86px;height:max-content}
+
+    /* ===== Form ===== */
+    .ck-form label{display:block;font-weight:700;margin:12px 0 6px}
+    .ck-input,.ck-textarea{
+      width:100%;background:#101014;border:1px solid var(--line);color:#fff;border-radius:12px;padding:10px 12px;outline:none
+    }
+    .ck-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    @media(max-width:520px){ .ck-row{grid-template-columns:1fr} }
+
+    .pay-methods{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}
+    .pay-methods label{display:flex;align-items:center;gap:8px;background:#0f0f14;border:1px solid var(--line);padding:10px 12px;border-radius:10px;cursor:pointer;font-weight:800}
+    .pay-methods input{accent-color:var(--accent)}
+
+    .paybox{background:#101014;border:1px dashed var(--line-2);padding:12px;border-radius:12px;margin-top:12px;font-size:.95rem}
+    .paybox strong{color:#fff}
     .ck-help{color:var(--muted);font-size:.95rem;margin:8px 0 0}
-    .ck-form label{display:block;font-weight:700;margin:12px 0 4px}
-    .ck-form input,.ck-form textarea{width:100%;background:#101014;border:1px solid var(--line);color:#fff;border-radius:10px;padding:10px 12px;outline:none}
+
     .ck-alert{margin:10px 0 0;color:#ff9aa7}
     .btn.full{width:100%}
-    .pill.cash{background:#00c851}
-    .paybox{background:#101014;border:1px dashed var(--line-2);padding:12px;border-radius:12px;margin-top:10px;font-size:.95rem}
-    .paybox strong{color:#fff}
-    .pay-methods{display:flex;gap:8px;flex-wrap:wrap}
-    .pay-methods label{display:flex;align-items:center;gap:8px;background:#0f0f14;border:1px solid var(--line);padding:8px 10px;border-radius:10px;cursor:pointer}
-    .pay-methods input{accent-color:var(--accent)}
+
+    /* ===== Top banner ===== */
+    .hero.hero--image{border-bottom:1px solid var(--line);background:
+      radial-gradient(800px 360px at 70% 10%, rgba(255,43,69,.08), transparent 60%),
+      radial-gradient(600px 320px at 20% -10%, rgba(255,43,69,.06), transparent 60%),
+      linear-gradient(180deg, rgba(12,11,15,.86) 0%, rgba(12,11,15,.70) 45%, rgba(12,11,15,.92) 100%)
+    }
+    .hero__inner{height:90px}
+
+    /* ===== Trust strip ===== */
+    .trust{margin-top:22px;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+    .trust__item{display:flex;gap:10px;align-items:flex-start;background:#101014;border:1px solid var(--line);border-radius:12px;padding:12px}
+    .trust__item b{display:block}
+
+    /* ===== Tiny brand polish ===== */
+    .brand{display:flex;align-items:center;font-family:Orbitron,Inter,sans-serif;font-weight:800}
+    .brand .logo{display:inline-block;margin-right:6px}
   </style>
 </head>
 <body>
   <header class="topbar">
-    <div class="brand"><span class="logo">BA</span><span class="accent">Brainrot</span></div>
-    <nav class="nav"><a href="./index.html">Shop</a></nav>
+    <div class="brand">
+      <span class="logo">buy-a-</span><span class="accent">brainrot</span>
+    </div>
+    <nav class="nav">
+      <a href="./index.html">Shop</a>
+    </nav>
   </header>
 
+  <!-- subtle banner -->
   <section class="hero hero--image"><div class="hero__inner"></div></section>
 
   <main class="checkout">
-    <div class="pill cash">CashApp / PayPal / Card</div>
+    <!-- progress -->
+    <div class="steps">
+      <span class="step">1 • Cart</span>
+      <span class="step active">2 • Checkout</span>
+      <span class="step">3 • Delivery</span>
+    </div>
+
     <div class="ck-grid">
-      <div class="ck-card">
-        <h2 class="ck-title">Order Summary</h2>
-        <div id="ckItems">Loading...</div>
-        <div class="ck-total"><span>Total</span><span id="ckTotal">$0.00</span></div>
-
-        <div class="paybox" id="payInfo">
-          <p><strong>How payment works</strong></p>
-          <ul style="margin:8px 0 0 18px;line-height:1.5">
-            <li><strong>Cash App:</strong> send the total to <strong>$samuelkumpula</strong>.</li>
-            <li><strong>PayPal:</strong> send to <strong>samuelkumpula235</strong>.</li>
-            <li><strong>Card:</strong> choose “Card (Stripe)” and after you submit we’ll send you a secure Stripe checkout link.</li>
-          </ul>
-          <p class="ck-help">As soon as we receive the payment, we’ll add you and join your private server to deliver your brainrots.</p>
-        </div>
-      </div>
-
+      <!-- LEFT: form -->
       <div class="ck-card">
         <h2 class="ck-title">Your Details</h2>
+
         <form id="ckForm" class="ck-form">
-          <label>Discord @</label><input id="discord" type="text" placeholder="e.g., samsalt294" />
-          <label>Phone</label><input id="phone" type="tel" placeholder="###-###-####" />
-          <label>Email</label><input id="email" type="email" placeholder="you@example.com" />
-          <label>Private Server Link</label><input id="pslink" type="url" placeholder="https://..." />
+          <div class="ck-row">
+            <div>
+              <label>Discord @</label>
+              <input id="discord" class="ck-input" type="text" placeholder="e.g., samsalt294" />
+            </div>
+            <div>
+              <label>Phone</label>
+              <input id="phone" class="ck-input" type="tel" placeholder="###-###-####" />
+            </div>
+          </div>
+
+          <div class="ck-row">
+            <div>
+              <label>Email</label>
+              <input id="email" class="ck-input" type="email" placeholder="you@example.com" />
+            </div>
+            <div>
+              <label>Private Server Link</label>
+              <input id="pslink" class="ck-input" type="url" placeholder="https://..." />
+            </div>
+          </div>
 
           <label>Payment Method</label>
           <div class="pay-methods" id="payMethods">
-            <label><input type="radio" name="pay" value="cashapp"> Cash App</label>
+            <label><input type="radio" name="pay" value="cashapp" checked> Cash App</label>
             <label><input type="radio" name="pay" value="paypal"> PayPal</label>
             <label><input type="radio" name="pay" value="card"> Card (Stripe)</label>
           </div>
 
-          <label>Notes (optional)</label><textarea id="notes" rows="4" placeholder="Anything we should know?"></textarea>
+          <label>Notes (optional)</label>
+          <textarea id="notes" class="ck-textarea" rows="4" placeholder="Anything we should know?"></textarea>
+
           <div id="ckError" class="ck-alert"></div>
           <button type="submit" class="btn buy full" id="ckSubmit">Submit Order</button>
+
+          <div class="paybox" id="payInfo">
+            <p><strong>How payment works</strong></p>
+            <ul style="margin:8px 0 0 18px;line-height:1.5">
+              <li><strong>Cash App:</strong> send the total to <strong>$samuelkumpula</strong>.</li>
+              <li><strong>PayPal:</strong> send to <strong>samuelkumpula235</strong> (Friends &amp; Family).</li>
+              <li><strong>Card:</strong> pick “Card (Stripe)” and we’ll DM you a secure Stripe link after submit.</li>
+            </ul>
+            <p class="ck-help">As soon as we receive the payment, we’ll add you and join your private server to deliver.</p>
+          </div>
         </form>
+
+        <!-- trust strip -->
+        <div class="trust">
+          <div class="trust__item">🔒 <div><b>Secure process</b> Your order details go straight to us—no sketchy third parties.</div></div>
+          <div class="trust__item">🎥 <div><b>Proof on request</b> We can show delivery proof or screen share during delivery.</div></div>
+          <div class="trust__item">⚡ <div><b>Fast delivery</b> Most orders fulfilled shortly after payment confirmation.</div></div>
+        </div>
       </div>
+
+      <!-- RIGHT: summary -->
+      <aside class="ck-aside">
+        <div class="ck-card">
+          <h2 class="ck-title">Order Summary</h2>
+          <div id="ckItems" class="ck-list">Loading...</div>
+          <div class="ck-total"><span>Total</span><span id="ckTotal">$0.00</span></div>
+        </div>
+
+        <!-- mini reviews -->
+        <div class="ck-card" style="margin-top:12px">
+          <h2 class="ck-title">What buyers say</h2>
+          <div class="ck-list">
+            <div class="ck-item" style="gap:10px">
+              <div class="ck-item__left" style="gap:12px">
+                <img class="ck-thumb" src="./avatar1.webp" alt="" />
+                <div>
+                  <div class="ck-name">k1ra<span style="color:#f3c96a"> ★★★★★</span></div>
+                  <div class="ck-variant">“Delivery was fast and clean. Would buy again.”</div>
+                </div>
+              </div>
+            </div>
+            <div class="ck-item" style="gap:10px">
+              <div class="ck-item__left" style="gap:12px">
+                <img class="ck-thumb" src="./avatar2.webp" alt="" />
+                <div>
+                  <div class="ck-name">jsn_420<span style="color:#f3c96a"> ★★★★★</span></div>
+                  <div class="ck-variant">“Got exactly what I paid for, no hassle.”</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </aside>
     </div>
   </main>
 
   <footer class="footer"><p>© <span id="y"></span> buy-a-brainrot</p></footer>
-  <script src="./checkout.js?v=30" defer></script>
+  <script src="./checkout.js?v=40" defer></script>
+  <script>
+    // year
+    document.addEventListener("DOMContentLoaded", () => {
+      const y = document.querySelector("#y"); if (y) y.textContent = new Date().getFullYear();
+    });
+  </script>
 </body>
 </html>
