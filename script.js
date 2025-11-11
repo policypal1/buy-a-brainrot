@@ -56,10 +56,9 @@ function bindEsokVariant(card){
   const radios = $$('input[name="esok-variant"]', card);
   if (!priceEl || !speedEl || !radios.length) return;
   const apply = (r) => {
-    // value = "price|speedNumber|speedLabel"
     const [price, _speedNum, speedLabel] = r.value.split("|");
     priceEl.textContent = `$${Number(price).toFixed(2)}`;
-    card.dataset.price = String(price);  // for sorting
+    card.dataset.price = String(price);
     speedEl.textContent = speedLabel;
   };
   radios.forEach(r => r.addEventListener("change", e => apply(e.target)));
@@ -71,56 +70,61 @@ $$(".card").forEach(card => {
   bindLimitOne(card);
   if (card.dataset.name?.toLowerCase().includes("esok")) bindEsokVariant(card);
 
+  // overlay mini buy (image area)
+  const overlayBuy = $(".mini-buy", card);
   const input = $(".qty__input", card);
   const priceEl = card.querySelector(".price,[data-price]");
   const addBtn = $(".add", card);
   const buyBtn = $(".buy", card);
-  if (!input || !priceEl) return;
+  if (!priceEl) return;
 
   const addToCart = () => {
     const name = card.dataset.name || card.querySelector("h3")?.textContent || "Item";
     const qty = 1;
-    // prefer dataset price (updates with Esok variant)
     const price = Number(card.dataset.price || priceEl.textContent.replace("$","")) || 0;
     cart.add(name, qty, price);
   };
 
+  overlayBuy?.addEventListener("click", () => { addToCart(); });
   addBtn?.addEventListener("click", addToCart);
   buyBtn?.addEventListener("click", () => { addToCart(); openDrawer(); });
 });
 
-/* SEARCH — works on input and button; searches names + tags */
+/* SEARCH (in toolbar) */
 function applyFilter(term){
   const q = term.toLowerCase().trim();
   $$("#grid .card").forEach(c => {
     const name = (c.dataset.name || c.querySelector("h3")?.textContent || "").toLowerCase();
     const tags = (c.dataset.tags || "").toLowerCase();
-    c.style.display = (name.includes(q) || tags.includes(q)) ? "" : "";
-    // if query not empty, hide non-matching; if empty, show all
-    if (q) c.style.display = (name.includes(q) || tags.includes(q)) ? "" : "none";
+    c.style.display = q ? ((name.includes(q) || tags.includes(q)) ? "" : "none") : "";
   });
 }
-const searchEl = $("#searchInput");
-const applySearchBtn = $("#applySearch");
-if (searchEl){
-  searchEl.addEventListener("input", e => applyFilter(e.target.value));
-  searchEl.addEventListener("keydown", e => { if (e.key === "Enter") { applyFilter(searchEl.value); document.getElementById("grid")?.scrollIntoView({behavior:"smooth"}); }});
-}
-applySearchBtn?.addEventListener("click", () => { applyFilter(searchEl?.value || ""); document.getElementById("grid")?.scrollIntoView({behavior:"smooth"}); });
+$("#searchInput")?.addEventListener("input", e => applyFilter(e.target.value));
 
-/* SORT */
+/* SORT (now fully reliable) */
 const sortSelect = $("#sortSelect");
+function normalizePrices(){
+  // if a card lacks data-price, infer from .price text
+  $$("#grid .card").forEach(c => {
+    if (!c.dataset.price) {
+      const t = c.querySelector(".price")?.textContent?.replace("$","") || "0";
+      c.dataset.price = String(Number(t) || 0);
+    }
+  });
+}
 function sortCards(mode="featured"){
+  normalizePrices();
   const grid = $("#grid");
   const cards = $$("#grid .card");
   const arr = [...cards];
   if (mode === "price-asc") arr.sort((a,b)=>(+a.dataset.price||0)-(+b.dataset.price||0));
   else if (mode === "price-desc") arr.sort((a,b)=>(+b.dataset.price||0)-(+a.dataset.price||0));
   else if (mode === "new") arr.sort((a,b)=>(+b.dataset.added||0)-(+a.dataset.added||0));
-  // featured keeps DOM order
   arr.forEach(c=>grid.appendChild(c));
 }
 sortSelect?.addEventListener("change", e => sortCards(e.target.value));
+// initialize to whatever the dropdown currently shows
+if (sortSelect) sortCards(sortSelect.value);
 
 /* drawer */
 const drawer = $("#cartDrawer");
@@ -129,10 +133,35 @@ const closeDrawer = () => drawer?.classList.remove("open");
 $("#openCart")?.addEventListener("click", openDrawer);
 $("#closeCart")?.addEventListener("click", closeDrawer);
 
-/* checkout */
-$("#checkoutBtn")?.addEventListener("click", () => {
+/* checkout (wire one of the flows below) */
+$("#checkoutBtn")?.addEventListener("click", async () => {
   if (!cart.items.length) { alert("Cart is empty."); return; }
-  alert("Checkout placeholder — wire to your payment flow.");
+
+  // --- STRIPE CHECKOUT (recommended) ---
+  // Send cart to your serverless function to create a Checkout Session.
+  try {
+    const res = await fetch("/api/create-checkout-session", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ items: cart.items })
+    });
+    const data = await res.json();
+    if (data?.url) {
+      window.location.href = data.url;
+      return;
+    }
+    // If not configured yet, fall back to quote flow:
+    throw new Error("Stripe not configured");
+  } catch (e) {
+    // --- REQUEST QUOTE FALLBACK ---
+    const msg = encodeURIComponent(
+      `Order request:\n` +
+      cart.items.map(i => `• ${i.name} x${i.qty} — $${(i.qty*i.price).toFixed(2)}`).join("\n") +
+      `\nTotal: $${cart.total().toFixed(2)}\n` +
+      `Discord: <your @>\nPS Link: <paste here>`
+    );
+    window.location.href = `mailto:orders@yourdomain.com?subject=Brainrot%20Order%20Request&body=${msg}`;
+  }
 });
 
 /* footer year */
