@@ -1,149 +1,261 @@
-:root{
-  --bg:#0c0b0f; --surface:#121217; --card:#16161c; --panel:#14141a;
-  --line:#1e1e25; --line-2:#2a2a33;
-  --text:#ffffff; --muted:#a9adc0;
-  --accent:#ff2b45; --accent-600:#ff425e;
-  --shadow:0 10px 30px rgba(0,0,0,.35);
+// --- Utilities
+const $ = (s, c = document) => c.querySelector(s);
+const $$ = (s, c = document) => Array.from(c.querySelectorAll(s));
+const money = (n) => `$${Number(n).toFixed(2)}`;
+
+// --- Midnight countdown (resets daily)
+function startMidnightCountdown(el) {
+  function tick() {
+    const now = new Date();
+    const midnight = new Date(now);
+    midnight.setHours(24, 0, 0, 0);
+    const ms = midnight - now;
+    const h = String(Math.floor(ms / 3_600_000)).padStart(2, "0");
+    const m = String(Math.floor((ms % 3_600_000) / 60_000)).padStart(2, "0");
+    const s = String(Math.floor((ms % 60_000) / 1000)).padStart(2, "0");
+    el.textContent = `${h}:${m}:${s}`;
+  }
+  tick();
+  setInterval(tick, 1000);
 }
 
-*{box-sizing:border-box}
-html,body{height:100%}
-body{margin:0;background:var(--bg);color:var(--text);font:16px/1.6 Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
-img{max-width:100%;display:block}
-a{color:inherit;text-decoration:none}
-button{font:inherit}
+// --- Sale pricing: show 2x as WAS, current as NOW, 50% off for all items
+function applySaleToCard(card) {
+  card.classList.add("card--sale");
+  const was = card.querySelector(".price .was");
+  const now = card.querySelector(".price .now");
 
-/* Header */
-.topbar{
-  position:sticky;top:0;z-index:40;
-  display:flex;align-items:center;justify-content:space-between;gap:16px;
-  padding:14px 5%;background:var(--surface);border-bottom:1px solid var(--line)
-}
-.brand{display:flex;align-items:center;font-family:Orbitron,Inter,sans-serif;font-weight:800;letter-spacing:.04em}
-.logo{display:inline-block;margin-right:6px}
-.accent{color:var(--accent)}
-.nav{display:flex;gap:18px;align-items:center;flex-wrap:wrap}
-.nav a{color:var(--muted);padding:6px 2px;border-radius:8px;transition:color .2s,background .2s}
-.nav a:hover,.nav a.active{color:#fff}
-.cart-btn{display:flex;align-items:center;gap:8px;border:1px solid var(--line);background:transparent;color:#fff;padding:8px 12px;border-radius:10px;font-weight:700;cursor:pointer}
-.cart-btn:hover{background:var(--accent);border-color:var(--accent)}
-.badge{display:inline-grid;place-items:center;min-width:20px;height:20px;padding:0 6px;border-radius:999px;background:var(--accent);color:#fff;font-size:.72rem;font-weight:800}
+  // Variant group?
+  const variantGroupName = card.querySelector(".actions .add")?.dataset?.variantGroup;
+  let salePrice;
 
-/* HERO with background image */
-.hero--sale{
-  position:relative; z-index:0; border-bottom:1px solid var(--line);
-  background:
-    radial-gradient(900px 420px at 70% 10%, rgba(255,43,69,.08), transparent 60%),
-    radial-gradient(700px 380px at 20% -10%, rgba(255,43,69,.06), transparent 60%),
-    linear-gradient(180deg, rgba(12,11,15,.86) 0%, rgba(12,11,15,.70) 45%, rgba(12,11,15,.92) 100%),
-    url("/Taco_Tuesday.webp");
-  background-size:cover; background-position:center 40%;
-}
-.hero__wrap{width:90%;max-width:1200px;margin:0 auto;padding:48px 0 34px}
-.hero--sale h1{font-family:Orbitron,Inter,sans-serif;letter-spacing:.02em;margin:0 0 6px}
-.hero__sub{color:var(--muted);margin:0 0 16px}
+  if (variantGroupName) {
+    const checked = card.querySelector(`input[name="${variantGroupName}"]:checked`);
+    salePrice = Number(checked?.dataset?.price || 0);
+    card.dataset.price = String(salePrice);
+  } else {
+    salePrice = Number(card.dataset.price || 0);
+  }
 
-.countdown{
-  display:flex;gap:24px;flex-wrap:wrap;align-items:center;justify-content:space-between;
-  background:#111219;border:1px solid var(--line);border-radius:14px;padding:16px
-}
-.sale-chip{display:inline-block;padding:6px 12px;border-radius:999px;background:var(--accent);color:#fff;font-weight:800;letter-spacing:.4px}
-.timer{font:800 36px/1.1 Orbitron,Inter,sans-serif;margin-top:6px}
-.tiny{color:#8b8fa3;font-size:.85rem;margin-top:4px}
-
-.trustlist{list-style:none;margin:0;padding:0;display:grid;gap:6px}
-.trustlist li{color:#cdd1e6;font-weight:600}
-
-/* Layout */
-.container{width:90%;max-width:1200px;margin:0 auto 90px}
-.toolbar{display:flex;align-items:center;gap:12px;margin:22px 0 18px}
-.shop-sort{display:flex;align-items:center;gap:8px;color:var(--muted)}
-.shop-sort select{background:#101014;color:#fff;border:1px solid var(--line);border-radius:10px;padding:8px 10px}
-
-/* Grid & Cards */
-.grid{display:grid;gap:24px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
-.card{
-  position:relative;display:flex;flex-direction:column;gap:10px;padding:16px;background:var(--card);
-  border:1px solid var(--line);border-radius:14px;transition:transform .15s ease,border-color .2s,box-shadow .2s;
-  overflow:hidden; isolation:isolate;
-}
-.card:hover{transform:translateY(-3px);border-color:var(--line-2);box-shadow:0 0 18px rgba(255,43,69,.16)}
-.card h3{margin:6px 0 0;font-size:1.05rem}
-
-.flag{
-  position:absolute;top:10px;left:10px;padding:5px 8px;border-radius:8px;font-size:.72rem;font-weight:800;
-  color:#fff;background:var(--accent);z-index:2;box-shadow:0 0 12px rgba(255,43,69,.28)
-}
-.flag--sale{background:linear-gradient(90deg,#ff2b45,#ff5e76)}
-
-.thumb-wrap{position:relative;border-radius:12px;overflow:hidden}
-.thumb{
-  width:100%;height:220px;object-fit:contain;object-position:center;border-radius:12px;
-  border:1px solid var(--line);background:#0f0f14;margin-bottom:10px
+  const original = salePrice * 2; // “2x the current price” as WAS
+  was.textContent = money(original);
+  now.innerHTML = `${money(salePrice)} <span class="sale-pill">50% OFF</span>`;
 }
 
-.speed{margin:2px 0 8px;color:var(--muted);font-size:.95rem}
+// Update sale price when variant changes
+function wireVariants(card) {
+  const addBtn = card.querySelector(".actions .add");
+  const group = addBtn?.dataset?.variantGroup;
+  if (!group) return;
 
-/* Variants */
-.variant{display:flex;gap:10px;flex-wrap:wrap;margin-top:6px}
-.variant label{
-  display:flex;align-items:center;gap:6px;background:#101014;border:1px solid var(--line);
-  padding:6px 10px;border-radius:10px;cursor:pointer
+  $$(`input[name="${group}"]`, card).forEach((radio) => {
+    radio.addEventListener("change", () => {
+      // Update card-level price to selected variant
+      card.dataset.price = radio.dataset.price;
+      applySaleToCard(card);
+      equalizeHeights(); // keep rows tidy after text reflow
+    });
+  });
 }
-.variant input{accent-color:var(--accent)}
 
-/* Qty + Price */
-.qty{display:flex;align-items:center;gap:6px}
-.qty__btn{width:30px;height:30px;border-radius:8px;cursor:pointer;border:1px solid var(--line);background:#111;color:#fff}
-.qty__input{width:52px;height:30px;border-radius:8px;text-align:center;color:#fff;background:#101014;border:1px solid var(--line);outline:none}
+// --- Duplicate merge: merge cards with same data-name OR same data-base
+function mergeDuplicates() {
+  const grid = $("#grid");
+  const cards = $$(".card", grid);
 
-.price{font-weight:800;font-size:1.05rem;margin-top:6px}
-.price .was{color:#8b8fa3;margin-right:8px;text-decoration:line-through}
-.price .now{font-weight:800}
+  // Build map by name/base
+  const buckets = new Map();
+  cards.forEach((c) => {
+    const key = c.dataset.base || c.dataset.name;
+    if (!key) return;
+    if (!buckets.has(key)) buckets.set(key, []);
+    buckets.get(key).push(c);
+  });
 
-/* Actions */
-.actions{display:flex;gap:10px;margin-top:2px}
-.actions .btn{width:100%}
-.btn{
-  border:none;border-radius:10px;padding:10px 0;font-weight:800;cursor:pointer;
-  transition:background .2s,transform .08s,box-shadow .2s;font-size:.86rem
+  buckets.forEach((list) => {
+    if (list.length <= 1) return;
+
+    // Keep the first, convert the rest into variant buttons
+    const primary = list[0];
+    const name = primary.dataset.base || primary.dataset.name;
+
+    // Ensure a variant container exists
+    let v = primary.querySelector(".variant");
+    if (!v) {
+      v = document.createElement("div");
+      v.className = "variant";
+      v.setAttribute("role", "group");
+      v.setAttribute("aria-label", `${name} variants`);
+      primary.querySelector("h3").insertAdjacentElement("afterend", v);
+    }
+
+    // For every extra card: try to infer a label & price, then remove the card
+    list.slice(1).forEach((dup, idx) => {
+      const labelText =
+        dup.querySelector(".speed")?.textContent?.trim() ||
+        dup.dataset.variant ||
+        `Option ${idx + 2}`;
+      const price = dup.dataset.price || dup.querySelector(".price .now")?.textContent?.replace(/[^\d.]/g, "") || "0";
+
+      const id = `${name.replace(/\s+/g, "")}Var`;
+      const lbl = document.createElement("label");
+      lbl.innerHTML = `<input type="radio" name="${id}" data-price="${price}"> ${labelText}`;
+      v.appendChild(lbl);
+
+      // If the primary didn't have a group yet, assign it to the Add button
+      const addBtn = primary.querySelector(".actions .add");
+      if (!addBtn.dataset.variantGroup) addBtn.dataset.variantGroup = id;
+
+      dup.remove();
+    });
+
+    // Make sure one option is checked
+    const radios = $$(`input[type="radio"]`, v);
+    if (radios.length) {
+      // If the card already had a variant group, keep existing checked, else check first
+      if (!radios.some((r) => r.checked)) radios[0].checked = true;
+      wireVariants(primary);
+      applySaleToCard(primary);
+    }
+  });
 }
-.btn--ghost{background:transparent;border:1px solid var(--line);color:#fff}
-.btn--ghost:hover{background:var(--line)}
-.btn.buy{background:var(--accent);color:#fff;box-shadow:0 0 14px rgba(255,43,69,.22)}
-.btn.buy:hover{background:var(--accent-600)}
-.btn:active{transform:translateY(1px)}
 
-/* Drawer */
-.drawer{position:fixed;inset:0 0 0 auto;width:100%;max-width:420px;translate:100% 0;transition:translate .22s ease;z-index:60}
-.drawer.open{translate:0 0}
-.drawer__panel{height:100%;background:var(--panel);border-left:1px solid var(--line);display:flex;flex-direction:column}
-.drawer__top{display:flex;align-items:center;justify-content:space-between;padding:14px;border-bottom:1px solid var(--line)}
-.drawer__close{background:transparent;border:1px solid var(--line);color:#fff;border-radius:8px;width:34px;height:34px;cursor:pointer}
-.drawer__body{padding:14px;flex:1;overflow:auto}
-.drawer__bottom{padding:14px;border-top:1px solid var(--line)}
-.drawer__total{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
-
-/* Quality Strip */
-.quality{
-  width:90%;max-width:1200px;margin:18px auto 80px;
-  display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px
+// --- Cart
+const cart = [];
+function addToCart(item) {
+  cart.push(item); // 1 per click (quantity locked to 1 per your spec)
+  $("#cartCount").textContent = String(cart.length);
+  renderCart();
 }
-.quality__item{background:#101014;border:1px solid var(--line);border-radius:12px;padding:12px;font-weight:700}
+function renderCart() {
+  const wrap = $("#cartItems");
+  if (!cart.length) {
+    wrap.textContent = "Cart is empty.";
+  } else {
+    wrap.innerHTML = cart
+      .map(
+        (i, idx) => `
+        <div style="display:flex;align-items:center;justify-content:space-between;border:1px solid var(--line);padding:8px;border-radius:10px;margin-bottom:8px">
+          <div style="display:flex;gap:10px;align-items:center">
+            <img src="${i.img}" alt="" style="width:52px;height:52px;object-fit:contain;border:1px solid var(--line);border-radius:8px;background:#0f0f14" />
+            <div>
+              <div style="font-weight:800">${i.title}${i.variant ? ` • ${i.variant}` : ""}</div>
+              <div style="color:#a9adc0">${money(i.price)}</div>
+            </div>
+          </div>
+          <button data-i="${idx}" class="drawer__close" style="width:auto;height:auto;padding:6px 10px">Remove</button>
+        </div>`
+      )
+      .join("");
+  }
+  const total = cart.reduce((s, i) => s + i.price, 0);
+  $("#cartTotal").textContent = money(total);
 
-/* Footer */
-.footer{text-align:center;padding:38px 5%;border-top:1px solid var(--line);background:var(--surface);color:var(--muted);font-size:.92rem}
-.footer-nav{margin-top:10px;display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
-.footer-nav a{color:#cdd1e6}
-.footer-nav a:hover{color:#fff}
+  // remove handlers
+  $$("#cartItems .drawer__close").forEach((b) =>
+    b.addEventListener("click", (e) => {
+      const i = Number(e.currentTarget.dataset.i);
+      cart.splice(i, 1);
+      $("#cartCount").textContent = String(cart.length);
+      renderCart();
+    })
+  );
+}
 
-/* Responsive */
-@media (max-width:900px){
-  .hero--sale .hero__wrap{padding:40px 0 28px}
+// --- Sorting
+function sortGrid(by) {
+  const grid = $("#grid");
+  const cards = $$(".card", grid);
+  const getPrice = (c) => Number(c.dataset.price || 0);
+  const getDate = (c) => Number(c.dataset.added || 0);
+
+  const sorted = [...cards].sort((a, b) => {
+    if (by === "price-asc") return getPrice(a) - getPrice(b);
+    if (by === "price-desc") return getPrice(b) - getPrice(a);
+    if (by === "newest") return getDate(b) - getDate(a);
+    return 0;
+  });
+  sorted.forEach((c) => grid.appendChild(c));
+  equalizeHeights();
 }
-@media (max-width:640px){
-  .container{width:92%}
-  .grid{gap:18px}
-  .thumb{height:210px}
-  .timer{font-size:30px}
+
+// --- Equalize card heights (hard equalizer for mixed content)
+function equalizeHeights() {
+  const cards = $$(".card");
+  let max = 0;
+  cards.forEach((c) => {
+    c.style.minHeight = "auto";
+  });
+  cards.forEach((c) => {
+    const h = c.getBoundingClientRect().height;
+    if (h > max) max = h;
+  });
+  cards.forEach((c) => (c.style.minHeight = `${Math.ceil(max)}px`));
 }
+
+// --- Init
+document.addEventListener("DOMContentLoaded", () => {
+  // Year in footer
+  $("#y").textContent = String(new Date().getFullYear());
+
+  // Countdown
+  const timerEl = $("#saleTimer");
+  if (timerEl) startMidnightCountdown(timerEl);
+
+  // Attach cart drawer
+  $("#openCart").addEventListener("click", () => $("#cartDrawer").classList.add("open"));
+  $("#closeCart").addEventListener("click", () => $("#cartDrawer").classList.remove("open"));
+
+  // Initial pricing + sale state
+  const cards = $$(".card");
+  cards.forEach((c) => {
+    // ensure sale flag exists on all
+    if (!c.querySelector(".flag")) {
+      const f = document.createElement("span");
+      f.className = "flag flag--sale";
+      f.textContent = "50% OFF";
+      c.prepend(f);
+    }
+    c.classList.add("card--sale");
+    applySaleToCard(c);
+    wireVariants(c);
+  });
+
+  // Merge duplicates into variant buttons
+  mergeDuplicates();
+
+  // Add-to-cart buttons
+  $$(".add").forEach((btn) =>
+    btn.addEventListener("click", (e) => {
+      const card = e.currentTarget.closest(".card");
+      const title = card.querySelector("h3").textContent.trim();
+      const img = card.querySelector("img")?.src || "";
+      let price = Number(card.dataset.price || 0);
+
+      // if variant button group present, get label
+      const group = btn.dataset.variantGroup;
+      let variant = "";
+      if (group) {
+        const checked = card.querySelector(`input[name="${group}"]:checked`);
+        if (checked) {
+          price = Number(checked.dataset.price || price);
+          // try to get the visible label text
+          variant = checked.parentElement.textContent.trim();
+        }
+      }
+
+      addToCart({ title, img, price, variant });
+      $("#cartDrawer").classList.add("open");
+    })
+  );
+
+  // Sorting
+  $("#sortSelect").addEventListener("change", (e) => sortGrid(e.target.value));
+
+  // First layout pass
+  equalizeHeights();
+  window.addEventListener("resize", () => {
+    clearTimeout(window.__eqT);
+    window.__eqT = setTimeout(equalizeHeights, 120);
+  });
+});
