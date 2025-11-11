@@ -41,12 +41,22 @@ button{font:inherit}
 .cart-btn:hover{background:var(--accent);border-color:var(--accent)}
 .badge{display:inline-grid;place-items:center;min-width:20px;height:20px;padding:0 6px;border-radius:999px;background:var(--accent);color:#fff;font-size:.72rem;font-weight:800}
 
-/* HERO (super simple) */
-.hero--minimal{padding:84px 5% 64px;text-align:center;border-bottom:1px solid var(--line);background:radial-gradient(900px 420px at 70% 10%, rgba(255,43,69,.10), transparent 60%), radial-gradient(700px 380px at 20% -10%, rgba(255,43,69,.08), transparent 60%), var(--bg)}
+/* Hero (simple, with image) */
+.hero--image {
+  padding:84px 5% 64px; text-align:center; border-bottom:1px solid var(--line);
+  color:var(--text);
+  background:
+    radial-gradient(900px 420px at 70% 10%, rgba(255,43,69,.10), transparent 60%),
+    radial-gradient(700px 380px at 20% -10%, rgba(255,43,69,.08), transparent 60%),
+    linear-gradient(180deg, rgba(12,11,15,.86) 0%, rgba(12,11,15,.70) 45%, rgba(12,11,15,.92) 100%),
+    url("/Taco_Tuesday.webp");
+  background-size:cover; background-position:center 40%;
+}
 .hero__inner{max-width:800px;margin:0 auto}
 .hero h1{margin:0 0 8px;font-family:Orbitron,Inter,sans-serif;font-size:46px}
 .hero__sub{margin:0;color:var(--muted)}
 .hero__cta{display:inline-block;margin-top:16px;min-width:220px}
+
 
 /* Containers */
 .container{width:90%;max-width:1200px;margin:0 auto 90px}
