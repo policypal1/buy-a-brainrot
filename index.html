@@ -7,24 +7,22 @@
 
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/style.css?v=21" />
+  <link rel="stylesheet" href="./style.css?v=24" />
 </head>
 <body>
   <!-- Header -->
   <header class="topbar">
     <div class="brand"><span class="logo">BA</span><span class="accent">Brainrot</span></div>
     <nav class="nav">
-      <a href="index.html" class="active">Shop</a>
+      <a href="./index.html" class="active">Shop</a>
       <button type="button" class="cart-btn" id="openCart" aria-label="Open cart">
         <span>Cart</span><span id="cartCount" class="badge">0</span>
       </button>
     </nav>
   </header>
 
-  <!-- Hero: image only, non-clickable -->
-  <section class="hero hero--image">
-    <div class="hero__inner"></div>
-  </section>
+  <!-- Hero: image only (no clicks) -->
+  <section class="hero hero--image"><div class="hero__inner"></div></section>
 
   <!-- Product Grid -->
   <main class="container">
@@ -48,10 +46,14 @@
 
     <section id="grid" class="grid">
       <!-- Spooky Grande -->
-      <article class="card" data-name="Spooky Grande" data-tags="spooky grande halloween" data-price="50" data-added="20251110">
+      <article class="card"
+               data-name="Spooky Grande"
+               data-tags="spooky grande halloween"
+               data-price="50"
+               data-added="20251110">
         <div class="flag">IN STOCK</div>
         <div class="thumb-wrap">
-          <img class="thumb" src="/Spooky_Grande.webp" alt="Spooky Grande" />
+          <img class="thumb" src="./Spooky_Grande.webp" alt="Spooky Grande" />
         </div>
         <h3>Spooky Grande</h3>
         <p class="speed">🕷️ 367.5 million /s</p>
@@ -68,10 +70,14 @@
       </article>
 
       <!-- Evildon -->
-      <article class="card" data-name="Evildon" data-tags="evil evildon" data-price="80" data-added="20251110">
+      <article class="card"
+               data-name="Evildon"
+               data-tags="evil evildon"
+               data-price="80"
+               data-added="20251110">
         <div class="flag">IN STOCK</div>
         <div class="thumb-wrap">
-          <img class="thumb" src="/Eviledonn.png" alt="Evildon" />
+          <img class="thumb" src="./Eviledonn.png" alt="Evildon" />
         </div>
         <h3>Evildon</h3>
         <p class="speed">😈 409 million /s</p>
@@ -87,25 +93,33 @@
         </div>
       </article>
 
-      <!-- Esok Sekolah (variant) -->
-      <article class="card card--compact" data-name="Esok Sekolah" data-tags="esok sekolah esoksekolah" data-price="30" data-added="20241101">
+      <!-- Esok Sekolah (on-image variant cycler) -->
+      <article class="card card--compact"
+               data-name="Esok Sekolah"
+               data-price="30"
+               data-added="20241101"
+               data-variants='[
+                 {"label":"⚡ 30M/s — $30","speed":"⚡ 30 million /s","price":30},
+                 {"label":"⚡ 225M/s — $40","speed":"⚡ 225 million /s","price":40}
+               ]'
+               data-variant-index="0">
         <div class="flag">IN STOCK</div>
         <div class="thumb-wrap">
-          <img class="thumb" src="/EsokSekolah2.webp" alt="Esok Sekolah" />
+          <img class="thumb" src="./EsokSekolah2.webp" alt="Esok Sekolah" />
           <div class="thumb-overlay">
+            <button type="button" class="nav-pill vprev" aria-label="Previous">‹</button>
+
             <div class="mini-qty">
               <button type="button" class="qty__btn" data-step="-1" aria-label="Decrease quantity">−</button>
               <input class="qty__input" type="number" value="1" min="1" max="1" inputmode="numeric" />
               <button type="button" class="qty__btn" data-step="1" aria-label="Increase quantity">+</button>
             </div>
+
             <button type="button" class="btn mini-buy buy">Buy</button>
+            <button type="button" class="nav-pill vnext" aria-label="Next">›</button>
           </div>
         </div>
         <h3>Esok Sekolah</h3>
-        <div class="variant">
-          <label><input type="radio" name="esok-variant" value="30|30|⚡ 30 million /s" checked> 30M/s — $30</label>
-          <label><input type="radio" name="esok-variant" value="40|225|⚡ 225 million /s"> 225M/s — $40</label>
-        </div>
         <p class="speed" data-speed>⚡ 30 million /s</p>
         <div class="price" data-price>$30.00</div>
         <div class="actions">
@@ -115,10 +129,15 @@
       </article>
 
       <!-- Spaghetti Tualetti -->
-      <article class="card" data-name="Spaghetti Tualetti" data-tags="spaghetti tualetti pasta" data-price="27" data-added="20251110" data-stock="2">
+      <article class="card"
+               data-name="Spaghetti Tualetti"
+               data-tags="spaghetti tualetti pasta"
+               data-price="27"
+               data-added="20251110"
+               data-stock="2">
         <div class="flag">2 LEFT</div>
         <div class="thumb-wrap">
-          <img class="thumb" src="/Spaghettitualetti.webp" alt="Spaghetti Tualetti" />
+          <img class="thumb" src="./Spaghettitualetti.webp" alt="Spaghetti Tualetti" />
         </div>
         <h3>Spaghetti Tualetti</h3>
         <p class="speed">🍝 60 million /s</p>
@@ -135,10 +154,14 @@
       </article>
 
       <!-- Los-67 -->
-      <article class="card" data-name="Los-67" data-tags="los 67 los-67" data-price="15" data-added="20251110">
+      <article class="card"
+               data-name="Los-67"
+               data-tags="los 67 los-67"
+               data-price="15"
+               data-added="20251110">
         <div class="flag">IN STOCK</div>
         <div class="thumb-wrap">
-          <img class="thumb" src="/Los-67.webp" alt="Los-67" />
+          <img class="thumb" src="./Los-67.webp" alt="Los-67" />
         </div>
         <h3>Los-67</h3>
         <p class="speed">💥 157 million /s</p>
@@ -154,40 +177,35 @@
         </div>
       </article>
 
-      <!-- Los Chicletiras 28M -->
-      <article class="card" data-name="Los Chicletiras (28M)" data-tags="los chicletiras 28m" data-price="20" data-added="20251110">
+      <!-- Los Chicletiras (28M / 43M on-image toggle) -->
+      <article class="card card--compact"
+               data-name="Los Chicletiras"
+               data-price="20"
+               data-added="20251110"
+               data-variants='[
+                 {"label":"🍬 28M/s — $20","speed":"🍬 28 million /s","price":20},
+                 {"label":"🍬 43M/s — $30","speed":"🍬 43 million /s","price":30}
+               ]'
+               data-variant-index="0">
         <div class="flag">IN STOCK</div>
         <div class="thumb-wrap">
-          <img class="thumb" src="/Los_ditos.webp" alt="Los Chicletiras 28M" />
-        </div>
-        <h3>Los Chicletiras (28M)</h3>
-        <p class="speed">🍬 28 million /s</p>
-        <div class="qty">
-          <button type="button" class="qty__btn" data-step="-1" aria-label="Decrease quantity">−</button>
-          <input class="qty__input" type="number" value="1" min="1" max="1" inputmode="numeric" />
-          <button type="button" class="qty__btn" data-step="1" aria-label="Increase quantity">+</button>
-        </div>
-        <div class="price">$20.00</div>
-        <div class="actions">
-          <button type="button" class="btn btn--ghost add">Add to Cart</button>
-          <button type="button" class="btn buy">Buy Now</button>
-        </div>
-      </article>
+          <img class="thumb" src="./Los_ditos.webp" alt="Los Chicletiras" />
+          <div class="thumb-overlay">
+            <button type="button" class="nav-pill vprev" aria-label="Previous">‹</button>
 
-      <!-- Los Chicletiras 43M -->
-      <article class="card" data-name="Los Chicletiras (43M)" data-tags="los chicletiras 43m" data-price="30" data-added="20251110">
-        <div class="flag">IN STOCK</div>
-        <div class="thumb-wrap">
-          <img class="thumb" src="/Los_ditos.webp" alt="Los Chicletiras 43M" />
+            <div class="mini-qty">
+              <button type="button" class="qty__btn" data-step="-1" aria-label="Decrease quantity">−</button>
+              <input class="qty__input" type="number" value="1" min="1" max="1" inputmode="numeric" />
+              <button type="button" class="qty__btn" data-step="1" aria-label="Increase quantity">+</button>
+            </div>
+
+            <button type="button" class="btn mini-buy buy">Buy</button>
+            <button type="button" class="nav-pill vnext" aria-label="Next">›</button>
+          </div>
         </div>
-        <h3>Los Chicletiras (43M)</h3>
-        <p class="speed">🍬 43 million /s</p>
-        <div class="qty">
-          <button type="button" class="qty__btn" data-step="-1" aria-label="Decrease quantity">−</button>
-          <input class="qty__input" type="number" value="1" min="1" max="1" inputmode="numeric" />
-          <button type="button" class="qty__btn" data-step="1" aria-label="Increase quantity">+</button>
-        </div>
-        <div class="price">$30.00</div>
+        <h3>Los Chicletiras</h3>
+        <p class="speed" data-speed>🍬 28 million /s</p>
+        <div class="price" data-price>$20.00</div>
         <div class="actions">
           <button type="button" class="btn btn--ghost add">Add to Cart</button>
           <button type="button" class="btn buy">Buy Now</button>
@@ -217,6 +235,7 @@
     </div>
   </aside>
 
-  <script src="/app.js?v=21" defer></script>
+  <!-- IMPORTANT: relative path to avoid 404 on Vercel -->
+  <script src="./app.js?v=24" defer></script>
 </body>
 </html>
