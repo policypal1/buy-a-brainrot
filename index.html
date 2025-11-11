@@ -7,14 +7,25 @@
 
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./style.css?v=33" />
+  <link rel="stylesheet" href="./style.css?v=34" />
 </head>
 <body>
   <!-- Header -->
   <header class="topbar">
-    <div class="brand"><span class="logo">buy-a-</span><span class="accent">brainrot</span></div>
+    <div class="brand">
+      <!-- inline logo -->
+      <svg class="brand__logo" width="28" height="28" viewBox="0 0 24 24" aria-hidden="true">
+        <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="#ff2b45"/><stop offset="1" stop-color="#ff5e76"/>
+        </linearGradient></defs>
+        <rect x="2" y="2" width="20" height="20" rx="5" fill="url(#g)"/>
+        <path d="M8 8h8M8 12h8M8 16h5" stroke="#0b0a0f" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+      <span class="logo">buy-a-</span><span class="accent">brainrot</span>
+    </div>
     <nav class="nav">
       <a href="./index.html" class="active">Shop</a>
+      <a href="./sell.html">Sell your brainrot</a>
       <button type="button" class="cart-btn" id="openCart" aria-label="Open cart">
         <span>Cart</span><span id="cartCount" class="badge">0</span>
       </button>
@@ -173,18 +184,60 @@
       </article>
     </section>
 
-    <!-- Quality strip -->
-    <section class="quality">
-      <div class="quality__item">🧾 Transparent pricing</div>
-      <div class="quality__item">🎥 Proof on request</div>
-      <div class="quality__item">💬 Fast support</div>
-      <div class="quality__item">🛡️ Safe delivery flow</div>
+    <!-- How it works -->
+    <section class="hiw">
+      <h2 class="section-title">How delivery works</h2>
+      <div class="hiw__grid">
+        <div class="hiw__card"><div class="hiw__num">1</div><h4>Add to cart</h4><p>Pick your brainrot and place the order.</p></div>
+        <div class="hiw__card"><div class="hiw__num">2</div><h4>We join</h4><p>Share your private server invite. No middlemen.</p></div>
+        <div class="hiw__card"><div class="hiw__num">3</div><h4>Delivery proof</h4><p>We provide proof on request. Fast support if you need it.</p></div>
+      </div>
+    </section>
+
+    <!-- Trust strip (cooler) -->
+    <section class="quality quality--pro">
+      <div class="quality__item"><span class="q-ico">🧾</span> <strong>Transparent pricing</strong></div>
+      <div class="quality__item"><span class="q-ico">🎥</span> <strong>Proof on request</strong></div>
+      <div class="quality__item"><span class="q-ico">💬</span> <strong>Fast support</strong></div>
+      <div class="quality__item"><span class="q-ico">🛡️</span> <strong>Safe delivery flow</strong></div>
+    </section>
+
+    <!-- Reviews -->
+    <section class="reviews">
+      <h2 class="section-title">Recent reviews</h2>
+      <div class="reviews__grid">
+        <article class="rev">
+          <div class="rev__head">
+            <div class="rev__avatar">L</div>
+            <div><div class="rev__name">Lana</div><div class="rev__meta">Verified purchase • 2d ago</div></div>
+            <div class="rev__stars" aria-label="5 stars">★★★★★</div>
+          </div>
+          <p>Delivery took like 10 minutes. Sent proof, worked first try.</p>
+        </article>
+        <article class="rev">
+          <div class="rev__head">
+            <div class="rev__avatar">M</div>
+            <div><div class="rev__name">Miguel</div><div class="rev__meta">Verified purchase • 4d ago</div></div>
+            <div class="rev__stars" aria-label="5 stars">★★★★★</div>
+          </div>
+          <p>Price was solid during the 50% off. Will order again.</p>
+        </article>
+        <article class="rev">
+          <div class="rev__head">
+            <div class="rev__avatar">A</div>
+            <div><div class="rev__name">Ava</div><div class="rev__meta">Verified purchase • 1w ago</div></div>
+            <div class="rev__stars" aria-label="5 stars">★★★★☆</div>
+          </div>
+          <p>Support answered fast. Took a few minutes to coordinate, but all good.</p>
+        </article>
+      </div>
     </section>
   </main>
 
   <footer class="footer">
     <p>© <span id="y"></span> buy-a-brainrot • Private-server delivery</p>
     <nav class="footer-nav">
+      <a href="./sell.html">Sell your brainrot</a>
       <a href="#">How it works</a>
       <a href="#">FAQ</a>
       <a href="#">Refunds</a>
@@ -208,6 +261,6 @@
     </div>
   </aside>
 
-  <script src="./script.js?v=33" defer></script>
+  <script src="./script.js?v=34" defer></script>
 </body>
 </html>
