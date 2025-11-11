@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,121 +7,7 @@
 
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/style.css?v=13" />
-
-  <!-- Compact carousel styles (no dots, hidden scrollbar, corrected arrows) -->
-  <style>
-    :root {
-      --carousel-h: clamp(220px, 45vh, 480px);
-      --carousel-pad: clamp(10px, 2.5vw, 20px);
-      --btn-size: 44px;
-    }
-
-    .video-section {
-      padding: 42px 0;
-      background: var(--background-alt);
-      border-bottom: 1px solid var(--line);
-    }
-    .video-section .wrap {
-      padding: 0 5%;
-      max-width: 1180px;
-      margin: 0 auto;
-    }
-    .video-section h2 {
-      font-family: 'Orbitron', sans-serif;
-      font-size: clamp(1.3rem, 2vw, 1.8rem);
-      margin: 0 0 6px;
-      color: var(--accent-600);
-      text-align: center;
-    }
-    .video-section p.lead {
-      color: var(--muted);
-      font-size: .95rem;
-      text-align: center;
-      margin: 0 0 16px;
-    }
-
-    /* Carousel shell */
-    .carousel { position: relative; }
-    .carousel__viewport {
-      display: flex;
-      gap: var(--carousel-pad);
-      overflow-x: auto;      /* horizontal scroll for swipe/drag */
-      overflow-y: hidden;
-      scroll-snap-type: x mandatory;
-      scroll-behavior: smooth;
-      -webkit-overflow-scrolling: touch;
-      padding: var(--carousel-pad);
-      border: 1px solid var(--line);
-      border-radius: 16px;
-      background: linear-gradient(180deg, rgba(26,24,30,.55), rgba(12,11,15,.55));
-      box-shadow: 0 0 18px rgba(255,43,69,.12) inset, 0 0 18px rgba(255,43,69,.08);
-    }
-    /* Hide the horizontal scrollbar (removes the white bar) */
-    .carousel__viewport { scrollbar-width: none; -ms-overflow-style: none; }
-    .carousel__viewport::-webkit-scrollbar { height: 0; width: 0; }
-    .carousel__viewport::-webkit-scrollbar-thumb { background: transparent; }
-
-    .carousel__slide {
-      scroll-snap-align: center;
-      flex: 0 0 88vw;         /* phone width */
-      max-width: 900px;       /* desktop cap */
-      height: var(--carousel-h);
-      border-radius: 14px;
-      border: 1px solid var(--line);
-      background: rgba(30,30,35,.5);
-      display: grid;
-      place-items: center;
-      box-shadow: 0 0 16px rgba(255,43,69,.18);
-      position: relative;
-    }
-    @media (min-width: 920px) {
-      .carousel__slide { flex-basis: min(62vw, 880px); }
-    }
-
-    .carousel__slide video {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-      background: #000;
-      border-radius: 12px;
-      display: block;
-    }
-
-    /* Arrow buttons */
-    .carousel__btn {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      width: var(--btn-size);
-      height: var(--btn-size);
-      border-radius: 50%;
-      border: 1px solid var(--line);
-      background: rgba(18,18,22,.85);
-      display: grid;
-      place-items: center;
-      cursor: pointer;
-      z-index: 5;
-      transition: transform .12s ease, box-shadow .2s ease, background .2s ease;
-      box-shadow: 0 0 10px rgba(255,43,69,.28);
-      color: var(--text);
-    }
-    .carousel__btn:hover { transform: translateY(-50%) scale(1.06); }
-    .carousel__btn:active { transform: translateY(-50%) scale(.98); }
-    .carousel__btn svg { width: 22px; height: 22px; fill: currentColor; }
-    .carousel__btn--prev { left: 10px; }
-    .carousel__btn--next { right: 10px; }
-
-    @media (min-width: 640px) {
-      .carousel__btn--prev { left: 14px; }
-      .carousel__btn--next { right: 14px; }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      .carousel__viewport { scroll-behavior: auto; }
-      .carousel__btn { transition: none; }
-    }
-  </style>
+  <link rel="stylesheet" href="/style.css?v=14" />
 </head>
 <body>
   <!-- Header -->
@@ -132,119 +17,43 @@
     </div>
     <nav class="nav">
       <a href="index.html" class="active">Shop</a>
-      <a href="about.html">About</a>
-      <a href="reviews.html">Reviews</a>
+      <a href="#how">How it works</a>
+      <a href="#faq">FAQ</a>
       <button class="cart-btn" id="openCart" aria-label="Open cart">
         <span>Cart</span><span id="cartCount" class="badge">0</span>
       </button>
     </nav>
   </header>
 
-  <!-- Hero -->
-  <section class="hero hero--image" style="
-    background:
-      linear-gradient(180deg, rgba(12,11,15,.88) 0%, rgba(12,11,15,.74) 40%, rgba(12,11,15,.90) 100%),
-      url('/Taco_Tuesday.webp');
-    background-size:cover; background-position:center 40%;
-    padding:110px 5% 90px; text-align:center; position:relative; border-bottom:1px solid var(--line);">
+  <!-- Hero (high converting) -->
+  <section class="hero hero--image">
     <div class="hero__inner">
-      <h1 class="glow" style="font-size:2.9rem; margin-bottom:10px;">buy-a-brainrot</h1>
-      <p style="font-size:1.05rem; color:var(--muted);">
-        Fast, secure, verified trades — coordinated via
-        <b>samsalt294</b>, <b>muddymicah</b>, &amp; <b>mcdonald1182</b>.
-      </p>
-      <p style="color:var(--muted); margin-top:6px; font-size:0.95rem;">
-        Trusted private-server delivery. No middlemen. No risk.
+      <h1 class="glow">Buy Brainrots — Fast & Safe</h1>
+      <p class="hero__sub">
+        Private-server delivery in minutes. Clear pricing. No middlemen.
       </p>
 
-      <div class="verified-badge" style="
-        display:inline-flex; align-items:center; justify-content:center; gap:8px;
-        margin-top:26px; background:var(--card); padding:10px 18px; border-radius:16px;
-        border:1px solid var(--line); box-shadow:0 0 15px rgba(255,43,69,.3);
-        color:var(--text); font-weight:700; letter-spacing:.3px; transition:all .25s ease;">
-        <span style="color:var(--accent);">🧩</span>
-        <span>Verified Traders:</span>
-        <span style="color:var(--accent-600); font-weight:800;">samsalt294</span>
-        <span style="color:var(--muted);">•</span>
-        <span style="color:var(--accent-600); font-weight:800;">muddymicah</span>
-        <span style="color:var(--muted);">•</span>
-        <span style="color:var(--accent-600); font-weight:800;">mcdonald1182</span>
+      <div class="hero__search">
+        <input id="searchInput" type="search" placeholder="Search live stock (e.g., Esok, Los Primos)" />
+        <a href="#grid" class="btn buy">Shop Live Stock</a>
       </div>
+
+      <ul class="hero__benefits">
+        <li>🔒 Secure checkout</li>
+        <li>⚡ Near-instant delivery</li>
+        <li>🧰 Live support</li>
+      </ul>
     </div>
   </section>
 
-  <!-- Compact Video Carousel (no dots) -->
-  <section class="video-section" aria-label="Recent Trade Vouches">
-    <div class="wrap">
-      <h2>🎥 Recent Trade Vouches</h2>
-      <p class="lead">Swipe on mobile, drag with a mouse, or use the arrows / keyboard.</p>
-
-      <div class="carousel">
-        <div class="carousel__viewport" id="videoTrack" tabindex="0" aria-roledescription="carousel" aria-label="Trade vouch videos">
-          <!-- 1 -->
-          <figure class="carousel__slide" aria-label="Video 1">
-            <video controls playsinline preload="metadata">
-              <source src="/video-output-44054E84-E6D3-4EC2-9D08-3EA0AFDA8ED6-3 (1).mov" type="video/quicktime" />
-              <source src="/video-output-44054E84-E6D3-4EC2-9D08-3EA0AFDA8ED6-3 (1).mov" type="video/mp4" />
-              Your browser does not support the video tag.
-            </video>
-          </figure>
-
-          <!-- 2 -->
-          <figure class="carousel__slide" aria-label="Video 2">
-            <video controls playsinline preload="metadata">
-              <source src="/video-output-4E00A256-5DDF-4BC6-B662-8BAC754ADAA1-3 (1).mov" type="video/quicktime" />
-              <source src="/video-output-4E00A256-5DDF-4BC6-B662-8BAC754ADAA1-3 (1).mov" type="video/mp4" />
-              Your browser does not support the video tag.
-            </video>
-          </figure>
-
-          <!-- 3 -->
-          <figure class="carousel__slide" aria-label="Video 3">
-            <video controls playsinline preload="metadata">
-              <source src="/video-output-7155673F-F0C3-4E78-A39E-8F7406E680B8-3 (1).mov" type="video/quicktime" />
-              <source src="/video-output-7155673F-F0C3-4E78-A39E-8F7406E680B8-3 (1).mov" type="video/mp4" />
-              Your browser does not support the video tag.
-            </video>
-          </figure>
-
-          <!-- 4 -->
-          <figure class="carousel__slide" aria-label="Video 4">
-            <video controls playsinline preload="metadata">
-              <source src="/video-output-71F14AA5-B197-490B-BB34-302B38B5F382-3 (1).mov" type="video/quicktime" />
-              <source src="/video-output-71F14AA5-B197-490B-BB34-302B38B5F382-3 (1).mov" type="video/mp4" />
-              Your browser does not support the video tag.
-            </video>
-          </figure>
-
-          <!-- 5 -->
-          <figure class="carousel__slide" aria-label="Video 5">
-            <video controls playsinline preload="metadata">
-              <source src="/video-output-CD1A6E42-AB0A-42D0-999F-19B9D0E63530-3 (1).mov" type="video/quicktime" />
-              <source src="/video-output-CD1A6E42-AB0A-42D0-999F-19B9D0E63530-3 (1).mov" type="video/mp4" />
-              Your browser does not support the video tag.
-            </video>
-          </figure>
-        </div>
-
-        <!-- Arrow buttons -->
-        <button class="carousel__btn carousel__btn--prev" id="btnPrev" aria-label="Previous video">
-          <!-- LEFT chevron -->
-          <svg viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M15.41 7.41 14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
-          </svg>
-        </button>
-        <button class="carousel__btn carousel__btn--next" id="btnNext" aria-label="Next video">
-          <!-- RIGHT chevron (corrected direction) -->
-          <svg viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M8.59 16.59 13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/>
-          </svg>
-        </button>
-      </div>
-    </div>
+  <!-- Mini highlight strip -->
+  <section class="strip">
+    <div class="strip__item"><strong>Transparent pricing</strong> — no hidden fees</div>
+    <div class="strip__item"><strong>PS delivery</strong> — you control the instance</div>
+    <div class="strip__item"><strong>Zero-hassle refunds</strong> on undelivered orders</div>
   </section>
 
-  <!-- Product Grid -->
+  <!-- Product Grid (unchanged logic) -->
   <main class="container">
     <div class="toolbar"><div class="pill">LIVE STOCK</div></div>
 
@@ -363,69 +172,107 @@
     </section>
   </main>
 
+  <!-- How it Works -->
+  <section id="how" class="how container narrow">
+    <h2>How It Works</h2>
+    <div class="how__grid">
+      <div class="how__card">
+        <div class="how__icon">🛒</div>
+        <h3>1) Pick your brainrot</h3>
+        <p>Add to cart or buy now from the live stock above.</p>
+      </div>
+      <div class="how__card">
+        <div class="how__icon">🔑</div>
+        <h3>2) Start a PS delivery</h3>
+        <p>Share your private-server details at checkout so delivery is 1:1.</p>
+      </div>
+      <div class="how__card">
+        <div class="how__icon">⚡</div>
+        <h3>3) Get it fast</h3>
+        <p>We deliver quickly and confirm in-server before we mark complete.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Guarantees -->
+  <section class="guarantees container">
+    <div class="panel guarantees__panel">
+      <div class="g__row">
+        <div class="g__item">
+          <div class="g__icon">🛡️</div>
+          <div>
+            <h3>Delivery Guarantee</h3>
+            <p>If we can’t deliver, you get a prompt refund. Simple.</p>
+          </div>
+        </div>
+        <div class="g__item">
+          <div class="g__icon">💬</div>
+          <div>
+            <h3>Live Support</h3>
+            <p>Questions during delivery? We stay in the PS chat with you.</p>
+          </div>
+        </div>
+        <div class="g__item">
+          <div class="g__icon">🔒</div>
+          <div>
+            <h3>Secure Checkout</h3>
+            <p>Straightforward checkout flow. No sketchy third parties.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq" class="container narrow">
+    <div class="panel faq">
+      <h2>FAQ</h2>
+
+      <details>
+        <summary>How fast is delivery?</summary>
+        <p>Usually within minutes while we’re online. If we’re mid-order, we queue and ping you before joining your PS.</p>
+      </details>
+
+      <details>
+        <summary>How do refunds work?</summary>
+        <p>If we can’t complete your order in your PS, we refund you. No hoops.</p>
+      </details>
+
+      <details>
+        <summary>Is there a risk of getting scammed?</summary>
+        <p>No. We deliver inside your private server and confirm in-game before marking any order complete.</p>
+      </details>
+
+      <details>
+        <summary>Can you source other brainrots?</summary>
+        <p>Yes. If it’s not in stock, contact us and we’ll try to source it at a fair price.</p>
+      </details>
+    </div>
+  </section>
+
   <footer class="footer">
-    <p>© <span id="y"></span> buy-a-brainrot • Private-server delivery via
-      <b>samsalt294</b>, <b>muddymicah</b>, &amp; <b>mcdonald1182</b>
-    </p>
+    <p>© <span id="y"></span> buy-a-brainrot • Private-server delivery</p>
   </footer>
 
+  <!-- Cart Drawer (minimal markup that your JS expects) -->
+  <aside id="cartDrawer" class="drawer">
+    <div class="drawer__panel">
+      <div class="drawer__top">
+        <h3>Your Cart</h3>
+        <button id="closeCart" class="drawer__close" aria-label="Close cart">✕</button>
+      </div>
+      <div id="cartItems" class="drawer__body">Cart is empty.</div>
+      <div class="drawer__bottom">
+        <div class="drawer__total">
+          <span>Total</span>
+          <strong id="cartTotal">$0.00</strong>
+        </div>
+        <button id="checkoutBtn" class="btn buy" style="width:100%;">Checkout</button>
+      </div>
+    </div>
+  </aside>
+
   <!-- Scripts -->
-  <script>
-    // Footer year
-    document.getElementById('y').textContent = new Date().getFullYear();
-
-    // Verified badge subtle pulse
-    const badge = document.querySelector('.verified-badge');
-    if (badge) {
-      let on = false;
-      setInterval(() => {
-        on = !on;
-        badge.style.boxShadow = on
-          ? '0 0 24px rgba(255,43,69,0.45)'
-          : '0 0 14px rgba(255,43,69,0.28)';
-      }, 1600);
-    }
-
-    // Video Carousel Controller (no dots)
-    (function () {
-      const track = document.getElementById('videoTrack');
-      const btnPrev = document.getElementById('btnPrev');
-      const btnNext = document.getElementById('btnNext');
-      if (!track) return;
-
-      const slides = Array.from(track.querySelectorAll('.carousel__slide'));
-
-      function activeIndex() {
-        const tr = track.getBoundingClientRect();
-        let idx = 0, best = Infinity;
-        slides.forEach((slide, i) => {
-          const r = slide.getBoundingClientRect();
-          const c = r.left + r.width / 2;
-          const tc = tr.left + tr.width / 2;
-          const d = Math.abs(c - tc);
-          if (d < best) { best = d; idx = i; }
-        });
-        return idx;
-      }
-      function scrollBySlide(dir) {
-        const i = activeIndex();
-        const next = Math.max(0, Math.min(slides.length - 1, i + dir));
-        slides[next].scrollIntoView({ behavior: 'smooth', inline: 'center' });
-      }
-
-      btnPrev?.addEventListener('click', () => scrollBySlide(-1));
-      btnNext?.addEventListener('click', () => scrollBySlide(1));
-      track.addEventListener('keydown', (e) => {
-        if (e.key === 'ArrowLeft') { e.preventDefault(); scrollBySlide(-1); }
-        if (e.key === 'ArrowRight') { e.preventDefault(); scrollBySlide(1); }
-      });
-
-      // Pause other videos when one plays
-      const videos = Array.from(track.querySelectorAll('video'));
-      videos.forEach(v => v.addEventListener('play', () => {
-        videos.forEach(o => { if (o !== v) o.pause(); });
-      }));
-    })();
-  </script>
+  <script src="/app.js?v=14"></script>
 </body>
 </html>
