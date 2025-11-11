@@ -6,7 +6,7 @@
   <title>Checkout — buy-a-brainrot</title>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/style.css?v=19" />
+  <link rel="stylesheet" href="/style.css?v=21" />
   <style>
     .checkout{width:90%;max-width:980px;margin:36px auto}
     .ck-grid{display:grid;grid-template-columns:2fr 1fr;gap:18px}
@@ -17,9 +17,7 @@
     .ck-total{display:flex;justify-content:space-between;margin-top:12px;font-weight:800}
     .ck-help{color:var(--muted);font-size:.95rem;margin:8px 0 0}
     .ck-form label{display:block;font-weight:700;margin:12px 0 4px}
-    .ck-form input,.ck-form textarea{
-      width:100%;background:#101014;border:1px solid var(--line);color:#fff;border-radius:10px;padding:10px 12px;outline:none
-    }
+    .ck-form input,.ck-form textarea{width:100%;background:#101014;border:1px solid var(--line);color:#fff;border-radius:10px;padding:10px 12px;outline:none}
     .ck-alert{margin:10px 0 0;color:#ff9aa7}
     .btn.full{width:100%}
     .pill.cash{background:#00c851}
@@ -31,46 +29,26 @@
     <nav class="nav"><a href="index.html">Shop</a></nav>
   </header>
 
-  <section class="hero hero--image">
-    <div class="hero__inner">
-      <h1 class="glow">Checkout</h1>
-      <p class="hero__sub">CashApp only — submit your order and we’ll contact you to deliver.</p>
-    </div>
-  </section>
+  <section class="hero hero--image"><div class="hero__inner"></div></section>
 
   <main class="checkout">
     <div class="pill cash">CashApp flow</div>
     <div class="ck-grid">
-      <!-- Order summary -->
       <div class="ck-card">
         <h2 class="ck-title">Order Summary</h2>
         <div id="ckItems">Loading...</div>
-        <div class="ck-total">
-          <span>Total</span>
-          <span id="ckTotal">$0.00</span>
-        </div>
+        <div class="ck-total"><span>Total</span><span id="ckTotal">$0.00</span></div>
         <p class="ck-help">After you submit, we’ll DM you with our CashApp tag and delivery steps.</p>
       </div>
 
-      <!-- Contact form -->
       <div class="ck-card">
         <h2 class="ck-title">Your Details</h2>
         <form id="ckForm" class="ck-form">
-          <label>Discord @</label>
-          <input id="discord" type="text" placeholder="e.g., samsalt294" />
-
-          <label>Phone</label>
-          <input id="phone" type="tel" placeholder="###-###-####" />
-
-          <label>Email</label>
-          <input id="email" type="email" placeholder="you@example.com" />
-
-          <label>Private Server Link</label>
-          <input id="pslink" type="url" placeholder="https://..." />
-
-          <label>Notes (optional)</label>
-          <textarea id="notes" rows="4" placeholder="Anything we should know?"></textarea>
-
+          <label>Discord @</label><input id="discord" type="text" placeholder="e.g., samsalt294" />
+          <label>Phone</label><input id="phone" type="tel" placeholder="###-###-####" />
+          <label>Email</label><input id="email" type="email" placeholder="you@example.com" />
+          <label>Private Server Link</label><input id="pslink" type="url" placeholder="https://..." />
+          <label>Notes (optional)</label><textarea id="notes" rows="4" placeholder="Anything we should know?"></textarea>
           <div id="ckError" class="ck-alert"></div>
           <button type="submit" class="btn buy full" id="ckSubmit">Submit Order</button>
         </form>
@@ -78,10 +56,7 @@
     </div>
   </main>
 
-  <footer class="footer">
-    <p>© <span id="y"></span> buy-a-brainrot</p>
-  </footer>
-
-  <script src="/checkout.js?v=1"></script>
+  <footer class="footer"><p>© <span id="y"></span> buy-a-brainrot</p></footer>
+  <script src="/checkout.js?v=5" defer></script>
 </body>
 </html>
