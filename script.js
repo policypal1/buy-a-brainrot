@@ -26,18 +26,19 @@ function startMidnightCountdown(el) {
 
 /* ===== Sale pricing / display =====
    - Show 50% OFF chip
-   - Original “was” is a clean whole number (rounded from 2x)
+   - If data-was is provided on a card, use that "was" price.
+   - Otherwise, “was” is a clean whole number (rounded from 2x).
    - Sale numbers normalize to .99 unless card has data-lock="exact"
 */
 function normalizedSale(n, card){
-  if (card?.dataset.lock === "exact") return Number(n); // keep exact (e.g., toilets 15.00)
+  if (card?.dataset.lock === "exact") return Number(n);
   const base = Math.floor(Number(n));
   return Number((base + 0.99).toFixed(2));
 }
 function applySaleToCard(card) {
   card.classList.add("card--sale");
-  const was = card.querySelector(".price .was");
-  const now = card.querySelector(".price .now");
+  const wasEl = card.querySelector(".price .was");
+  const nowEl = card.querySelector(".price .now");
   const addBtn = card.querySelector(".actions .add");
   const variantGroup = addBtn?.dataset?.variantGroup;
 
@@ -47,14 +48,15 @@ function applySaleToCard(card) {
     if (checked) sale = Number(checked.dataset.price || sale);
   }
 
-  // Normalize to .99 when not locked
   sale = normalizedSale(sale, card);
   card.dataset.price = String(sale);
 
-  const original = Math.round(sale * 2); // clean whole look
+  // Prefer explicit data-was if given (for Spooky=50, Evildon=60)
+  const explicitWas = card.dataset.was ? Number(card.dataset.was) : null;
+  const original = explicitWas ?? Math.round(sale * 2);
 
-  if (was) was.textContent = `$${original}.00`;
-  if (now) now.innerHTML = `${money(sale)} <span class="sale-pill">50% OFF</span>`;
+  if (wasEl) wasEl.textContent = `$${Number(original).toFixed(2)}`;
+  if (nowEl) nowEl.innerHTML = `${money(sale)} <span class="sale-pill">50% OFF</span>`;
 }
 function wireVariants(card) {
   const addBtn = card.querySelector(".actions .add");
@@ -179,7 +181,7 @@ document.addEventListener("DOMContentLoaded", () => {
         variant = checked.parentElement.textContent.trim();
       }
     }
-    price = normalizedSale(price, card); // ensure .99 if not locked
+    price = normalizedSale(price, card);
     addToCart({ name, img, price, qty:1, variant });
     $("#cartDrawer").classList.add("open");
   }));
