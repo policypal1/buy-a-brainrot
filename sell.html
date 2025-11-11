@@ -34,7 +34,7 @@
   <main class="container">
     <h1 class="section-title">Sell your brainrot</h1>
     <p style="color:#a9adc0;margin-top:-6px">
-      There’s a <strong>$5 listing fee</strong> to keep spam away. Fill this out and we’ll reach out if it’s a fit.
+      No listing fee. We charge a <strong>20% success fee</strong> only after your item sells and the transaction is complete.
     </p>
 
     <form id="sellForm" class="sellform" autocomplete="on">
@@ -56,18 +56,6 @@
         </label>
       </div>
 
-      <fieldset class="pay-group">
-        <legend>Listing fee payment method</legend>
-        <label class="radio">
-          <input type="radio" name="payment" value="cashapp" checked />
-          <span>Cash App</span>
-        </label>
-        <label class="radio">
-          <input type="radio" name="payment" value="paypal" />
-          <span>PayPal</span>
-        </label>
-      </fieldset>
-
       <div class="frow">
         <label>Discord
           <input name="discord" placeholder="@username or yourtag" />
@@ -85,10 +73,49 @@
         <textarea name="notes" rows="4" placeholder="Anything else we should know?"></textarea>
       </label>
 
-      <div class="fee-box">
-        <div>Listing fee: <strong>$5</strong> (charged only if we accept).</div>
+      <!-- Success fee box (replaces old $5 listing fee) -->
+      <div class="fee-box" aria-live="polite">
+        <div><strong>Success fee: 20%</strong> — deducted from your payout after a completed sale.</div>
         <div class="tiny">We’ll email you with next steps after review.</div>
       </div>
+
+      <!-- Boost section -->
+      <fieldset class="boost">
+        <legend>Boost this brainrot (optional) — $3 upfront</legend>
+        <label class="radio">
+          <input type="checkbox" name="boost" value="yes" />
+          <span>Yes, boost this listing for $3</span>
+        </label>
+
+        <ul class="boost__perks">
+          <li>📌 Featured at the top of the shop for 24 hours</li>
+          <li>✨ Highlighted card styling to stand out</li>
+          <li>🚀 Included in the “Just dropped” carousel</li>
+          <li>🔔 Priority ping in buyer updates</li>
+        </ul>
+
+        <div class="tiny" style="margin-top:6px">Boost is charged immediately and is non-refundable.</div>
+
+        <fieldset class="pay-group" id="boostPay" disabled>
+          <legend>Boost payment method</legend>
+          <label class="radio">
+            <input type="radio" name="boost_payment" value="cashapp" checked />
+            <span>Cash App</span>
+          </label>
+          <label class="radio">
+            <input type="radio" name="boost_payment" value="paypal" />
+            <span>PayPal</span>
+          </label>
+        </fieldset>
+      </fieldset>
+
+      <!-- Storage consent -->
+      <label class="consent">
+        <input required type="checkbox" name="store_ok" />
+        <span>
+          I understand that once my brainrot is listed and added to the site, we will need to store it on an account to manage delivery and verification.
+        </span>
+      </label>
 
       <button type="submit" class="btn buy" style="width:100%">Send request</button>
       <div id="sellStatus" class="tiny" style="margin-top:10px;color:#a9adc0"></div>
@@ -108,6 +135,17 @@
     document.getElementById("y").textContent = String(new Date().getFullYear());
     const form = document.getElementById("sellForm");
     const statusEl = document.getElementById("sellStatus");
+    const boostCheckbox = form.querySelector('input[name="boost"]');
+    const boostPay = document.getElementById("boostPay");
+
+    // Enable/disable boost payment method when checkbox toggles
+    function syncBoostUI(){
+      const enabled = boostCheckbox.checked;
+      boostPay.toggleAttribute("disabled", !enabled);
+      boostPay.style.opacity = enabled ? "1" : ".6";
+    }
+    boostCheckbox.addEventListener("change", syncBoostUI);
+    syncBoostUI();
 
     // Prefill from ?item= in URL if present
     const params = new URLSearchParams(location.search);
@@ -116,7 +154,13 @@
 
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
-      const data = Object.fromEntries(new FormData(form).entries());
+      const raw = new FormData(form);
+      const data = Object.fromEntries(raw.entries());
+
+      // Normalize booleans/fields
+      const boost_selected = !!data.boost;
+      const boost_payment = boost_selected ? (data.boost_payment || "cashapp") : null;
+
       statusEl.style.color = "#a9adc0";
       statusEl.textContent = "Sending...";
 
@@ -124,15 +168,29 @@
         const res = await fetch("/api/sell", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ type: "SELL_REQUEST", ...data })
+          body: JSON.stringify({
+            type: "SELL_REQUEST",
+            item: data.item,
+            speed: data.speed,
+            price: data.price,
+            qty: data.qty,
+            discord: data.discord || "",
+            phone: data.phone || "",
+            email: data.email || "",
+            notes: data.notes || "",
+            store_ok: data.store_ok === "on",
+            fee_model: { kind: "success_fee", percent: 20 },
+            boost: boost_selected ? { selected: true, amount: 3, payment_method: boost_payment } : { selected: false }
+          })
         });
 
         const payload = await res.json().catch(() => ({ ok: res.ok }));
         if (!res.ok || !payload.ok) throw new Error(payload.error || "Request failed");
 
         form.reset();
+        syncBoostUI();
         statusEl.style.color = "#8cff9a";
-        statusEl.textContent = "Request has been sent! We’ll reach out soon.";
+        statusEl.textContent = "Request sent! Check your email for next steps.";
       } catch (err) {
         statusEl.style.color = "#ff8c8c";
         statusEl.textContent = "Could not send right now. You can also email us at samuelkumpula4@gmail.com.";
@@ -161,7 +219,6 @@
       background:rgba(18,18,23,.74); border:1px solid var(--line);
       border-radius:14px; padding:16px;
     }
-    /* Only normal labels become grid; radio labels are handled below */
     .sellform label:not(.radio){ display:grid; gap:6px; font-weight:700; }
     .sellform input,.sellform textarea{
       background:#101014; border:1px solid var(--line); color:#fff; border-radius:12px; padding:10px;
@@ -173,15 +230,15 @@
     }
     .tiny{ font-size:.88rem; color:#8b8fa3; }
 
-    /* Payment radios — fixed alignment */
+    /* Radios / checkboxes */
     .pay-group{
       display:flex; flex-direction:column; gap:8px;
-      margin:4px 0 2px; border:1px solid var(--line); border-radius:12px;
+      margin:8px 0 0; border:1px solid var(--line); border-radius:12px;
       padding:12px; background:#0f0f14; max-width:520px;
     }
     .pay-group legend{ padding:0 6px; font-weight:800; color:#d8dbea; }
     .sellform label.radio{
-      display:flex !important; align-items:center; gap:10px; font-weight:700; /* override generic label rule */
+      display:flex !important; align-items:center; gap:10px; font-weight:700;
       line-height:1.2;
     }
     .sellform label.radio input{
@@ -189,6 +246,16 @@
       flex:0 0 auto;
     }
     .sellform label.radio span{ flex:0 1 auto; }
+
+    /* Boost */
+    .boost{ border:1px solid var(--line); border-radius:12px; padding:12px; background:#0f0f14 }
+    .boost legend{ padding:0 6px; font-weight:800; color:#d8dbea; }
+    .boost__perks{ margin:8px 0 0; padding-left:18px; color:#cdd1e6 }
+    .boost__perks li{ margin:4px 0 }
+
+    /* Consent */
+    .consent{ display:flex; align-items:flex-start; gap:10px; font-weight:700; }
+    .consent input{ margin-top:3px; width:18px; height:18px; accent-color:var(--accent); }
 
     @media (max-width:640px){
       .frow{ grid-template-columns:1fr; }
