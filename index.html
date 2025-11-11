@@ -12,7 +12,6 @@
 <body>
   <!-- Header -->
   <header class="topbar">
-    <!-- Brand is now a single link to home; no visual gap between “buy-a-” and “brainrot” -->
     <a class="brand" href="./index.html" aria-label="buy-a-brainrot — home">
       <svg class="brand__logo" width="28" height="28" viewBox="0 0 24 24" aria-hidden="true">
         <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
@@ -55,27 +54,47 @@
     </div>
   </section>
 
-  <!-- Product Grid -->
+  <!-- Product Grid (single, unified) -->
   <main class="container">
     <div class="toolbar" style="justify-content:flex-end;gap:12px;flex-wrap:wrap">
       <label class="shop-sort">
         <span>Sort:</span>
         <select id="sortSelect">
-          <option value="price-asc">Price: Low → High</option>
+          <option value="price-asc" selected>Price: Low → High</option>
           <option value="price-desc">Price: High → Low</option>
           <option value="newest">Newest</option>
         </select>
       </label>
     </div>
 
-    <!-- Existing grid (unchanged) -->
     <section id="grid" class="grid">
-      <!-- Spooky Grande | NOW 29.99, show WAS 50.00, 367.5M/s -->
-      <article class="card" id="spooky" data-name="Spooky Grande" data-price="29.99" data-was="50" data-added="20251110">
+      <!-- Los Combo (variants $5 / $8 exact) -->
+      <article class="card" data-base="Los Combo" data-added="20251110" data-lock="exact">
         <span class="flag flag--sale">50% OFF</span>
-        <div class="thumb-wrap"><img class="thumb" src="./Spooky_Grande.webp" alt="Spooky Grande" /></div>
-        <h3>Spooky Grande</h3>
-        <p class="speed">🕷️ 367.5M/s</p>
+        <div class="thumb-wrap"><img class="thumb" src="./Stop_taking_my_chips_im_just_a_baybeh.webp" alt="Los Combo" /></div>
+        <h3>Los Combo</h3>
+        <p class="speed">🍟 Choose your speed</p>
+        <div class="variant" role="group" aria-label="Los Combo options">
+          <label><input type="radio" name="losCombo" value="15M/s" data-price="5" checked> 15M/s — $5</label>
+          <label><input type="radio" name="losCombo" value="45M/s" data-price="8"> 45M/s — $8</label>
+        </div>
+        <div class="qty">
+          <button type="button" class="qty__btn" disabled>−</button>
+          <input class="qty__input" value="1" readonly />
+          <button type="button" class="qty__btn" disabled>+</button>
+        </div>
+        <div class="price"><span class="was"></span><span class="now"></span></div>
+        <div class="actions">
+          <button type="button" class="btn btn--ghost add" data-variant-group="losCombo">Add to Cart</button>
+        </div>
+      </article>
+
+      <!-- Los Mobilis | exact $5.99 -->
+      <article class="card" data-name="Los Mobilis" data-price="5.99" data-added="20251110" data-lock="exact">
+        <span class="flag flag--sale">50% OFF</span>
+        <div class="thumb-wrap"><img class="thumb" src="./Losmobil.webp" alt="Los Mobilis" /></div>
+        <h3>Los Mobilis</h3>
+        <p class="speed">🧠 22M/s</p>
         <div class="qty">
           <button type="button" class="qty__btn" disabled>−</button>
           <input class="qty__input" value="1" readonly />
@@ -87,12 +106,16 @@
         </div>
       </article>
 
-      <!-- Evildon | NOW 39.99, WAS 60.00 (rounded 2x), 30M/s -->
-      <article class="card" data-name="Evildon" data-price="39.99" data-was="60" data-added="20251110">
+      <!-- Los Chicletiras (variants: 7.99 / 9.99) -->
+      <article class="card" data-base="Los Chicletiras" data-added="20251110">
         <span class="flag flag--sale">50% OFF</span>
-        <div class="thumb-wrap"><img class="thumb" src="./Eviledonn.png" alt="Evildon" /></div>
-        <h3>Evildon</h3>
-        <p class="speed">😈 30M/s</p>
+        <div class="thumb-wrap"><img class="thumb" src="./Los_ditos.webp" alt="Los Chicletiras" /></div>
+        <h3>Los Chicletiras</h3>
+        <p class="speed">🍬 Choose your speed</p>
+        <div class="variant" role="group" aria-label="Chicletiras variant">
+          <label><input type="radio" name="chicVariant" value="28M/s" data-price="7.99" checked> 28M/s — $7.99</label>
+          <label><input type="radio" name="chicVariant" value="43M/s" data-price="9.99"> 43M/s — $9.99</label>
+        </div>
         <div class="qty">
           <button type="button" class="qty__btn" disabled>−</button>
           <input class="qty__input" value="1" readonly />
@@ -100,34 +123,11 @@
         </div>
         <div class="price"><span class="was"></span><span class="now"></span></div>
         <div class="actions">
-          <button type="button" class="btn btn--ghost add">Add to Cart</button>
+          <button type="button" class="btn btn--ghost add" data-variant-group="chicVariant">Add to Cart</button>
         </div>
       </article>
 
-      <!-- Esok Sekolah (variants: 12.99 / 24.99) -->
-      <article class="card" data-base="Esok Sekolah" data-added="20241101">
-        <span class="flag flag--sale">50% OFF</span>
-        <div class="thumb-wrap"><img class="thumb" src="./EsokSekolah2.webp" alt="Esok Sekolah" /></div>
-        <h3>Esok Sekolah</h3>
-        <p class="speed">⚡ Choose your speed</p>
-
-        <div class="variant" role="group" aria-label="Esok variant">
-          <label><input type="radio" name="esokVariant" value="30M/s" data-price="12.99" checked> 30M/s</label>
-          <label><input type="radio" name="esokVariant" value="225M/s" data-price="24.99"> 225M/s</label>
-        </div>
-
-        <div class="qty">
-          <button type="button" class="qty__btn" disabled>−</button>
-          <input class="qty__input" value="1" readonly />
-          <button type="button" class="qty__btn" disabled>+</button>
-        </div>
-        <div class="price"><span class="was"></span><span class="now"></span></div>
-        <div class="actions">
-          <button type="button" class="btn btn--ghost add" data-variant-group="esokVariant">Add to Cart</button>
-        </div>
-      </article>
-
-      <!-- Spaghetti Tualetti | NOW 14.99 -->
+      <!-- Spaghetti Tualetti | 14.99 -->
       <article class="card" data-name="Spaghetti Tualetti" data-price="14.99" data-added="20251110" data-stock="2">
         <span class="flag flag--sale">50% OFF</span>
         <div class="thumb-wrap"><img class="thumb" src="./Spaghettitualetti.webp" alt="Spaghetti Tualetti" /></div>
@@ -161,39 +161,12 @@
         </div>
       </article>
 
-      <!-- Los Chicletiras (variants: 7.99 / 9.99) -->
-      <article class="card" data-base="Los Chicletiras" data-added="20251110">
+      <!-- Spooky Grande | 29.99 (was 50) -->
+      <article class="card" id="spooky" data-name="Spooky Grande" data-price="29.99" data-was="50" data-added="20251110">
         <span class="flag flag--sale">50% OFF</span>
-        <div class="thumb-wrap"><img class="thumb" src="./Los_ditos.webp" alt="Los Chicletiras" /></div>
-        <h3>Los Chicletiras</h3>
-        <p class="speed">🍬 Choose your speed</p>
-
-        <div class="variant" role="group" aria-label="Chicletiras variant">
-          <label><input type="radio" name="chicVariant" value="28M/s" data-price="7.99" checked> 28M/s</label>
-          <label><input type="radio" name="chicVariant" value="43M/s" data-price="9.99"> 43M/s</label>
-        </div>
-
-        <div class="qty">
-          <button type="button" class="qty__btn" disabled>−</button>
-          <input class="qty__input" value="1" readonly />
-          <button type="button" class="qty__btn" disabled>+</button>
-        </div>
-        <div class="price"><span class="was"></span><span class="now"></span></div>
-        <div class="actions">
-          <button type="button" class="btn btn--ghost add" data-variant-group="chicVariant">Add to Cart</button>
-        </div>
-      </article>
-    </section>
-
-    <!-- NEW: Basic brainrots (cheap) -->
-    <h2 class="section-title">Basic brainrots — here they are.</h2>
-    <section class="grid">
-      <!-- Los Mobilis | exact $5.99, 22M/s -->
-      <article class="card" data-name="Los Mobilis" data-price="5.99" data-added="20251110" data-lock="exact">
-        <span class="flag flag--sale">50% OFF</span>
-        <div class="thumb-wrap"><img class="thumb" src="./Losmobil.webp" alt="Los Mobilis" /></div>
-        <h3>Los Mobilis</h3>
-        <p class="speed">🧠 22M/s</p>
+        <div class="thumb-wrap"><img class="thumb" src="./Spooky_Grande.webp" alt="Spooky Grande" /></div>
+        <h3>Spooky Grande</h3>
+        <p class="speed">🕷️ 367.5M/s</p>
         <div class="qty">
           <button type="button" class="qty__btn" disabled>−</button>
           <input class="qty__input" value="1" readonly />
@@ -205,18 +178,12 @@
         </div>
       </article>
 
-      <!-- Los Combo (2 variants: $5 / $8 exact) -->
-      <article class="card" data-base="Los Combo" data-added="20251110" data-lock="exact">
+      <!-- Evildon | 39.99 (was 60) -->
+      <article class="card" data-name="Evildon" data-price="39.99" data-was="60" data-added="20251110">
         <span class="flag flag--sale">50% OFF</span>
-        <div class="thumb-wrap"><img class="thumb" src="./Stop_taking_my_chips_im_just_a_baybeh.webp" alt="Los Combo" /></div>
-        <h3>Los Combo</h3>
-        <p class="speed">🍟 Choose your speed</p>
-
-        <div class="variant" role="group" aria-label="Los Combo options">
-          <label><input type="radio" name="losCombo" value="15M/s" data-price="5" checked> 15M/s — $5</label>
-          <label><input type="radio" name="losCombo" value="45M/s" data-price="8"> 45M/s — $8</label>
-        </div>
-
+        <div class="thumb-wrap"><img class="thumb" src="./Eviledonn.png" alt="Evildon" /></div>
+        <h3>Evildon</h3>
+        <p class="speed">😈 30M/s</p>
         <div class="qty">
           <button type="button" class="qty__btn" disabled>−</button>
           <input class="qty__input" value="1" readonly />
@@ -224,15 +191,32 @@
         </div>
         <div class="price"><span class="was"></span><span class="now"></span></div>
         <div class="actions">
-          <button type="button" class="btn btn--ghost add" data-variant-group="losCombo">Add to Cart</button>
+          <button type="button" class="btn btn--ghost add">Add to Cart</button>
         </div>
       </article>
-    </section>
 
-    <!-- NEW: Premium brainrots (higher price) -->
-    <h2 class="section-title">Premium brainrots</h2>
-    <section class="grid">
-      <!-- Los Bros | exact $20, 144M/s -->
+      <!-- Esok Sekolah (variants: 12.99 / 24.99) -->
+      <article class="card" data-base="Esok Sekolah" data-added="20241101">
+        <span class="flag flag--sale">50% OFF</span>
+        <div class="thumb-wrap"><img class="thumb" src="./EsokSekolah2.webp" alt="Esok Sekolah" /></div>
+        <h3>Esok Sekolah</h3>
+        <p class="speed">⚡ Choose your speed</p>
+        <div class="variant" role="group" aria-label="Esok variant">
+          <label><input type="radio" name="esokVariant" value="30M/s" data-price="12.99" checked> 30M/s — $12.99</label>
+          <label><input type="radio" name="esokVariant" value="225M/s" data-price="24.99"> 225M/s — $24.99</label>
+        </div>
+        <div class="qty">
+          <button type="button" class="qty__btn" disabled>−</button>
+          <input class="qty__input" value="1" readonly />
+          <button type="button" class="qty__btn" disabled>+</button>
+        </div>
+        <div class="price"><span class="was"></span><span class="now"></span></div>
+        <div class="actions">
+          <button type="button" class="btn btn--ghost add" data-variant-group="esokVariant">Add to Cart</button>
+        </div>
+      </article>
+
+      <!-- Los Bros | exact $20 -->
       <article class="card" data-name="Los Bros" data-price="20" data-added="20251110" data-lock="exact">
         <span class="flag flag--sale">50% OFF</span>
         <div class="thumb-wrap"><img class="thumb" src="./BROOOOOOOO.png" alt="Los Bros" /></div>
@@ -250,7 +234,7 @@
       </article>
     </section>
 
-    <!-- How it works (more “glassy”) -->
+    <!-- How it works -->
     <section class="hiw hiw--cards hiw--glassy">
       <h2 class="section-title">How delivery works</h2>
       <div class="hiw__grid">
@@ -260,7 +244,7 @@
       </div>
     </section>
 
-    <!-- Trust strip (chip style, neon line) -->
+    <!-- Trust strip -->
     <section class="quality quality--chips quality--neon">
       <div class="quality__item"><span class="q-ico">🧾</span> <strong>Transparent pricing</strong></div>
       <div class="quality__item"><span class="q-ico">🎥</span> <strong>Proof on request</strong></div>
@@ -268,7 +252,7 @@
       <div class="quality__item"><span class="q-ico">🛡️</span> <strong>Safe delivery flow</strong></div>
     </section>
 
-    <!-- Reviews (unchanged content) -->
+    <!-- Reviews -->
     <section class="reviews">
       <h2 class="section-title">Recent reviews</h2>
       <div class="reviews__grid">
