@@ -7,7 +7,7 @@
 
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/style.css?v=17" />
+  <link rel="stylesheet" href="/style.css?v=19" />
 </head>
 <body>
   <!-- Header -->
@@ -23,8 +23,8 @@
     </nav>
   </header>
 
-  <!-- SUPER SIMPLE HERO -->
-  <section class="hero hero--minimal">
+  <!-- Simple, high-converting hero with background image -->
+  <section class="hero hero--image">
     <div class="hero__inner">
       <h1 class="glow">Buy Brainrots</h1>
       <p class="hero__sub">Private-server delivery • Clear pricing • No middlemen</p>
@@ -37,12 +37,10 @@
     <div class="toolbar" style="justify-content:space-between;gap:12px;flex-wrap:wrap">
       <div class="pill">LIVE STOCK</div>
 
-      <!-- Search now lives here (works) -->
       <div class="shop-search">
         <input id="searchInput" type="search" placeholder="Search (e.g., esok, spooky, los)" />
       </div>
 
-      <!-- Sort -->
       <label class="shop-sort">
         <span>Sort:</span>
         <select id="sortSelect">
@@ -95,12 +93,11 @@
         </div>
       </article>
 
-      <!-- Esok Sekolah (compact overlay controls) -->
+      <!-- Esok Sekolah (with variant toggle, compact overlay) -->
       <article class="card card--compact" data-name="Esok Sekolah" data-tags="esok sekolah esoksekolah" data-price="30" data-added="20241101">
         <div class="flag flag--hot">IN STOCK</div>
         <div class="thumb-wrap">
           <img class="thumb" src="/EsokSekolah2.webp" alt="Esok Sekolah" />
-          <!-- overlay: compact qty + buy -->
           <div class="thumb-overlay">
             <div class="mini-qty">
               <button class="qty__btn" data-step="-1" aria-label="Decrease quantity">−</button>
@@ -227,6 +224,6 @@
     </div>
   </aside>
 
-  <script src="/app.js?v=17"></script>
+  <script src="/app.js?v=19"></script>
 </body>
 </html>
