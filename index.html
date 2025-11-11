@@ -7,17 +7,10 @@
 
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./style.css?v=36" />
+  <link rel="stylesheet" href="./style.css?v=38" />
 </head>
 <body>
   <!-- Header -->
-
-  <!-- Vercel Web Analytics (page views & basic metrics) -->
-<script defer src="/_vercel/insights/script.js"></script>
-
-<!-- (Optional) Vercel Speed Insights (Core Web Vitals) -->
-<script defer src="/_vercel/speed-insights/script.js"></script>
-
   <header class="topbar">
     <a class="brand" href="./index.html" aria-label="buy-a-brainrot — home">
       <svg class="brand__logo" width="28" height="28" viewBox="0 0 24 24" aria-hidden="true">
@@ -74,13 +67,37 @@
       </label>
     </div>
 
+    <!-- Seller key / legend -->
+    <div class="seller-key" aria-label="Seller key">
+      <div class="seller-chip company">Sold by buy-a-brainrot</div>
+      <div class="seller-chip individual">“Listed by …” = sold by an individual</div>
+    </div>
+
     <section id="grid" class="grid">
+      <!-- Los no my hospositos | exact $5, listed by luka053697 -->
+      <article class="card" data-name="Los no my hospositos" data-price="5" data-added="20251111" data-lock="exact" id="los-hospositos">
+        <span class="flag flag--sale">50% OFF</span>
+        <div class="thumb-wrap"><img class="thumb" src="./Loshotspotsitos.webp" alt="Los no my hospositos" /></div>
+        <h3>Los no my hospositos</h3>
+        <p class="speed">⚡ 5.5 M/s</p>
+        <p class="seller">Listed by <strong>luka053697</strong></p>
+        <div class="qty">
+          <button type="button" class="qty__btn" disabled>−</button>
+          <input class="qty__input" value="1" readonly />
+          <button type="button" class="qty__btn" disabled>+</button>
+        </div>
+        <div class="price"><span class="was"></span><span class="now"></span></div>
+        <div class="actions">
+          <button type="button" class="btn btn--ghost add">Add to Cart</button>
+        </div>
+      </article>
+
       <!-- Los Combo (variants $5 / $8 exact) -->
       <article class="card" data-base="Los Combo" data-added="20251110" data-lock="exact">
         <span class="flag flag--sale">50% OFF</span>
         <div class="thumb-wrap"><img class="thumb" src="./Stop_taking_my_chips_im_just_a_baybeh.webp" alt="Los Combo" /></div>
         <h3>Los Combo</h3>
-        <p class="speed">🍟 Pick your M/s</p>
+        <p class="speed">🍟 Choose your speed</p>
         <div class="variant" role="group" aria-label="Los Combo options">
           <label><input type="radio" name="losCombo" value="15M/s" data-price="5" checked> 15M/s — $5</label>
           <label><input type="radio" name="losCombo" value="45M/s" data-price="8"> 45M/s — $8</label>
@@ -118,7 +135,7 @@
         <span class="flag flag--sale">50% OFF</span>
         <div class="thumb-wrap"><img class="thumb" src="./Los_ditos.webp" alt="Los Chicletiras" /></div>
         <h3>Los Chicletiras</h3>
-        <p class="speed">🍬 Pick your M/s</p>
+        <p class="speed">🍬 Choose your speed</p>
         <div class="variant" role="group" aria-label="Chicletiras variant">
           <label><input type="radio" name="chicVariant" value="28M/s" data-price="7.99" checked> 28M/s — $7.99</label>
           <label><input type="radio" name="chicVariant" value="43M/s" data-price="9.99"> 43M/s — $9.99</label>
@@ -134,7 +151,7 @@
         </div>
       </article>
 
-      <!-- Spaghetti Tualetti | 14.99 -->
+      <!-- Spaghetti Tualetti | 14.99 (toilet, allow 2) -->
       <article class="card" data-name="Spaghetti Tualetti" data-price="14.99" data-added="20251110" data-stock="2">
         <span class="flag flag--sale">50% OFF</span>
         <div class="thumb-wrap"><img class="thumb" src="./Spaghettitualetti.webp" alt="Spaghetti Tualetti" /></div>
@@ -318,6 +335,6 @@
     </div>
   </aside>
 
-  <script src="./script.js?v=36" defer></script>
+  <script src="./script.js?v=38" defer></script>
 </body>
 </html>
