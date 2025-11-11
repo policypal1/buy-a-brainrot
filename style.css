@@ -58,8 +58,21 @@ button{font:inherit}
 
 /* ---------------- Layout ---------------- */
 .container{width:90%;max-width:1200px;margin:0 auto 90px}
-.toolbar{display:flex;align-items:center;gap:12px;margin:22px 0 18px}
+.toolbar{display:flex;align-items:center;gap:12px;margin:22px 0 12px}
 .section-title{font:800 1.4rem/1.2 Inter,system-ui,sans-serif;margin:28px 0 14px}
+
+/* ---------------- Seller Legend ---------------- */
+.seller-key{
+  display:flex; gap:10px; flex-wrap:wrap; align-items:center;
+  margin:6px 0 14px;
+}
+.seller-chip{
+  font-weight:800; font-size:.82rem; padding:6px 10px; border-radius:999px;
+  border:1px solid var(--line); background:#101014; color:#cdd1e6;
+}
+.seller-chip.company{ box-shadow:0 0 0 1px rgba(255,43,69,.25), 0 0 16px rgba(255,43,69,.12) inset; }
+.seller-chip.individual{ border-style:dashed; }
+.card .seller{ margin:0; color:#a9adc0; font-size:.9rem; }
 
 /* ---------------- Grid & Cards ---------------- */
 .grid{
@@ -148,7 +161,7 @@ button{font:inherit}
 }
 .hiw__num{width:28px;height:28px;border-radius:999px;display:grid;place-items:center;font-weight:900;background:rgba(255,43,69,.22);border:1px solid rgba(255,43,69,.5);margin-bottom:8px}
 
-/* ---------------- Trust (make different & compact) ---------------- */
+/* ---------------- Trust (chips) ---------------- */
 .quality{
   width:90%;max-width:1200px;margin:10px auto 34px;
   display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px
@@ -192,7 +205,7 @@ button{font:inherit}
   .brand{gap:8px}
   .nav{gap:10px;justify-self:end}
   .nav a{padding:6px}
-  .cart-btn span:first-child{display:none} /* hide “Cart” word on mobile to unclutter */
+  .cart-btn span:first-child{display:none} /* hide “Cart” word on mobile */
   .container{width:92%}
   .grid{gap:18px}
   .thumb{height:210px}
