@@ -2,14 +2,14 @@
   const $  = (s, r=document) => r.querySelector(s);
   const $$ = (s, r=document) => [...r.querySelectorAll(s)];
 
-  /* ---------- SALE TIMER (resets at midnight local) ---------- */
+  /* ---------- COUNTDOWN (resets at midnight local) ---------- */
   function secondsToMidnight() {
     const now = new Date();
     const midnight = new Date(now);
-    midnight.setHours(24,0,0,0);       // next midnight
+    midnight.setHours(24,0,0,0);
     return Math.max(0, Math.floor((midnight - now) / 1000));
   }
-  function formatHHMMSS(s){
+  function hhmmss(s){
     const h = String(Math.floor(s/3600)).padStart(2,'0');
     const m = String(Math.floor((s%3600)/60)).padStart(2,'0');
     const d = String(s%60).padStart(2,'0');
@@ -19,52 +19,102 @@
     const el = $("#saleTimer");
     if(!el) return;
     let secs = secondsToMidnight();
-    el.textContent = formatHHMMSS(secs);
+    el.textContent = hhmmss(secs);
     const iv = setInterval(()=>{
       secs -= 1;
       if (secs <= 0){
         el.textContent = "00:00:00";
         clearInterval(iv);
-        // reset sale visuals/prices at midnight
-        applySalePricing();
-        return;
+        return; // sale persists daily; timer resets on reload
       }
-      el.textContent = formatHHMMSS(secs);
+      el.textContent = hhmmss(secs);
     }, 1000);
   }
 
-  /* ---------- SALE PRICING (Spooky 50% off until midnight) ---------- */
-  function applySalePricing(){
-    const spooky = $("#spooky");
-    if (!spooky) return;
-    const onSale = true; // sale toggled by timer window (we keep it active until midnight)
-    const original = Number(spooky.dataset.original || 100);
-    const discounted = Math.round((original / 2) * 100) / 100;
+  /* ---------- SITE-WIDE 50% OFF ---------- */
+  function ensureSaleUI(card){
+    let flag = card.querySelector(".flag");
+    if (!flag){
+      flag = document.createElement("div");
+      flag.className = "flag";
+      card.prepend(flag);
+    }
+    flag.textContent = "50% OFF";
+    flag.classList.add("flag--sale");
 
-    const nowEl = $("#spookyNow");
-    const wasEl = $("#spookyWas");
-    if (onSale){
-      spooky.dataset.price = String(discounted);
-      nowEl.textContent = `$${discounted.toFixed(2)}`;
-      wasEl.textContent = `$${original.toFixed(2)}`;
-      spooky.querySelector(".flag")?.classList.add("flag--sale");
-    } else {
-      spooky.dataset.price = String(original);
-      nowEl.textContent = `$${original.toFixed(2)}`;
-      wasEl.textContent = "";
-      spooky.querySelector(".flag")?.classList.remove("flag--sale");
+    let priceWrap = card.querySelector(".price");
+    if(!priceWrap){
+      priceWrap = document.createElement("div");
+      priceWrap.className = "price";
+      card.appendChild(priceWrap);
+    }
+    if(!priceWrap.querySelector(".was")){
+      priceWrap.innerHTML = `<span class="was"></span><span class="now"></span>`;
     }
   }
+
+  function readVariant(card){
+    const btn = card.querySelector(".add");
+    const group = btn?.dataset?.variantGroup;
+    if (!group) return null;
+    const radio = document.querySelector(`input[name="${group}"]:checked`);
+    if (!radio) return null;
+    return { group, label: radio.value, price: Number(radio.dataset.price || 0) };
+  }
+
+  function nameWithVariant(card){
+    const base = card.dataset.base || card.dataset.name || card.querySelector("h3")?.textContent || "Item";
+    const v = readVariant(card);
+    return v ? `${base} (${v.label})` : base;
+  }
+
+  function visiblePrice(card){
+    const t = (card.querySelector(".price .now")?.textContent ||
+               card.querySelector(".price")?.textContent || "$0").replace("$","");
+    return Number(t) || 0;
+  }
+
+  function setWasNow(card, now){
+    const was = now * 2;
+    card.dataset.price = String(now); // for sorting
+    const priceWrap = card.querySelector(".price");
+    if (priceWrap){
+      priceWrap.querySelector(".was").textContent = `$${was.toFixed(2)}`;
+      priceWrap.querySelector(".now").textContent = `$${now.toFixed(2)}`;
+    }
+  }
+
+  function applySaleToCard(card){
+    ensureSaleUI(card);
+    if (card.dataset.base){
+      const v = readVariant(card);
+      const now = v ? v.price : visiblePrice(card);
+      setWasNow(card, now);
+    } else {
+      // if card has data-price, use it; else read current text
+      const now = Number(card.dataset.price || 0) || visiblePrice(card);
+      setWasNow(card, now);
+    }
+  }
+
+  function applyGlobalSale(){
+    $$("#grid .card").forEach(applySaleToCard);
+  }
+
+  // When variant changes, update price
+  document.addEventListener("change", (e)=>{
+    if (e.target.matches('input[type="radio"][name="esokVariant"], input[type="radio"][name="chicVariant"]')){
+      const card = e.target.closest(".card");
+      applySaleToCard(card);
+    }
+  });
 
   /* ---------- CART ---------- */
   const cart = {
     items: [],
     addOnce(name, price){
       const existing = this.items.find(i => i.name === name);
-      if (existing){
-        alert("Limit 1 per product. This item is already in your cart.");
-        return;
-      }
+      if (existing){ alert("Limit 1 per product. This item is already in your cart."); return; }
       this.items.push({ name, qty: 1, price });
       this.render(); openDrawer(); pulseCart();
     },
@@ -90,52 +140,25 @@
   function closeDrawer(){ $("#cartDrawer")?.classList.remove("open"); }
   function getCard(el){ return el.closest(".card"); }
 
-  // read variant (if present) for name+price
-  function readVariant(card){
-    const btn = card.querySelector(".add");
-    const group = btn?.dataset?.variantGroup;
-    if (!group) return null;
-    const radio = document.querySelector(`input[name="${group}"]:checked`);
-    if (!radio) return null;
-    return { label: radio.value, price: Number(radio.dataset.price || 0) };
+  function priceForCart(card){
+    if (card.dataset.base){
+      const v = readVariant(card);
+      return v ? v.price : Number(card.dataset.price || 0) || visiblePrice(card);
+    }
+    return Number(card.dataset.price || 0) || visiblePrice(card);
   }
 
-  function nameOf(card){
-    // if variant card, append selected label
-    const base = card?.dataset?.base || card?.dataset?.name || card?.querySelector("h3")?.textContent || "Item";
-    const v = readVariant(card);
-    return v ? `${base} (${v.label})` : base;
-  }
-  function priceOf(card){
-    const v = readVariant(card);
-    if (v) return v.price;
-
-    // fallback to dataset price (handles sale) or visible text
-    const p = Number(card?.dataset?.price || 0);
-    if (p) return p;
-    const txt = card?.querySelector(".price")?.textContent?.replace("$","") || "0";
-    return Number(txt) || 0;
-  }
-
-  /* ---------- EVENTS ---------- */
   document.addEventListener("click", (e) => {
     const t = e.target;
-
     if (t.closest("#openCart")) return openDrawer();
     if (t.closest("#closeCart")) return closeDrawer();
 
     if (t.closest(".add")){
       const card = getCard(t); if (!card) return;
-      cart.addOnce(nameOf(card), priceOf(card));
+      const name = nameWithVariant(card);
+      const price = priceForCart(card);
+      cart.addOnce(name, price);
       return;
-    }
-
-    // update displayed price when variant changes
-    if (t.matches('input[type="radio"][name="esokVariant"], input[type="radio"][name="chicVariant"]')){
-      const card = getCard(t);
-      const v = readVariant(card);
-      const disp = card.querySelector(".price .now") || card.querySelector(".price");
-      if (v && disp) disp.textContent = `$${Number(v.price).toFixed(2)}`;
     }
   });
 
@@ -144,9 +167,6 @@
   function normalizePrices(){
     $$("#grid .card").forEach(c=>{
       if (!c.dataset.price){
-        // for variant cards we’ll use the currently-selected variant price to rank
-        const v = readVariant(c);
-        if (v){ c.dataset.price = String(v.price); return; }
         const t=c.querySelector(".price .now")?.textContent
              || c.querySelector(".price")?.textContent || "$0";
         c.dataset.price = String(Number((t||"$0").replace("$",""))||0);
@@ -161,7 +181,6 @@
     if (mode==="price-desc") cards.sort((a,b)=>(+b.dataset.price||0)-(+a.dataset.price||0));
     cards.forEach(c=>grid.appendChild(c));
   }
-  sortSelect?.addEventListener("change", e => sortCards(e.target.value));
 
   /* ---------- CHECKOUT ---------- */
   $("#checkoutBtn")?.addEventListener("click", () => {
@@ -170,9 +189,9 @@
     window.location.href = "/checkout.html";
   });
 
-  /* Initializers */
-  applySalePricing();     // set sale pricing right away
-  startTimer();           // start countdown to midnight
+  /* ---------- INIT ---------- */
+  applyGlobalSale();                 // 50% off across the board
+  startTimer();                      // midnight urgency
   if (sortSelect) sortCards(sortSelect.value);
   $("#y") && ($("#y").textContent = new Date().getFullYear());
 })();
