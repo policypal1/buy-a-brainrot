@@ -7,12 +7,12 @@
 
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./style.css?v=30" />
+  <link rel="stylesheet" href="./style.css?v=31" />
 </head>
 <body>
   <!-- Header -->
   <header class="topbar">
-    <div class="brand"><span class="logo">BA</span><span class="accent">Brainrot</span></div>
+    <div class="brand"><span class="logo">buy-a-</span><span class="accent">brainrot</span></div>
     <nav class="nav">
       <a href="./index.html" class="active">Shop</a>
       <button type="button" class="cart-btn" id="openCart" aria-label="Open cart">
@@ -21,33 +21,44 @@
     </nav>
   </header>
 
-  <!-- Hero: image only -->
-  <section class="hero hero--image"><div class="hero__inner"></div></section>
+  <!-- Hero with countdown + trust -->
+  <section class="hero hero--sale">
+    <div class="hero__wrap">
+      <h1>Real brainrots. Private-server delivery.</h1>
+      <p class="hero__sub">We join your server and deliver—no middlemen, no nonsense.</p>
+
+      <div class="countdown">
+        <div class="countdown__left">
+          <div class="sale-chip">24-HOUR SALE • 50% OFF</div>
+          <div class="timer" id="saleTimer">00:00:00</div>
+          <p class="tiny">Resets at midnight. Discount auto-applies to eligible items.</p>
+        </div>
+        <ul class="trustlist">
+          <li>🔒 Secure checkout options</li>
+          <li>🤝 Delivery proof on request</li>
+          <li>⭐ 5-star community rated</li>
+        </ul>
+      </div>
+    </div>
+  </section>
 
   <!-- Product Grid -->
   <main class="container">
-    <div class="toolbar" style="justify-content:space-between;gap:12px;flex-wrap:wrap">
-      <div class="pill">LIVE STOCK</div>
 
-      <div class="shop-search">
-        <input id="searchInput" type="search" placeholder="Search (e.g., esok, spooky, los)" />
-      </div>
-
+    <div class="toolbar" style="justify-content:flex-end;gap:12px;flex-wrap:wrap">
       <label class="shop-sort">
         <span>Sort:</span>
         <select id="sortSelect">
-          <option value="featured">Featured</option>
           <option value="price-asc">Price: Low → High</option>
           <option value="price-desc">Price: High → Low</option>
-          <option value="new">Newly added</option>
         </select>
       </label>
     </div>
 
     <section id="grid" class="grid">
-      <!-- Spooky Grande -->
-      <article class="card" data-name="Spooky Grande" data-tags="spooky grande" data-price="50" data-added="20251110">
-        <div class="flag">IN STOCK</div>
+      <!-- Spooky Grande (50% off during sale; original 100) -->
+      <article class="card" id="spooky" data-name="Spooky Grande" data-price="50" data-original="100" data-sale="true" data-added="20251110">
+        <div class="flag flag--sale">50% OFF</div>
         <div class="thumb-wrap"><img class="thumb" src="./Spooky_Grande.webp" alt="Spooky Grande" /></div>
         <h3>Spooky Grande</h3>
         <p class="speed">🕷️ 367.5 million /s</p>
@@ -56,7 +67,10 @@
           <input class="qty__input" value="1" readonly />
           <button type="button" class="qty__btn" disabled>+</button>
         </div>
-        <div class="price">$50.00</div>
+        <div class="price">
+          <span class="was" id="spookyWas">$100.00</span>
+          <span class="now" id="spookyNow">$50.00</span>
+        </div>
         <div class="actions">
           <button type="button" class="btn btn--ghost add">Add to Cart</button>
         </div>
@@ -79,37 +93,26 @@
         </div>
       </article>
 
-      <!-- Esok Sekolah — 30M/s ($30) -->
-      <article class="card" data-name="Esok Sekolah (30M/s)" data-tags="esok sekolah 30m" data-price="30" data-added="20241101">
+      <!-- Esok Sekolah (variants in one card) -->
+      <article class="card" data-base="Esok Sekolah" data-added="20241101">
         <div class="flag">IN STOCK</div>
-        <div class="thumb-wrap"><img class="thumb" src="./EsokSekolah2.webp" alt="Esok Sekolah 30M" /></div>
-        <h3>Esok Sekolah (30M/s)</h3>
-        <p class="speed">⚡ 30 million /s</p>
-        <div class="qty">
-          <button type="button" class="qty__btn" disabled>−</button>
-          <input class="qty__input" value="1" readonly />
-          <button type="button" class="qty__btn" disabled>+</button>
-        </div>
-        <div class="price">$30.00</div>
-        <div class="actions">
-          <button type="button" class="btn btn--ghost add">Add to Cart</button>
-        </div>
-      </article>
+        <div class="thumb-wrap"><img class="thumb" src="./EsokSekolah2.webp" alt="Esok Sekolah" /></div>
+        <h3>Esok Sekolah</h3>
+        <p class="speed">⚡ Choose your speed</p>
 
-      <!-- Esok Sekolah — 225M/s ($40) -->
-      <article class="card" data-name="Esok Sekolah (225M/s)" data-tags="esok sekolah 225m" data-price="40" data-added="20241101">
-        <div class="flag">IN STOCK</div>
-        <div class="thumb-wrap"><img class="thumb" src="./EsokSekolah2.webp" alt="Esok Sekolah 225M" /></div>
-        <h3>Esok Sekolah (225M/s)</h3>
-        <p class="speed">⚡ 225 million /s</p>
+        <div class="variant" role="group" aria-label="Esok variant">
+          <label><input type="radio" name="esokVariant" value="30M/s" data-price="17" checked> 30M/s</label>
+          <label><input type="radio" name="esokVariant" value="225M/s" data-price="40"> 225M/s</label>
+        </div>
+
         <div class="qty">
           <button type="button" class="qty__btn" disabled>−</button>
           <input class="qty__input" value="1" readonly />
           <button type="button" class="qty__btn" disabled>+</button>
         </div>
-        <div class="price">$40.00</div>
+        <div class="price"><span class="now" id="esokPrice">$17.00</span></div>
         <div class="actions">
-          <button type="button" class="btn btn--ghost add">Add to Cart</button>
+          <button type="button" class="btn btn--ghost add" data-variant-group="esokVariant">Add to Cart</button>
         </div>
       </article>
 
@@ -147,64 +150,50 @@
         </div>
       </article>
 
-      <!-- Chicletiras — 28M ($20) -->
-      <article class="card" data-name="Los Chicletiras (28M/s)" data-tags="los chicletiras 28m" data-price="20" data-added="20251110">
+      <!-- Los Chicletiras (variants in one card) -->
+      <article class="card" data-base="Los Chicletiras" data-added="20251110">
         <div class="flag">IN STOCK</div>
-        <div class="thumb-wrap"><img class="thumb" src="./Los_ditos.webp" alt="Los Chicletiras 28M" /></div>
-        <h3>Los Chicletiras (28M/s)</h3>
-        <p class="speed">🍬 28 million /s</p>
-        <div class="qty">
-          <button type="button" class="qty__btn" disabled>−</button>
-          <input class="qty__input" value="1" readonly />
-          <button type="button" class="qty__btn" disabled>+</button>
-        </div>
-        <div class="price">$20.00</div>
-        <div class="actions">
-          <button type="button" class="btn btn--ghost add">Add to Cart</button>
-        </div>
-      </article>
+        <div class="thumb-wrap"><img class="thumb" src="./Los_ditos.webp" alt="Los Chicletiras" /></div>
+        <h3>Los Chicletiras</h3>
+        <p class="speed">🍬 Choose your speed</p>
 
-      <!-- Chicletiras — 43M ($30) -->
-      <article class="card" data-name="Los Chicletiras (43M/s)" data-tags="los chicletiras 43m" data-price="30" data-added="20251110">
-        <div class="flag">IN STOCK</div>
-        <div class="thumb-wrap"><img class="thumb" src="./Los_ditos.webp" alt="Los Chicletiras 43M" /></div>
-        <h3>Los Chicletiras (43M/s)</h3>
-        <p class="speed">🍬 43 million /s</p>
+        <div class="variant" role="group" aria-label="Chicletiras variant">
+          <label><input type="radio" name="chicVariant" value="28M/s" data-price="20" checked> 28M/s</label>
+          <label><input type="radio" name="chicVariant" value="43M/s" data-price="30"> 43M/s</label>
+        </div>
+
         <div class="qty">
           <button type="button" class="qty__btn" disabled>−</button>
           <input class="qty__input" value="1" readonly />
           <button type="button" class="qty__btn" disabled>+</button>
         </div>
-        <div class="price">$30.00</div>
+        <div class="price"><span class="now" id="chicPrice">$20.00</span></div>
         <div class="actions">
-          <button type="button" class="btn btn--ghost add">Add to Cart</button>
+          <button type="button" class="btn btn--ghost add" data-variant-group="chicVariant">Add to Cart</button>
         </div>
       </article>
+    </section>
+
+    <!-- Quick trust/quality strip -->
+    <section class="quality">
+      <div class="quality__item">🧾 Transparent pricing</div>
+      <div class="quality__item">🎥 Proof on request</div>
+      <div class="quality__item">💬 Fast support</div>
+      <div class="quality__item">🛡️ Safe delivery flow</div>
     </section>
   </main>
 
   <footer class="footer">
     <p>© <span id="y"></span> buy-a-brainrot • Private-server delivery</p>
+    <nav class="footer-nav">
+      <a href="#">How it works</a>
+      <a href="#">FAQ</a>
+      <a href="#">Refunds</a>
+      <a href="#">Contact</a>
+    </nav>
   </footer>
 
-  <!-- Cart Drawer -->
-  <aside id="cartDrawer" class="drawer">
-    <div class="drawer__panel">
-      <div class="drawer__top">
-        <h3>Your Cart</h3>
-        <button type="button" id="closeCart" class="drawer__close" aria-label="Close cart">✕</button>
-      </div>
-      <div id="cartItems" class="drawer__body">Cart is empty.</div>
-      <div class="drawer__bottom">
-        <div class="drawer__total">
-          <span>Total</span><strong id="cartTotal">$0.00</strong>
-        </div>
-        <button type="button" id="checkoutBtn" class="btn buy" style="width:100%;">Checkout</button>
-      </div>
-    </div>
-  </aside>
-
   <!-- match the real filename -->
-  <script src="./script.js?v=30" defer></script>
+  <script src="./script.js?v=31" defer></script>
 </body>
 </html>
