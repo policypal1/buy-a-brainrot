@@ -68,6 +68,7 @@
       </label>
     </div>
 
+    <!-- Existing grid (unchanged) -->
     <section id="grid" class="grid">
       <!-- Spooky Grande | NOW 29.99, show WAS 50.00, 367.5M/s -->
       <article class="card" id="spooky" data-name="Spooky Grande" data-price="29.99" data-was="50" data-added="20251110">
@@ -180,6 +181,71 @@
         <div class="price"><span class="was"></span><span class="now"></span></div>
         <div class="actions">
           <button type="button" class="btn btn--ghost add" data-variant-group="chicVariant">Add to Cart</button>
+        </div>
+      </article>
+    </section>
+
+    <!-- NEW: Basic brainrots (cheap) -->
+    <h2 class="section-title">Basic brainrots — here they are.</h2>
+    <section class="grid">
+      <!-- Los Mobilis | exact $5.99, 22M/s -->
+      <article class="card" data-name="Los Mobilis" data-price="5.99" data-added="20251110" data-lock="exact">
+        <span class="flag flag--sale">50% OFF</span>
+        <div class="thumb-wrap"><img class="thumb" src="./Losmobil.webp" alt="Los Mobilis" /></div>
+        <h3>Los Mobilis</h3>
+        <p class="speed">🧠 22M/s</p>
+        <div class="qty">
+          <button type="button" class="qty__btn" disabled>−</button>
+          <input class="qty__input" value="1" readonly />
+          <button type="button" class="qty__btn" disabled>+</button>
+        </div>
+        <div class="price"><span class="was"></span><span class="now"></span></div>
+        <div class="actions">
+          <button type="button" class="btn btn--ghost add">Add to Cart</button>
+        </div>
+      </article>
+
+      <!-- Los Combo (2 variants: $5 / $8 exact) -->
+      <article class="card" data-base="Los Combo" data-added="20251110" data-lock="exact">
+        <span class="flag flag--sale">50% OFF</span>
+        <div class="thumb-wrap"><img class="thumb" src="./Stop_taking_my_chips_im_just_a_baybeh.webp" alt="Los Combo" /></div>
+        <h3>Los Combo</h3>
+        <p class="speed">🍟 Choose your speed</p>
+
+        <div class="variant" role="group" aria-label="Los Combo options">
+          <label><input type="radio" name="losCombo" value="15M/s" data-price="5" checked> 15M/s — $5</label>
+          <label><input type="radio" name="losCombo" value="45M/s" data-price="8"> 45M/s — $8</label>
+        </div>
+
+        <div class="qty">
+          <button type="button" class="qty__btn" disabled>−</button>
+          <input class="qty__input" value="1" readonly />
+          <button type="button" class="qty__btn" disabled>+</button>
+        </div>
+        <div class="price"><span class="was"></span><span class="now"></span></div>
+        <div class="actions">
+          <button type="button" class="btn btn--ghost add" data-variant-group="losCombo">Add to Cart</button>
+        </div>
+      </article>
+    </section>
+
+    <!-- NEW: Premium brainrots (higher price) -->
+    <h2 class="section-title">Premium brainrots</h2>
+    <section class="grid">
+      <!-- Los Bros | exact $20, 144M/s -->
+      <article class="card" data-name="Los Bros" data-price="20" data-added="20251110" data-lock="exact">
+        <span class="flag flag--sale">50% OFF</span>
+        <div class="thumb-wrap"><img class="thumb" src="./BROOOOOOOO.png" alt="Los Bros" /></div>
+        <h3>Los Bros</h3>
+        <p class="speed">👊 144M/s</p>
+        <div class="qty">
+          <button type="button" class="qty__btn" disabled>−</button>
+          <input class="qty__input" value="1" readonly />
+          <button type="button" class="qty__btn" disabled>+</button>
+        </div>
+        <div class="price"><span class="was"></span><span class="now"></span></div>
+        <div class="actions">
+          <button type="button" class="btn btn--ghost add">Add to Cart</button>
         </div>
       </article>
     </section>
