@@ -6,7 +6,7 @@
   <title>Sell your brainrot — buy-a-brainrot</title>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./style.css?v=36" />
+  <link rel="stylesheet" href="./style.css?v=37" />
 </head>
 <body class="sell-page">
   <!-- Background + dim overlay -->
@@ -105,13 +105,14 @@
   </footer>
 
   <script>
-    // Your deployed Apps Script endpoint
-    const GAS_URL = "https://script.google.com/macros/s/AKfycbzQLaMIBv2wC7OGmsWLIXTwLJaA5g-_Uh83stNSQX5X0FDfMBzsDn4bhjS8_XcKLeVX/exec";
-
     document.getElementById("y").textContent = String(new Date().getFullYear());
-
     const form = document.getElementById("sellForm");
     const statusEl = document.getElementById("sellStatus");
+
+    // Prefill from ?item= in URL if present
+    const params = new URLSearchParams(location.search);
+    const itemParam = params.get("item");
+    if (itemParam) form.querySelector('[name="item"]').value = itemParam;
 
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
@@ -120,22 +121,19 @@
       statusEl.textContent = "Sending...";
 
       try {
-        const res = await fetch(GAS_URL, {
+        // Send to Vercel proxy (avoids CORS)
+        const res = await fetch("/api/sell", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ type: "SELL_REQUEST", ...data })
         });
 
-        if (!res.ok) throw new Error("Bad response");
-        const payload = await res.json().catch(() => ({ ok: true }));
+        const payload = await res.json().catch(() => ({ ok: res.ok }));
+        if (!res.ok || !payload.ok) throw new Error(payload.error || "Request failed");
 
-        if (payload.ok) {
-          form.reset();
-          statusEl.style.color = "#8cff9a";
-          statusEl.textContent = "Request has been sent! We’ll reach out soon.";
-        } else {
-          throw new Error(payload.error || "Unknown error");
-        }
+        form.reset();
+        statusEl.style.color = "#8cff9a";
+        statusEl.textContent = "Request has been sent! We’ll reach out soon.";
       } catch (err) {
         statusEl.style.color = "#ff8c8c";
         statusEl.textContent = "Could not send right now. You can also email us at samuelkumpula4@gmail.com.";
@@ -159,7 +157,7 @@
     }
 
     /* Form */
-    .sellform{display:grid;gap:12px;max-width:760px;background:rgba(18,18,23,.7);border:1px solid var(--line);border-radius:14px;padding:16px}
+    .sellform{display:grid;gap:12px;max-width:760px;background:rgba(18,18,23,.74);border:1px solid var(--line);border-radius:14px;padding:16px}
     .sellform label{display:grid;gap:6px;font-weight:700}
     .sellform input,.sellform textarea{
       background:#101014;border:1px solid var(--line);color:#fff;border-radius:12px;padding:10px;
