@@ -4,9 +4,10 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Checkout — buy-a-brainrot</title>
+
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/style.css?v=21" />
+  <link rel="stylesheet" href="./style.css?v=30" />
   <style>
     .checkout{width:90%;max-width:980px;margin:36px auto}
     .ck-grid{display:grid;grid-template-columns:2fr 1fr;gap:18px}
@@ -21,24 +22,38 @@
     .ck-alert{margin:10px 0 0;color:#ff9aa7}
     .btn.full{width:100%}
     .pill.cash{background:#00c851}
+    .paybox{background:#101014;border:1px dashed var(--line-2);padding:12px;border-radius:12px;margin-top:10px;font-size:.95rem}
+    .paybox strong{color:#fff}
+    .pay-methods{display:flex;gap:8px;flex-wrap:wrap}
+    .pay-methods label{display:flex;align-items:center;gap:8px;background:#0f0f14;border:1px solid var(--line);padding:8px 10px;border-radius:10px;cursor:pointer}
+    .pay-methods input{accent-color:var(--accent)}
   </style>
 </head>
 <body>
   <header class="topbar">
     <div class="brand"><span class="logo">BA</span><span class="accent">Brainrot</span></div>
-    <nav class="nav"><a href="index.html">Shop</a></nav>
+    <nav class="nav"><a href="./index.html">Shop</a></nav>
   </header>
 
   <section class="hero hero--image"><div class="hero__inner"></div></section>
 
   <main class="checkout">
-    <div class="pill cash">CashApp flow</div>
+    <div class="pill cash">CashApp / PayPal / Card</div>
     <div class="ck-grid">
       <div class="ck-card">
         <h2 class="ck-title">Order Summary</h2>
         <div id="ckItems">Loading...</div>
         <div class="ck-total"><span>Total</span><span id="ckTotal">$0.00</span></div>
-        <p class="ck-help">After you submit, we’ll DM you with our CashApp tag and delivery steps.</p>
+
+        <div class="paybox" id="payInfo">
+          <p><strong>How payment works</strong></p>
+          <ul style="margin:8px 0 0 18px;line-height:1.5">
+            <li><strong>Cash App:</strong> send the total to <strong>$samuelkumpula</strong>.</li>
+            <li><strong>PayPal:</strong> send to <strong>samuelkumpula235</strong>.</li>
+            <li><strong>Card:</strong> choose “Card (Stripe)” and after you submit we’ll send you a secure Stripe checkout link.</li>
+          </ul>
+          <p class="ck-help">As soon as we receive the payment, we’ll add you and join your private server to deliver your brainrots.</p>
+        </div>
       </div>
 
       <div class="ck-card">
@@ -48,6 +63,14 @@
           <label>Phone</label><input id="phone" type="tel" placeholder="###-###-####" />
           <label>Email</label><input id="email" type="email" placeholder="you@example.com" />
           <label>Private Server Link</label><input id="pslink" type="url" placeholder="https://..." />
+
+          <label>Payment Method</label>
+          <div class="pay-methods" id="payMethods">
+            <label><input type="radio" name="pay" value="cashapp"> Cash App</label>
+            <label><input type="radio" name="pay" value="paypal"> PayPal</label>
+            <label><input type="radio" name="pay" value="card"> Card (Stripe)</label>
+          </div>
+
           <label>Notes (optional)</label><textarea id="notes" rows="4" placeholder="Anything we should know?"></textarea>
           <div id="ckError" class="ck-alert"></div>
           <button type="submit" class="btn buy full" id="ckSubmit">Submit Order</button>
@@ -57,6 +80,6 @@
   </main>
 
   <footer class="footer"><p>© <span id="y"></span> buy-a-brainrot</p></footer>
-  <script src="/checkout.js?v=5" defer></script>
+  <script src="./checkout.js?v=30" defer></script>
 </body>
 </html>
