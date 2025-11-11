@@ -7,13 +7,13 @@
 
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./style.css?v=35" />
+  <link rel="stylesheet" href="./style.css?v=36" />
 </head>
 <body>
   <!-- Header -->
   <header class="topbar">
-    <div class="brand">
-      <!-- inline logo -->
+    <!-- Brand is now a single link to home; no visual gap between “buy-a-” and “brainrot” -->
+    <a class="brand" href="./index.html" aria-label="buy-a-brainrot — home">
       <svg class="brand__logo" width="28" height="28" viewBox="0 0 24 24" aria-hidden="true">
         <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
           <stop offset="0" stop-color="#ff2b45"/><stop offset="1" stop-color="#ff5e76"/>
@@ -22,7 +22,7 @@
         <path d="M8 8h8M8 12h8M8 16h5" stroke="#0b0a0f" stroke-width="2" stroke-linecap="round"/>
       </svg>
       <span class="logo">buy-a-</span><span class="accent">brainrot</span>
-    </div>
+    </a>
     <nav class="nav">
       <a href="./index.html" class="active">Shop</a>
       <a href="./sell.html">Sell your brainrot</a>
@@ -69,12 +69,12 @@
     </div>
 
     <section id="grid" class="grid">
-      <!-- Spooky Grande (sale = 35) -->
-      <article class="card" id="spooky" data-name="Spooky Grande" data-price="35" data-added="20251110">
+      <!-- Spooky Grande | NOW 29.99, show WAS 50.00, 367.5M/s -->
+      <article class="card" id="spooky" data-name="Spooky Grande" data-price="29.99" data-was="50" data-added="20251110">
         <span class="flag flag--sale">50% OFF</span>
         <div class="thumb-wrap"><img class="thumb" src="./Spooky_Grande.webp" alt="Spooky Grande" /></div>
         <h3>Spooky Grande</h3>
-        <p class="speed">🕷️ 367.5M money / s</p>
+        <p class="speed">🕷️ 367.5M/s</p>
         <div class="qty">
           <button type="button" class="qty__btn" disabled>−</button>
           <input class="qty__input" value="1" readonly />
@@ -86,12 +86,12 @@
         </div>
       </article>
 
-      <!-- Evildon -->
-      <article class="card" data-name="Evildon" data-price="80" data-added="20251110">
+      <!-- Evildon | NOW 39.99, WAS 60.00 (rounded 2x), 30M/s -->
+      <article class="card" data-name="Evildon" data-price="39.99" data-was="60" data-added="20251110">
         <span class="flag flag--sale">50% OFF</span>
         <div class="thumb-wrap"><img class="thumb" src="./Eviledonn.png" alt="Evildon" /></div>
         <h3>Evildon</h3>
-        <p class="speed">😈 409M money / s</p>
+        <p class="speed">😈 30M/s</p>
         <div class="qty">
           <button type="button" class="qty__btn" disabled>−</button>
           <input class="qty__input" value="1" readonly />
@@ -103,7 +103,7 @@
         </div>
       </article>
 
-      <!-- Esok Sekolah (variants: 9.99 / 14.99) -->
+      <!-- Esok Sekolah (variants: 12.99 / 24.99) -->
       <article class="card" data-base="Esok Sekolah" data-added="20241101">
         <span class="flag flag--sale">50% OFF</span>
         <div class="thumb-wrap"><img class="thumb" src="./EsokSekolah2.webp" alt="Esok Sekolah" /></div>
@@ -111,8 +111,8 @@
         <p class="speed">⚡ Choose your speed</p>
 
         <div class="variant" role="group" aria-label="Esok variant">
-          <label><input type="radio" name="esokVariant" value="30M/s" data-price="9.99" checked> 30M/s</label>
-          <label><input type="radio" name="esokVariant" value="225M/s" data-price="14.99"> 225M/s</label>
+          <label><input type="radio" name="esokVariant" value="30M/s" data-price="12.99" checked> 30M/s</label>
+          <label><input type="radio" name="esokVariant" value="225M/s" data-price="24.99"> 225M/s</label>
         </div>
 
         <div class="qty">
@@ -126,8 +126,8 @@
         </div>
       </article>
 
-      <!-- Spaghetti Tualetti (unchanged price) -->
-      <article class="card" data-name="Spaghetti Tualetti" data-price="27" data-added="20251110" data-stock="2">
+      <!-- Spaghetti Tualetti | NOW 14.99 -->
+      <article class="card" data-name="Spaghetti Tualetti" data-price="14.99" data-added="20251110" data-stock="2">
         <span class="flag flag--sale">50% OFF</span>
         <div class="thumb-wrap"><img class="thumb" src="./Spaghettitualetti.webp" alt="Spaghetti Tualetti" /></div>
         <h3>Spaghetti Tualetti</h3>
@@ -143,7 +143,7 @@
         </div>
       </article>
 
-      <!-- Los-67 (16.99) -->
+      <!-- Los-67 | 16.99 -->
       <article class="card" data-name="Los-67" data-price="16.99" data-added="20251110">
         <span class="flag flag--sale">50% OFF</span>
         <div class="thumb-wrap"><img class="thumb" src="./Los-67.webp" alt="Los-67" /></div>
@@ -160,7 +160,7 @@
         </div>
       </article>
 
-      <!-- Los Chicletiras (variants) -->
+      <!-- Los Chicletiras (variants: 7.99 / 9.99) -->
       <article class="card" data-base="Los Chicletiras" data-added="20251110">
         <span class="flag flag--sale">50% OFF</span>
         <div class="thumb-wrap"><img class="thumb" src="./Los_ditos.webp" alt="Los Chicletiras" /></div>
@@ -168,8 +168,8 @@
         <p class="speed">🍬 Choose your speed</p>
 
         <div class="variant" role="group" aria-label="Chicletiras variant">
-          <label><input type="radio" name="chicVariant" value="28M/s" data-price="20" checked> 28M/s</label>
-          <label><input type="radio" name="chicVariant" value="43M/s" data-price="30"> 43M/s</label>
+          <label><input type="radio" name="chicVariant" value="28M/s" data-price="7.99" checked> 28M/s</label>
+          <label><input type="radio" name="chicVariant" value="43M/s" data-price="9.99"> 43M/s</label>
         </div>
 
         <div class="qty">
@@ -184,8 +184,8 @@
       </article>
     </section>
 
-    <!-- How it works (card style) -->
-    <section class="hiw hiw--cards">
+    <!-- How it works (more “glassy”) -->
+    <section class="hiw hiw--cards hiw--glassy">
       <h2 class="section-title">How delivery works</h2>
       <div class="hiw__grid">
         <div class="hiw__card"><div class="hiw__num">1</div><h4>Add to cart</h4><p>Pick your brainrot and place the order.</p></div>
@@ -194,15 +194,15 @@
       </div>
     </section>
 
-    <!-- Trust strip (compact chips, visually different) -->
-    <section class="quality quality--chips">
+    <!-- Trust strip (chip style, neon line) -->
+    <section class="quality quality--chips quality--neon">
       <div class="quality__item"><span class="q-ico">🧾</span> <strong>Transparent pricing</strong></div>
       <div class="quality__item"><span class="q-ico">🎥</span> <strong>Proof on request</strong></div>
       <div class="quality__item"><span class="q-ico">💬</span> <strong>Fast support</strong></div>
       <div class="quality__item"><span class="q-ico">🛡️</span> <strong>Safe delivery flow</strong></div>
     </section>
 
-    <!-- Reviews -->
+    <!-- Reviews (unchanged content) -->
     <section class="reviews">
       <h2 class="section-title">Recent reviews</h2>
       <div class="reviews__grid">
@@ -261,6 +261,6 @@
     </div>
   </aside>
 
-  <script src="./script.js?v=35" defer></script>
+  <script src="./script.js?v=36" defer></script>
 </body>
 </html>
