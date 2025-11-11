@@ -1,4 +1,4 @@
-// checkout.js (v41)
+// checkout.js (v42)
 const $ = (s, r = document) => r.querySelector(s);
 
 const CART_KEY = "bab_cart";
@@ -15,10 +15,18 @@ function renderSummary(){
 
   if(!items.length){ box.textContent = "Cart is empty."; return; }
 
+  // fallback thumb: same unknown-user SVG
+  const fallback = "data:image/svg+xml;utf8,"+
+    "<svg xmlns='http://www.w3.org/2000/svg' width='56' height='56' viewBox='0 0 56 56'>"+
+    "<rect width='56' height='56' rx='10' fill='%2314161c'/>"+
+    "<circle cx='28' cy='22' r='10' fill='%23333a46'/>"+
+    "<rect x='10' y='36' width='36' height='12' rx='6' fill='%23333a46'/>"+
+    "</svg>";
+
   box.innerHTML = items.map(i=>`
     <div class="ck-item">
       <div class="ck-item__left">
-        <img class="ck-thumb" src="${i.img || './RobloxScreenShot20250625_181305616.jpg'}" alt="">
+        <img class="ck-thumb" src="${i.img || fallback}" alt="">
         <div>
           <div class="ck-name">${i.name || i.title || "Item"}${i.qty>1 ? ` × ${i.qty}`:""}</div>
           ${i.variant ? `<div class="ck-variant">${i.variant}</div>` : ``}
@@ -37,7 +45,9 @@ function selectedPay(){
   return r ? r.value : ""; // 'cashapp' | 'paypal' | 'card'
 }
 
-/* -------------------- Modal + Toast -------------------- */
+/* -------------------- Modal + Loading + Toast -------------------- */
+let _showLoadingAfterClose = false;
+
 function ensureModal(){
   if ($("#bab-modal")) return;
   const el = document.createElement("div");
@@ -58,6 +68,12 @@ function ensureModal(){
       /* Toast */
       #bab-toast { position:fixed; left:50%; bottom:24px; transform:translateX(-50%); background:#0f0f14; color:#fff; border:1px solid #2a2a33; border-radius:999px; padding:10px 14px; font-weight:800; opacity:0; pointer-events:none; transition:opacity .2s, transform .2s; z-index:2100; }
       #bab-toast.show { opacity:1; transform:translateX(-50%) translateY(-4px); }
+      /* Loading overlay shown after closing modal */
+      #bab-loading { position:fixed; inset:0; display:none; align-items:center; justify-content:center; z-index:2050; background:rgba(12,11,15,.86); backdrop-filter:blur(2px); }
+      #bab-loading.show { display:flex; }
+      .bab-loadbox { background:#13131a; border:1px solid #2a2a33; color:#fff; padding:18px 20px; border-radius:16px; box-shadow:0 12px 40px rgba(0,0,0,.45); text-align:center; width:92%; max-width:420px; }
+      .bab-spinner { width:26px; height:26px; border:3px solid #2a2a33; border-top-color:#ff2b45; border-radius:50%; margin:0 auto 10px; animation:bab-spin 1s linear infinite; }
+      @keyframes bab-spin { to { transform:rotate(360deg); } }
     </style>
     <div id="bab-mask"></div>
     <div id="bab-panel" role="dialog" aria-modal="true" aria-labelledby="bab-title">
@@ -68,6 +84,13 @@ function ensureModal(){
       </div>
     </div>
     <div id="bab-toast" aria-live="polite"></div>
+    <div id="bab-loading">
+      <div class="bab-loadbox">
+        <div class="bab-spinner"></div>
+        <div style="font-family:Orbitron,Inter,sans-serif;font-weight:800;margin-bottom:4px">Preparing your brainrot…</div>
+        <div style="color:#a9adc0">We’re getting ready to join your private server. This won’t take long.</div>
+      </div>
+    </div>
   `;
   document.body.appendChild(el);
   $("#bab-mask").addEventListener("click", hideModal);
@@ -79,7 +102,18 @@ function showModal(title, html){
   $("#bab-body").innerHTML = html;
   $("#bab-modal").classList.add("show");
 }
-function hideModal(){ $("#bab-modal")?.classList.remove("show"); }
+function hideModal(){
+  const m = $("#bab-modal");
+  if (m) m.classList.remove("show");
+  // After closing instructions, show comfort loading screen
+  if (_showLoadingAfterClose) {
+    const ld = $("#bab-loading");
+    if (ld){ 
+      ld.classList.add("show");
+      setTimeout(()=>{ ld.classList.remove("show"); _showLoadingAfterClose = false; }, 2800);
+    }
+  }
+}
 
 function showToast(msg){
   const t = $("#bab-toast"); if (!t) return;
@@ -132,17 +166,20 @@ async function submitOrder(e){
   const payLabel = pay === "cashapp" ? "CashApp" : pay === "paypal" ? "PayPal" : "Card";
 
   const payload = {
-    source: "buy-a-brainrot",
-    items, total,
-    contact: { discord, phone, email },
-    pslink, notes,
-    payment_method: payLabel,
-    payment_method_raw: pay,
-    subject_prefix: payLabel,
-    ts: new Date().toISOString(),
-    notify: "samuelkumpula4@gmail.com",
-    checkout_url: window.location.href
-  };
+  source: "buy-a-brainrot",
+  items, total,
+  contact: { discord, phone, email },
+  pslink, notes,
+  payment_method: payLabel,
+  payment_method_raw: pay,
+  subject_prefix: payLabel,
+  ts: new Date().toISOString(),
+  // 🔽 alert both emails
+  notify: "samuelkumpula4@gmail.com,micahjohnkolb@gmail.com",
+  notify_list: ["samuelkumpula4@gmail.com","micahjohnkolb@gmail.com"],
+  checkout_url: window.location.href
+};
+
 
   const btn = $("#ckSubmit");
   btn.disabled = true; btn.textContent = "Submitting...";
@@ -163,7 +200,10 @@ async function submitOrder(e){
     $("#ckForm").reset();
     btn.textContent = "Submitted";
 
-    // Next steps modals with rounded buttons + toasts
+    // After they close the modal, show comfort loading overlay
+    _showLoadingAfterClose = true;
+
+    // Payment instructions — NOTE: ask for ROBLOX username (not Discord)
     if (pay === "cashapp") {
       const html = `
         <p>Send your total of <strong>${money(total)}</strong> to <strong>$samuelkumpula</strong> on Cash App.</p>
@@ -175,8 +215,8 @@ async function submitOrder(e){
         <ol style="margin:10px 0 0 20px;line-height:1.55">
           <li>Open Cash App → tap <em>Pay</em>.</li>
           <li>Enter <strong>${money(total)}</strong> and pay to <strong>$samuelkumpula</strong>.</li>
-          <li>Add your Discord <strong>@${discord || "username"}</strong> in the note.</li>
-          <li>Tap <strong>Pay</strong>. We’ll DM you and join your private server to deliver.</li>
+          <li><strong>In the note:</strong> put your <strong>ROBLOX username</strong> (do <em>not</em> put your Discord @).</li>
+          <li>Tap <strong>Pay</strong>. We’ll add you and join your private server to deliver.</li>
         </ol>
       `;
       showModal("Cash App — Next Steps", html);
@@ -191,10 +231,11 @@ async function submitOrder(e){
           <button class="bab-btn" id="copy-pp-total">Copy total</button>
         </div>
         <ol style="margin:10px 0 0 20px;line-height:1.55">
-          <li>Open PayPal → <em>Send</em> money to <strong>samuelkumpula235</strong>.</li>
+          <li>Open PayPal → send to <strong>samuelkumpula235</strong>.</li>
           <li>Select <strong>Friends &amp; Family</strong>.</li>
-          <li>Enter <strong>${money(total)}</strong> and add your Discord <strong>@${discord || "username"}</strong> in the note.</li>
-          <li>Send. We’ll DM you and join your private server to deliver.</li>
+          <li>Enter <strong>${money(total)}</strong>.</li>
+          <li><strong>In the note:</strong> put your <strong>ROBLOX username</strong> (not your Discord @).</li>
+          <li>Send. We’ll add you and join your private server to deliver.</li>
         </ol>
       `;
       showModal("PayPal — Next Steps", html);
@@ -202,7 +243,7 @@ async function submitOrder(e){
       $("#copy-pp-total")?.addEventListener("click", ()=> copyAndToast(`${money(total)}`, "Total copied"));
     } else {
       showModal("Card (Stripe) — Next Steps",
-        `<p>We’ll send you a secure Stripe checkout link for <strong>${money(total)}</strong>. Fill it out to pay by card. We’ll DM you and join your private server as soon as it’s processed.</p>`);
+        `<p>We’ll send you a secure Stripe checkout link for <strong>${money(total)}</strong>. After paying, we’ll add you and join your private server. <br><br><strong>Tip:</strong> have your <strong>ROBLOX username</strong> ready for delivery notes.</p>`);
     }
 
   } catch(err){
