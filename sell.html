@@ -6,9 +6,13 @@
   <title>Sell your brainrot — buy-a-brainrot</title>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./style.css?v=34" />
+  <link rel="stylesheet" href="./style.css?v=36" />
 </head>
-<body>
+<body class="sell-page">
+  <!-- Background + dim overlay -->
+  <div class="page-bg" aria-hidden="true"></div>
+  <div class="page-dim" aria-hidden="true"></div>
+
   <header class="topbar">
     <div class="brand">
       <svg class="brand__logo" width="28" height="28" viewBox="0 0 24 24" aria-hidden="true">
@@ -29,28 +33,61 @@
 
   <main class="container">
     <h1 class="section-title">Sell your brainrot</h1>
-    <p style="color:#a9adc0;margin-top:-6px">There’s a <strong>$5 listing fee</strong> to keep spam away. Fill this out and we’ll reach out if it’s a fit.</p>
+    <p style="color:#a9adc0;margin-top:-6px">
+      There’s a <strong>$5 listing fee</strong> to keep spam away. Fill this out and we’ll reach out if it’s a fit.
+    </p>
 
-    <form id="sellForm" class="sellform">
+    <form id="sellForm" class="sellform" autocomplete="on">
       <div class="frow">
-        <label>Brainrot name <input required name="item" placeholder="e.g., Esok Sekolah" /></label>
-        <label>Speed / stats <input required name="speed" placeholder="e.g., 225M/s" /></label>
+        <label>Brainrot name
+          <input required name="item" placeholder="e.g., Esok Sekolah" />
+        </label>
+        <label>Speed / stats
+          <input required name="speed" placeholder="e.g., 225M/s" />
+        </label>
       </div>
-      <div class="frow">
-        <label>Desired price (USD) <input required type="number" min="1" step="0.01" name="price" placeholder="e.g., 35" /></label>
-        <label>Quantity <input required type="number" min="1" step="1" name="qty" value="1" /></label>
-      </div>
-      <div class="frow">
-        <label>Discord <input name="discord" placeholder="yourtag or @username" /></label>
-        <label>Phone <input name="phone" placeholder="optional" /></label>
-      </div>
-      <label>Email <input type="email" name="email" placeholder="you@example.com" /></label>
 
-      <label>Notes <textarea name="notes" rows="4" placeholder="Anything else we should know?"></textarea></label>
+      <div class="frow">
+        <label>Sell price (USD)
+          <input required type="number" min="1" step="0.01" name="price" placeholder="e.g., 35" />
+        </label>
+        <label>Quantity
+          <input required type="number" min="1" step="1" name="qty" value="1" />
+        </label>
+      </div>
+
+      <fieldset class="pay-group">
+        <legend>Listing fee payment method</legend>
+        <label class="radio">
+          <input type="radio" name="payment" value="cashapp" checked />
+          <span>Cash App</span>
+        </label>
+        <label class="radio">
+          <input type="radio" name="payment" value="paypal" />
+          <span>PayPal</span>
+        </label>
+      </fieldset>
+
+      <div class="frow">
+        <label>Discord
+          <input name="discord" placeholder="@username or yourtag" />
+        </label>
+        <label>Phone
+          <input name="phone" inputmode="tel" placeholder="optional" />
+        </label>
+      </div>
+
+      <label>Email
+        <input type="email" name="email" placeholder="you@example.com" />
+      </label>
+
+      <label>Notes
+        <textarea name="notes" rows="4" placeholder="Anything else we should know?"></textarea>
+      </label>
 
       <div class="fee-box">
         <div>Listing fee: <strong>$5</strong> (charged only if we accept).</div>
-        <div class="tiny">By submitting, you agree that we may contact you about this listing.</div>
+        <div class="tiny">We’ll email you with next steps after review.</div>
       </div>
 
       <button type="submit" class="btn buy" style="width:100%">Send request</button>
@@ -68,8 +105,9 @@
   </footer>
 
   <script>
-    // replace with your deployed Apps Script URL
-    const GAS_URL = "https://script.google.com/macros/s/PASTE_DEPLOYMENT_ID/exec";
+    // Your deployed Apps Script endpoint
+    const GAS_URL = "https://script.google.com/macros/s/AKfycbzQLaMIBv2wC7OGmsWLIXTwLJaA5g-_Uh83stNSQX5X0FDfMBzsDn4bhjS8_XcKLeVX/exec";
+
     document.getElementById("y").textContent = String(new Date().getFullYear());
 
     const form = document.getElementById("sellForm");
@@ -78,17 +116,26 @@
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
       const data = Object.fromEntries(new FormData(form).entries());
+      statusEl.style.color = "#a9adc0";
       statusEl.textContent = "Sending...";
+
       try {
         const res = await fetch(GAS_URL, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ type: "SELL_REQUEST", ...data })
         });
+
         if (!res.ok) throw new Error("Bad response");
-        form.reset();
-        statusEl.style.color = "#8cff9a";
-        statusEl.textContent = "Request has been sent! We’ll reach out soon.";
+        const payload = await res.json().catch(() => ({ ok: true }));
+
+        if (payload.ok) {
+          form.reset();
+          statusEl.style.color = "#8cff9a";
+          statusEl.textContent = "Request has been sent! We’ll reach out soon.";
+        } else {
+          throw new Error(payload.error || "Unknown error");
+        }
       } catch (err) {
         statusEl.style.color = "#ff8c8c";
         statusEl.textContent = "Could not send right now. You can also email us at samuelkumpula4@gmail.com.";
@@ -97,15 +144,40 @@
   </script>
 
   <style>
-    .sellform{display:grid;gap:12px;max-width:760px}
+    /* Background image + dim overlay */
+    .sell-page{position:relative}
+    .page-bg{
+      position:fixed; inset:0; z-index:-2;
+      background:url("./Steal-a-Brainrot-Pathway-2.webp") center/cover no-repeat fixed;
+      filter:saturate(1.05) contrast(1.02);
+    }
+    .page-dim{
+      position:fixed; inset:0; z-index:-1;
+      background:radial-gradient(60% 60% at 50% 30%, rgba(12,11,15,.35) 0%, rgba(12,11,15,.75) 60%, rgba(12,11,15,.92) 100%),
+                 rgba(8,7,11,.66);
+      backdrop-filter:blur(2px);
+    }
+
+    /* Form */
+    .sellform{display:grid;gap:12px;max-width:760px;background:rgba(18,18,23,.7);border:1px solid var(--line);border-radius:14px;padding:16px}
     .sellform label{display:grid;gap:6px;font-weight:700}
     .sellform input,.sellform textarea{
       background:#101014;border:1px solid var(--line);color:#fff;border-radius:12px;padding:10px;
     }
     .frow{display:grid;gap:12px;grid-template-columns:repeat(2,minmax(0,1fr))}
-    .fee-box{display:flex;align-items:center;justify-content:space-between;border:1px dashed var(--line-2);border-radius:12px;padding:10px}
+    .fee-box{display:flex;align-items:center;justify-content:space-between;border:1px dashed var(--line-2);border-radius:12px;padding:10px;background:rgba(16,16,20,.6)}
     .tiny{font-size:.88rem;color:#8b8fa3}
-    @media (max-width:640px){.frow{grid-template-columns:1fr}}
+
+    /* Payment radios */
+    .pay-group{margin:4px 0 2px;border:1px solid var(--line);border-radius:12px;padding:10px;background:#0f0f14}
+    .pay-group legend{padding:0 6px;font-weight:800;color:#d8dbea}
+    .radio{display:inline-flex;align-items:center;gap:8px;margin-right:14px}
+    .radio input{accent-color:var(--accent)}
+
+    @media (max-width:640px){
+      .frow{grid-template-columns:1fr}
+      .sellform{padding:14px}
+    }
   </style>
 </body>
 </html>
