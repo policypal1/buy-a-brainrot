@@ -154,6 +154,26 @@ function equalizeHeights(){
   cards.forEach(c=>c.style.minHeight = `${Math.ceil(max)}px`);
 }
 
+/* ===== Listing rules =====
+   - Max per listing: default 1
+   - Toilets (e.g., Spaghetti Tualetti with data-stock="2"): max 2
+   - Variants count as distinct listings (unique listingId per selected variant)
+*/
+function getListingId(card, variantLabel){
+  // Prefer explicit data-listing or element id; fall back to name/base + variant text
+  const baseId = card.dataset.listing || card.id || card.dataset.name || card.dataset.base || card.querySelector("h3")?.textContent?.trim() || "item";
+  return variantLabel ? `${baseId}|${variantLabel}` : baseId;
+}
+function getMaxQtyForCard(card){
+  // If a card has explicit stock (e.g., toilets set to 2), use it; otherwise 1
+  const explicit = Number(card.dataset.stock || 0);
+  return explicit > 0 ? explicit : 1;
+}
+function countInCart(listingId){
+  const cart = getCart();
+  return cart.filter(i => i.listingId === listingId).length;
+}
+
 /* ===== Init ===== */
 document.addEventListener("DOMContentLoaded", () => {
   $("#y").textContent = String(new Date().getFullYear());
@@ -167,22 +187,42 @@ document.addEventListener("DOMContentLoaded", () => {
   $$(".card").forEach(c => { applySaleToCard(c); wireVariants(c); });
   mergeDuplicates();
 
-  // Add-to-cart
+  // Sort by cheapest → most expensive on load
+  sortGrid("price-asc");
+  const sortSel = $("#sortSelect");
+  if (sortSel) sortSel.value = "price-asc";
+
+  // Add-to-cart with per-listing limits
   $$(".add").forEach(btn => btn.addEventListener("click", (e)=>{
     const card = e.currentTarget.closest(".card");
     const name = card.querySelector("h3").textContent.trim();
     const img = card.querySelector("img")?.src || "";
     const group = btn.dataset.variantGroup;
     let variant = "", price = Number(card.dataset.price || 0);
+
     if (group) {
       const checked = card.querySelector(`input[name="${group}"]:checked`);
       if (checked) {
         price = Number(checked.dataset.price || price);
-        variant = checked.parentElement.textContent.trim();
+        // Variant label shown to user (e.g., "30M/s — $12.99" or just "30M/s")
+        const raw = checked.parentElement.textContent.trim();
+        variant = raw.replace(/\s*—\s*\$\d+(\.\d{2})?$/,'');
       }
     }
+
     price = normalizedSale(price, card);
-    addToCart({ name, img, price, qty:1, variant });
+
+    const listingId = getListingId(card, variant);
+    const maxQty = getMaxQtyForCard(card);
+    const existing = countInCart(listingId);
+
+    if (existing >= maxQty) {
+      const maxText = maxQty === 1 ? "only 1 allowed per listing" : `limit ${maxQty} for this listing`;
+      alert(`You’ve reached the limit for "${name}${variant ? ` • ${variant}` : ""}" — ${maxText}.`);
+      return;
+    }
+
+    addToCart({ name, img, price, qty:1, variant, listingId });
     $("#cartDrawer").classList.add("open");
   }));
 
