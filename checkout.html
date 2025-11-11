@@ -7,9 +7,22 @@
 
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./style.css?v=40" />
+  <link rel="stylesheet" href="./style.css?v=41" />
 
   <style>
+    /* ===== Page background ===== */
+    .ck .page-bg{
+      position:fixed; inset:0; z-index:-2;
+      background:url("./RobloxScreenShot20250625_181305616.jpg") center/cover no-repeat fixed;
+      filter:saturate(1.02) contrast(1.02);
+    }
+    .ck .page-dim{
+      position:fixed; inset:0; z-index:-1;
+      background:radial-gradient(70% 60% at 50% 30%, rgba(12,11,15,.35) 0%, rgba(12,11,15,.78) 60%, rgba(12,11,15,.92) 100%),
+                 rgba(8,7,11,.60);
+      backdrop-filter:blur(1.5px);
+    }
+
     /* ===== Page shell ===== */
     .checkout{width:92%;max-width:1100px;margin:24px auto 80px}
     .steps{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0 18px}
@@ -26,11 +39,10 @@
     .ck-list{display:grid;gap:10px}
     .ck-item{display:flex;align-items:center;justify-content:space-between;border:1px solid var(--line);background:#101014;border-radius:12px;padding:10px}
     .ck-item__left{display:flex;gap:10px;align-items:center}
-    .ck-thumb{width:56px;height:56px;object-fit:contain;border:1px solid var(--line);border-radius:10px;background:#0f0f14}
+    .ck-thumb{width:56px;height:56px;object-fit:cover;border:1px solid var(--line);border-radius:10px;background:#0f0f14}
     .ck-name{font-weight:800}
     .ck-variant{color:#a9adc0;font-size:.9rem}
     .ck-price{font-weight:800}
-
     .ck-total{display:flex;justify-content:space-between;margin-top:12px;font-weight:800;font-size:1.05rem}
 
     /* Sticky summary on wide screens */
@@ -68,26 +80,24 @@
     .trust__item{display:flex;gap:10px;align-items:flex-start;background:#101014;border:1px solid var(--line);border-radius:12px;padding:12px}
     .trust__item b{display:block}
 
-    /* ===== Tiny brand polish ===== */
+    /* Tiny brand polish */
     .brand{display:flex;align-items:center;font-family:Orbitron,Inter,sans-serif;font-weight:800}
     .brand .logo{display:inline-block;margin-right:6px}
   </style>
 </head>
-<body>
+<body class="ck">
+  <!-- BG -->
+  <div class="page-bg" aria-hidden="true"></div>
+  <div class="page-dim" aria-hidden="true"></div>
+
   <header class="topbar">
-    <div class="brand">
-      <span class="logo">buy-a-</span><span class="accent">brainrot</span>
-    </div>
-    <nav class="nav">
-      <a href="./index.html">Shop</a>
-    </nav>
+    <div class="brand"><span class="logo">buy-a-</span><span class="accent">brainrot</span></div>
+    <nav class="nav"><a href="./index.html">Shop</a></nav>
   </header>
 
-  <!-- subtle banner -->
   <section class="hero hero--image"><div class="hero__inner"></div></section>
 
   <main class="checkout">
-    <!-- progress -->
     <div class="steps">
       <span class="step">1 • Cart</span>
       <span class="step active">2 • Checkout</span>
@@ -95,7 +105,7 @@
     </div>
 
     <div class="ck-grid">
-      <!-- LEFT: form -->
+      <!-- LEFT: form + trust -->
       <div class="ck-card">
         <h2 class="ck-title">Your Details</h2>
 
@@ -146,15 +156,14 @@
           </div>
         </form>
 
-        <!-- trust strip -->
         <div class="trust">
-          <div class="trust__item">🔒 <div><b>Secure process</b> Your order details go straight to us—no sketchy third parties.</div></div>
-          <div class="trust__item">🎥 <div><b>Proof on request</b> We can show delivery proof or screen share during delivery.</div></div>
+          <div class="trust__item">🔒 <div><b>Secure process</b> Your order details go straight to us—no middlemen.</div></div>
+          <div class="trust__item">🎥 <div><b>Proof on request</b> We can show delivery proof or screenshare during delivery.</div></div>
           <div class="trust__item">⚡ <div><b>Fast delivery</b> Most orders fulfilled shortly after payment confirmation.</div></div>
         </div>
       </div>
 
-      <!-- RIGHT: summary -->
+      <!-- RIGHT: summary + reviews -->
       <aside class="ck-aside">
         <div class="ck-card">
           <h2 class="ck-title">Order Summary</h2>
@@ -162,13 +171,12 @@
           <div class="ck-total"><span>Total</span><span id="ckTotal">$0.00</span></div>
         </div>
 
-        <!-- mini reviews -->
         <div class="ck-card" style="margin-top:12px">
           <h2 class="ck-title">What buyers say</h2>
           <div class="ck-list">
             <div class="ck-item" style="gap:10px">
               <div class="ck-item__left" style="gap:12px">
-                <img class="ck-thumb" src="./avatar1.webp" alt="" />
+                <img class="ck-thumb" src="./RobloxScreenShot20250625_181305616.jpg" alt="" />
                 <div>
                   <div class="ck-name">k1ra<span style="color:#f3c96a"> ★★★★★</span></div>
                   <div class="ck-variant">“Delivery was fast and clean. Would buy again.”</div>
@@ -177,7 +185,7 @@
             </div>
             <div class="ck-item" style="gap:10px">
               <div class="ck-item__left" style="gap:12px">
-                <img class="ck-thumb" src="./avatar2.webp" alt="" />
+                <img class="ck-thumb" src="./RobloxScreenShot20250625_181305616.jpg" alt="" />
                 <div>
                   <div class="ck-name">jsn_420<span style="color:#f3c96a"> ★★★★★</span></div>
                   <div class="ck-variant">“Got exactly what I paid for, no hassle.”</div>
@@ -191,12 +199,7 @@
   </main>
 
   <footer class="footer"><p>© <span id="y"></span> buy-a-brainrot</p></footer>
-  <script src="./checkout.js?v=40" defer></script>
-  <script>
-    // year
-    document.addEventListener("DOMContentLoaded", () => {
-      const y = document.querySelector("#y"); if (y) y.textContent = new Date().getFullYear();
-    });
-  </script>
+  <script src="./checkout.js?v=41" defer></script>
+  <script>document.addEventListener("DOMContentLoaded",()=>{const y=document.querySelector("#y"); if(y) y.textContent=new Date().getFullYear();});</script>
 </body>
 </html>
