@@ -35,7 +35,9 @@ button{font:inherit}
   background:
     radial-gradient(900px 420px at 70% 10%, rgba(255,43,69,.08), transparent 60%),
     radial-gradient(700px 380px at 20% -10%, rgba(255,43,69,.06), transparent 60%),
-    linear-gradient(180deg, rgba(12,11,15,.86) 0%, rgba(12,11,15,.70) 45%, rgba(12,11,15,.92) 100%)
+    linear-gradient(180deg, rgba(12,11,15,.86) 0%, rgba(12,11,15,.70) 45%, rgba(12,11,15,.92) 100%),
+    url("/Taco_Tuesday.webp");
+  background-size:cover; background-position:center 40%;
 }
 .hero__wrap{width:90%;max-width:1200px;margin:0 auto;padding:48px 0 34px}
 .hero--sale h1{font-family:Orbitron,Inter,sans-serif;letter-spacing:.02em;margin:0 0 6px}
@@ -65,11 +67,19 @@ button{font:inherit}
 .shop-sort select{background:#101014;color:#fff;border:1px solid var(--line);border-radius:10px;padding:8px 10px}
 
 /* ---------------- Grid & Cards ---------------- */
-.grid{display:grid;gap:24px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+.grid{
+  display:grid;gap:24px;
+  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+  align-items:stretch; /* make all items stretch to same row height */
+}
 .card{
   position:relative;display:flex;flex-direction:column;gap:10px;padding:16px;background:var(--card);
   border:1px solid var(--line);border-radius:14px;transition:transform .15s ease,border-color .2s,box-shadow .2s;
-  overflow:hidden; isolation:isolate; /* clip glow & stop corner bleed */
+  overflow:hidden; isolation:isolate; min-height:100%; /* help equalize */
+}
+.card.card--sale{
+  border-color:rgba(255,43,69,.5);
+  box-shadow:0 0 22px rgba(255,43,69,.22);
 }
 .card:hover{transform:translateY(-3px);border-color:var(--line-2);box-shadow:0 0 18px rgba(255,43,69,.16)}
 .card h3{margin:6px 0 0;font-size:1.05rem}
@@ -113,12 +123,16 @@ button{font:inherit}
 .qty{display:flex;align-items:center;gap:6px}
 .qty__btn{width:30px;height:30px;border-radius:8px;cursor:pointer;border:1px solid var(--line);background:#111;color:#fff}
 .qty__input{width:52px;height:30px;border-radius:8px;text-align:center;color:#fff;background:#101014;border:1px solid var(--line);outline:none}
-.price{font-weight:800;font-size:1.05rem;margin-top:6px}
-.price .was{color:#8b8fa3;margin-right:8px;text-decoration:line-through}
+.price{font-weight:800;font-size:1.05rem;margin-top:6px;display:flex;align-items:center;gap:8px}
+.price .was{color:#8b8fa3;text-decoration:line-through}
 .price .now{font-weight:800}
+.price .sale-pill{
+  font-size:.72rem;font-weight:900;background:rgba(255,43,69,.18);border:1px solid rgba(255,43,69,.55);
+  padding:2px 6px;border-radius:999px;letter-spacing:.4px
+}
 
 /* Actions */
-.actions{display:flex;gap:10px;margin-top:2px}
+.actions{margin-top:auto;display:flex;gap:10px}
 .btn{
   flex:1;border:none;border-radius:10px;padding:10px 0;font-weight:800;cursor:pointer;
   transition:background .2s,transform .08s,box-shadow .2s;font-size:.86rem
