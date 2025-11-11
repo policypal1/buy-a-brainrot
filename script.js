@@ -70,27 +70,24 @@ $$(".card").forEach(card => {
   bindLimitOne(card);
   if (card.dataset.name?.toLowerCase().includes("esok")) bindEsokVariant(card);
 
-  // overlay mini buy (image area)
   const overlayBuy = $(".mini-buy", card);
-  const input = $(".qty__input", card);
   const priceEl = card.querySelector(".price,[data-price]");
   const addBtn = $(".add", card);
   const buyBtn = $(".buy", card);
-  if (!priceEl) return;
 
   const addToCart = () => {
     const name = card.dataset.name || card.querySelector("h3")?.textContent || "Item";
     const qty = 1;
-    const price = Number(card.dataset.price || priceEl.textContent.replace("$","")) || 0;
+    const price = Number(card.dataset.price || priceEl?.textContent?.replace("$","")) || 0;
     cart.add(name, qty, price);
   };
 
-  overlayBuy?.addEventListener("click", () => { addToCart(); });
+  overlayBuy?.addEventListener("click", addToCart);
   addBtn?.addEventListener("click", addToCart);
   buyBtn?.addEventListener("click", () => { addToCart(); openDrawer(); });
 });
 
-/* SEARCH (in toolbar) */
+/* SEARCH */
 function applyFilter(term){
   const q = term.toLowerCase().trim();
   $$("#grid .card").forEach(c => {
@@ -101,10 +98,9 @@ function applyFilter(term){
 }
 $("#searchInput")?.addEventListener("input", e => applyFilter(e.target.value));
 
-/* SORT (now fully reliable) */
+/* SORT */
 const sortSelect = $("#sortSelect");
 function normalizePrices(){
-  // if a card lacks data-price, infer from .price text
   $$("#grid .card").forEach(c => {
     if (!c.dataset.price) {
       const t = c.querySelector(".price")?.textContent?.replace("$","") || "0";
@@ -123,7 +119,6 @@ function sortCards(mode="featured"){
   arr.forEach(c=>grid.appendChild(c));
 }
 sortSelect?.addEventListener("change", e => sortCards(e.target.value));
-// initialize to whatever the dropdown currently shows
 if (sortSelect) sortCards(sortSelect.value);
 
 /* drawer */
@@ -133,35 +128,11 @@ const closeDrawer = () => drawer?.classList.remove("open");
 $("#openCart")?.addEventListener("click", openDrawer);
 $("#closeCart")?.addEventListener("click", closeDrawer);
 
-/* checkout (wire one of the flows below) */
-$("#checkoutBtn")?.addEventListener("click", async () => {
+/* checkout → CashApp form page */
+$("#checkoutBtn")?.addEventListener("click", () => {
   if (!cart.items.length) { alert("Cart is empty."); return; }
-
-  // --- STRIPE CHECKOUT (recommended) ---
-  // Send cart to your serverless function to create a Checkout Session.
-  try {
-    const res = await fetch("/api/create-checkout-session", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ items: cart.items })
-    });
-    const data = await res.json();
-    if (data?.url) {
-      window.location.href = data.url;
-      return;
-    }
-    // If not configured yet, fall back to quote flow:
-    throw new Error("Stripe not configured");
-  } catch (e) {
-    // --- REQUEST QUOTE FALLBACK ---
-    const msg = encodeURIComponent(
-      `Order request:\n` +
-      cart.items.map(i => `• ${i.name} x${i.qty} — $${(i.qty*i.price).toFixed(2)}`).join("\n") +
-      `\nTotal: $${cart.total().toFixed(2)}\n` +
-      `Discord: <your @>\nPS Link: <paste here>`
-    );
-    window.location.href = `mailto:orders@yourdomain.com?subject=Brainrot%20Order%20Request&body=${msg}`;
-  }
+  localStorage.setItem("bab_cart", JSON.stringify(cart.items));
+  window.location.href = "/checkout.html";
 });
 
 /* footer year */
