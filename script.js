@@ -3,7 +3,80 @@ const $ = (s, c = document) => c.querySelector(s);
 const $$ = (s, c = document) => Array.from(c.querySelectorAll(s));
 const money = (n) => `$${Number(n).toFixed(2)}`;
 
-// --- Midnight countdown
+/* ============================
+   CART (shared with checkout)
+   ============================ */
+const CART_KEY = "bab_cart";
+
+// migrate legacy "cart" key once (older builds)
+(function migrateCart() {
+  try {
+    const legacy = JSON.parse(localStorage.getItem("cart") || "[]");
+    const current = JSON.parse(localStorage.getItem(CART_KEY) || "[]");
+    if (legacy.length && !current.length) {
+      localStorage.setItem(CART_KEY, JSON.stringify(legacy));
+      localStorage.removeItem("cart");
+    }
+  } catch {}
+})();
+
+function getCart() {
+  try { return JSON.parse(localStorage.getItem(CART_KEY) || "[]"); }
+  catch { return []; }
+}
+function setCart(arr) {
+  localStorage.setItem(CART_KEY, JSON.stringify(arr));
+  const badge = $("#cartCount");
+  if (badge) badge.textContent = String(arr.length);
+}
+function addToCart(item) {
+  const cart = getCart();
+  cart.push(item);                    // one item per click
+  setCart(cart);                      // persist
+  renderCart();                       // refresh drawer UI
+}
+function removeFromCart(index) {
+  const cart = getCart();
+  cart.splice(index, 1);
+  setCart(cart);
+  renderCart();
+}
+
+// Drawer render
+function renderCart() {
+  const cart = getCart();
+  const wrap = $("#cartItems");
+  if (!wrap) return;
+
+  if (!cart.length) {
+    wrap.textContent = "Cart is empty.";
+  } else {
+    wrap.innerHTML = cart.map((i, idx) => `
+      <div style="display:flex;align-items:center;justify-content:space-between;border:1px solid var(--line);padding:8px;border-radius:10px;margin-bottom:8px">
+        <div style="display:flex;gap:10px;align-items:center">
+          <img src="${i.img || ""}" alt="" style="width:52px;height:52px;object-fit:contain;border:1px solid var(--line);border-radius:8px;background:#0f0f14" />
+          <div>
+            <div style="font-weight:800">${i.name}${i.variant ? ` • ${i.variant}` : ""}</div>
+            <div style="color:#a9adc0">${money((i.price || 0) * (i.qty || 1))}</div>
+          </div>
+        </div>
+        <button data-i="${idx}" class="drawer__close" style="width:auto;height:auto;padding:6px 10px">Remove</button>
+      </div>
+    `).join("");
+  }
+
+  const total = cart.reduce((s, i) => s + (Number(i.price) || 0) * (Number(i.qty) || 1), 0);
+  const totalEl = $("#cartTotal");
+  if (totalEl) totalEl.textContent = money(total);
+
+  $$("#cartItems .drawer__close").forEach((b) =>
+    b.addEventListener("click", (e) => removeFromCart(Number(e.currentTarget.dataset.i)))
+  );
+}
+
+/* ============================
+   Midnight countdown
+   ============================ */
 function startMidnightCountdown(el) {
   function tick() {
     const now = new Date();
@@ -19,7 +92,9 @@ function startMidnightCountdown(el) {
   setInterval(tick, 1000);
 }
 
-// --- Sale pricing
+/* ============================
+   Sale pricing
+   ============================ */
 function applySaleToCard(card) {
   card.classList.add("card--sale");
   const was = card.querySelector(".price .was");
@@ -36,8 +111,8 @@ function applySaleToCard(card) {
   }
 
   const original = salePrice * 2;
-  was.textContent = money(original);
-  now.innerHTML = `${money(salePrice)} <span class="sale-pill">50% OFF</span>`;
+  if (was) was.textContent = money(original);
+  if (now) now.innerHTML = `${money(salePrice)} <span class="sale-pill">50% OFF</span>`;
 }
 
 function wireVariants(card) {
@@ -53,7 +128,9 @@ function wireVariants(card) {
   });
 }
 
-// Merge dups by data-name/data-base
+/* ============================
+   Merge duplicate cards
+   ============================ */
 function mergeDuplicates() {
   const grid = $("#grid");
   const cards = $$(".card", grid);
@@ -97,43 +174,9 @@ function mergeDuplicates() {
   });
 }
 
-// Cart
-const cart = [];
-function addToCart(item) {
-  cart.push(item);
-  $("#cartCount").textContent = String(cart.length);
-  renderCart();
-}
-function renderCart() {
-  const wrap = $("#cartItems");
-  if (!cart.length) {
-    wrap.textContent = "Cart is empty.";
-  } else {
-    wrap.innerHTML = cart.map((i, idx) => `
-      <div style="display:flex;align-items:center;justify-content:space-between;border:1px solid var(--line);padding:8px;border-radius:10px;margin-bottom:8px">
-        <div style="display:flex;gap:10px;align-items:center">
-          <img src="${i.img}" alt="" style="width:52px;height:52px;object-fit:contain;border:1px solid var(--line);border-radius:8px;background:#0f0f14" />
-          <div>
-            <div style="font-weight:800">${i.title}${i.variant ? ` • ${i.variant}` : ""}</div>
-            <div style="color:#a9adc0">${money(i.price)}</div>
-          </div>
-        </div>
-        <button data-i="${idx}" class="drawer__close" style="width:auto;height:auto;padding:6px 10px">Remove</button>
-      </div>`).join("");
-  }
-  const total = cart.reduce((s, i) => s + i.price, 0);
-  $("#cartTotal").textContent = money(total);
-  $$("#cartItems .drawer__close").forEach((b) =>
-    b.addEventListener("click", (e) => {
-      const i = Number(e.currentTarget.dataset.i);
-      cart.splice(i, 1);
-      $("#cartCount").textContent = String(cart.length);
-      renderCart();
-    })
-  );
-}
-
-// Sorting
+/* ============================
+   Sorting & equal heights
+   ============================ */
 function sortGrid(by) {
   const grid = $("#grid");
   const cards = $$(".card", grid);
@@ -149,7 +192,6 @@ function sortGrid(by) {
   equalizeHeights();
 }
 
-// Equalize heights
 function equalizeHeights() {
   const cards = $$(".card");
   let max = 0;
@@ -158,17 +200,19 @@ function equalizeHeights() {
   cards.forEach((c) => (c.style.minHeight = `${Math.ceil(max)}px`));
 }
 
-// Init
+/* ============================
+   Init
+   ============================ */
 document.addEventListener("DOMContentLoaded", () => {
   $("#y").textContent = String(new Date().getFullYear());
   const timerEl = $("#saleTimer");
   if (timerEl) startMidnightCountdown(timerEl);
 
-  $("#openCart").addEventListener("click", () => $("#cartDrawer").classList.add("open"));
-  $("#closeCart").addEventListener("click", () => $("#cartDrawer").classList.remove("open"));
+  $("#openCart")?.addEventListener("click", () => $("#cartDrawer").classList.add("open"));
+  $("#closeCart")?.addEventListener("click", () => $("#cartDrawer").classList.remove("open"));
 
-  // NEW: checkout routes to checkout.html
-  $("#checkoutBtn").addEventListener("click", () => {
+  // checkout goes to checkout.html
+  $("#checkoutBtn")?.addEventListener("click", () => {
     window.location.href = "./checkout.html";
   });
 
@@ -185,15 +229,15 @@ document.addEventListener("DOMContentLoaded", () => {
   });
   mergeDuplicates();
 
-  // Add-to-cart
+  // Add-to-cart (save in shape checkout expects)
   $$(".add").forEach((btn) =>
     btn.addEventListener("click", (e) => {
       const card = e.currentTarget.closest(".card");
-      const title = card.querySelector("h3").textContent.trim();
+      const name = card.querySelector("h3").textContent.trim();
       const img = card.querySelector("img")?.src || "";
       let price = Number(card.dataset.price || 0);
-      const group = btn.dataset.variantGroup;
       let variant = "";
+      const group = btn.dataset.variantGroup;
       if (group) {
         const checked = card.querySelector(`input[name="${group}"]:checked`);
         if (checked) {
@@ -201,12 +245,16 @@ document.addEventListener("DOMContentLoaded", () => {
           variant = checked.parentElement.textContent.trim();
         }
       }
-      addToCart({ title, img, price, variant });
+      addToCart({ name, img, qty: 1, price, variant }); // <-- shape checkout.js reads
       $("#cartDrawer").classList.add("open");
     })
   );
 
-  $("#sortSelect").addEventListener("change", (e) => sortGrid(e.target.value));
+  // first render + badge refresh
+  setCart(getCart());
+  renderCart();
+
+  $("#sortSelect")?.addEventListener("change", (e) => sortGrid(e.target.value));
   equalizeHeights();
   window.addEventListener("resize", () => {
     clearTimeout(window.__eqT);
