@@ -1,7 +1,7 @@
 const $ = (s, r=document) => r.querySelector(s);
 
 const CART_KEY = "bab_cart";
-// Paste your deployed Apps Script Web App URL here:
+// Replace with your deployed Apps Script Web App URL:
 const GAS_ENDPOINT = "YOUR_APPS_SCRIPT_WEBAPP_URL";
 
 function money(n){ return `$${(Number(n)||0).toFixed(2)}`; }
@@ -53,11 +53,11 @@ async function submitOrder(e){
     pslink,
     notes,
     ts: new Date().toISOString(),
+    notify: "samuelkumpula4@gmail.com"
   };
 
   const btn = $("#ckSubmit");
-  btn.disabled = true;
-  btn.textContent = "Submitting...";
+  btn.disabled = true; btn.textContent = "Submitting...";
 
   try{
     const res = await fetch(GAS_ENDPOINT, {
@@ -71,10 +71,9 @@ async function submitOrder(e){
     $("#ckTotal").textContent = "$0.00";
     $("#ckForm").reset();
     btn.textContent = "Submitted";
-    alert("Thanks! A team member will contact you shortly with CashApp instructions.");
+    alert("Thanks! We’ll contact you shortly with CashApp instructions.");
   } catch(err){
-    btn.disabled = false;
-    btn.textContent = "Submit Order";
+    btn.disabled = false; btn.textContent = "Submit Order";
     $("#ckError").textContent = "Error sending order. Check your connection and try again.";
   }
 }
