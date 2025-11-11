@@ -7,7 +7,7 @@
 
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/style.css?v=15" />
+  <link rel="stylesheet" href="/style.css?v=16" />
 </head>
 <body>
   <!-- Header -->
@@ -26,15 +26,15 @@
   <!-- Hero -->
   <section class="hero hero--image">
     <div class="hero__inner">
-      <h1 class="glow">Buy Brainrots — Fast & Safe</h1>
-      <p class="hero__sub">Private-server delivery in minutes. Clear pricing. No middlemen.</p>
+      <h1 class="glow fade-up">Buy Brainrots — Fast & Safe</h1>
+      <p class="hero__sub fade-up delay-1">Private-server delivery in minutes. Clear pricing. No middlemen.</p>
 
-      <div class="hero__search">
-        <input id="searchInput" type="search" placeholder="Search live stock (e.g., Esok, Los Primos)" />
-        <a href="#grid" class="btn buy">Shop Live Stock</a>
+      <div class="hero__search fade-up delay-2">
+        <input id="searchInput" type="search" placeholder="Search live stock (e.g., esok, los, spooky)" />
+        <button id="applySearch" class="btn buy">Shop Live Stock</button>
       </div>
 
-      <ul class="hero__benefits">
+      <ul class="hero__benefits fade-up delay-3">
         <li>🔒 Secure checkout</li>
         <li>⚡ Near-instant delivery</li>
         <li>🧰 Live support</li>
@@ -53,14 +53,15 @@
         <select id="sortSelect" style="background:#101014;color:#fff;border:1px solid var(--line);border-radius:10px;padding:8px 10px;">
           <option value="featured">Featured</option>
           <option value="price-asc">Price: Low → High</option>
+          <option value="price-desc">Price: High → Low</option>
           <option value="new">Newly added</option>
         </select>
       </label>
     </div>
 
     <section id="grid" class="grid">
-      <!-- Spooky Grande (NEW) -->
-      <article class="card" data-name="Spooky Grande" data-price="50" data-added="20251110">
+      <!-- Spooky Grande -->
+      <article class="card fade-up" data-name="Spooky Grande" data-tags="spooky grande halloween" data-price="50" data-added="20251110">
         <div class="flag flag--hot">IN STOCK</div>
         <img class="thumb" src="/Spooky_Grande.webp" alt="Spooky Grande" />
         <h3>Spooky Grande</h3>
@@ -77,28 +78,57 @@
         </div>
       </article>
 
-      <!-- Los Primos was removed per your ask -->
-
-      <!-- Esok Sekolah (KEEP) -->
-      <article class="card" data-name="Esok Sekolah" data-price="30" data-added="20241101">
+      <!-- Evildon -->
+      <article class="card fade-up" data-name="Evildon" data-tags="evil evildon" data-price="80" data-added="20251110">
         <div class="flag flag--hot">IN STOCK</div>
-        <img class="thumb" src="/EsokSekolah2.webp" alt="Esok Sekolah" />
-        <h3>Esok Sekolah</h3>
-        <p class="speed">⚡ 30 million /s</p>
+        <img class="thumb" src="/Eviledonn.png" alt="Evildon" />
+        <h3>Evildon</h3>
+        <p class="speed">😈 409 million /s</p>
         <div class="qty">
           <button class="qty__btn" data-step="-1" aria-label="Decrease quantity">−</button>
           <input class="qty__input" type="number" value="1" min="1" max="1" inputmode="numeric" />
           <button class="qty__btn" data-step="1" aria-label="Increase quantity">+</button>
         </div>
-        <div class="price">$30.00</div>
+        <div class="price">$80.00</div>
         <div class="actions">
           <button class="btn btn--ghost add">Add to Cart</button>
           <button class="btn buy">Buy Now</button>
         </div>
       </article>
 
-      <!-- Spaghetti Tualetti (2 in stock overall, but limit 1 per order) -->
-      <article class="card" data-name="Spaghetti Tualetti" data-price="27" data-added="20251110" data-stock="2">
+      <!-- Esok Sekolah with variant toggle -->
+      <article class="card fade-up" data-name="Esok Sekolah" data-tags="esok sekolah esoksekolah" data-price="40" data-added="20241101">
+        <div class="flag flag--hot">IN STOCK</div>
+        <img class="thumb" src="/EsokSekolah2.webp" alt="Esok Sekolah" />
+        <h3>Esok Sekolah</h3>
+
+        <!-- Variant selector -->
+        <div class="variant">
+          <label>
+            <input type="radio" name="esok-variant" value="30|30|⚡ 30 million /s" checked>
+            30M/s — $30
+          </label>
+          <label>
+            <input type="radio" name="esok-variant" value="40|225|⚡ 225 million /s">
+            225M/s — $40
+          </label>
+        </div>
+
+        <p class="speed" data-speed>⚡ 30 million /s</p>
+        <div class="qty">
+          <button class="qty__btn" data-step="-1" aria-label="Decrease quantity">−</button>
+          <input class="qty__input" type="number" value="1" min="1" max="1" inputmode="numeric" />
+          <button class="qty__btn" data-step="1" aria-label="Increase quantity">+</button>
+        </div>
+        <div class="price" data-price>$30.00</div>
+        <div class="actions">
+          <button class="btn btn--ghost add">Add to Cart</button>
+          <button class="btn buy">Buy Now</button>
+        </div>
+      </article>
+
+      <!-- Spaghetti Tualetti -->
+      <article class="card fade-up" data-name="Spaghetti Tualetti" data-tags="spaghetti tualetti pasta" data-price="27" data-added="20251110" data-stock="2">
         <div class="flag flag--hot">2 LEFT</div>
         <img class="thumb" src="/Spaghettitualetti.webp" alt="Spaghetti Tualetti" />
         <h3>Spaghetti Tualetti</h3>
@@ -109,6 +139,60 @@
           <button class="qty__btn" data-step="1" aria-label="Increase quantity">+</button>
         </div>
         <div class="price">$27.00</div>
+        <div class="actions">
+          <button class="btn btn--ghost add">Add to Cart</button>
+          <button class="btn buy">Buy Now</button>
+        </div>
+      </article>
+
+      <!-- Los-67 -->
+      <article class="card fade-up" data-name="Los-67" data-tags="los 67 los-67" data-price="15" data-added="20251110">
+        <div class="flag flag--hot">IN STOCK</div>
+        <img class="thumb" src="/Los-67.webp" alt="Los-67" />
+        <h3>Los-67</h3>
+        <p class="speed">💥 157 million /s</p>
+        <div class="qty">
+          <button class="qty__btn" data-step="-1" aria-label="Decrease quantity">−</button>
+          <input class="qty__input" type="number" value="1" min="1" max="1" inputmode="numeric" />
+          <button class="qty__btn" data-step="1" aria-label="Increase quantity">+</button>
+        </div>
+        <div class="price">$15.00</div>
+        <div class="actions">
+          <button class="btn btn--ghost add">Add to Cart</button>
+          <button class="btn buy">Buy Now</button>
+        </div>
+      </article>
+
+      <!-- Los Chicletiras 28M -->
+      <article class="card fade-up" data-name="Los Chicletiras (28M)" data-tags="los chicletiras 28m" data-price="20" data-added="20251110">
+        <div class="flag flag--hot">IN STOCK</div>
+        <img class="thumb" src="/Los_ditos.webp" alt="Los Chicletiras 28M" />
+        <h3>Los Chicletiras (28M)</h3>
+        <p class="speed">🍬 28 million /s</p>
+        <div class="qty">
+          <button class="qty__btn" data-step="-1" aria-label="Decrease quantity">−</button>
+          <input class="qty__input" type="number" value="1" min="1" max="1" inputmode="numeric" />
+          <button class="qty__btn" data-step="1" aria-label="Increase quantity">+</button>
+        </div>
+        <div class="price">$20.00</div>
+        <div class="actions">
+          <button class="btn btn--ghost add">Add to Cart</button>
+          <button class="btn buy">Buy Now</button>
+        </div>
+      </article>
+
+      <!-- Los Chicletiras 43M -->
+      <article class="card fade-up" data-name="Los Chicletiras (43M)" data-tags="los chicletiras 43m" data-price="30" data-added="20251110">
+        <div class="flag flag--hot">IN STOCK</div>
+        <img class="thumb" src="/Los_ditos.webp" alt="Los Chicletiras 43M" />
+        <h3>Los Chicletiras (43M)</h3>
+        <p class="speed">🍬 43 million /s</p>
+        <div class="qty">
+          <button class="qty__btn" data-step="-1" aria-label="Decrease quantity">−</button>
+          <input class="qty__input" type="number" value="1" min="1" max="1" inputmode="numeric" />
+          <button class="qty__btn" data-step="1" aria-label="Increase quantity">+</button>
+        </div>
+        <div class="price">$30.00</div>
         <div class="actions">
           <button class="btn btn--ghost add">Add to Cart</button>
           <button class="btn buy">Buy Now</button>
@@ -139,6 +223,6 @@
     </div>
   </aside>
 
-  <script src="/app.js?v=15"></script>
+  <script src="/app.js?v=16"></script>
 </body>
 </html>
