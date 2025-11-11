@@ -3,7 +3,7 @@ const $ = (s, r=document) => r.querySelector(s);
 const CART_KEY = "bab_cart";
 
 // ✅ Your Apps Script Web App URL:
-const GAS_ENDPOINT = "https://script.google.com/macros/s/AKfycbxtHxafBn6ftXh1STRYaBOnldWbK17kCSXvwr53p6jUrpQ6CqNX3zrN6XvdG3nCgXxQ/exec";
+const GAS_ENDPOINT = "/api/submit";   // same origin → no CORS issue
 
 function money(n){ return `$${(Number(n)||0).toFixed(2)}`; }
 function loadCart(){ try{ return JSON.parse(localStorage.getItem(CART_KEY) || "[]"); } catch{ return []; } }
