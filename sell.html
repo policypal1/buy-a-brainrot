@@ -121,7 +121,6 @@
       statusEl.textContent = "Sending...";
 
       try {
-        // Send to Vercel proxy (avoids CORS)
         const res = await fetch("/api/sell", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -157,24 +156,44 @@
     }
 
     /* Form */
-    .sellform{display:grid;gap:12px;max-width:760px;background:rgba(18,18,23,.74);border:1px solid var(--line);border-radius:14px;padding:16px}
-    .sellform label{display:grid;gap:6px;font-weight:700}
-    .sellform input,.sellform textarea{
-      background:#101014;border:1px solid var(--line);color:#fff;border-radius:12px;padding:10px;
+    .sellform{
+      display:grid; gap:12px; max-width:760px;
+      background:rgba(18,18,23,.74); border:1px solid var(--line);
+      border-radius:14px; padding:16px;
     }
-    .frow{display:grid;gap:12px;grid-template-columns:repeat(2,minmax(0,1fr))}
-    .fee-box{display:flex;align-items:center;justify-content:space-between;border:1px dashed var(--line-2);border-radius:12px;padding:10px;background:rgba(16,16,20,.6)}
-    .tiny{font-size:.88rem;color:#8b8fa3}
+    /* Only normal labels become grid; radio labels are handled below */
+    .sellform label:not(.radio){ display:grid; gap:6px; font-weight:700; }
+    .sellform input,.sellform textarea{
+      background:#101014; border:1px solid var(--line); color:#fff; border-radius:12px; padding:10px;
+    }
+    .frow{ display:grid; gap:12px; grid-template-columns:repeat(2,minmax(0,1fr)); }
+    .fee-box{
+      display:flex; align-items:center; justify-content:space-between;
+      border:1px dashed var(--line-2); border-radius:12px; padding:10px; background:rgba(16,16,20,.6);
+    }
+    .tiny{ font-size:.88rem; color:#8b8fa3; }
 
-    /* Payment radios */
-    .pay-group{margin:4px 0 2px;border:1px solid var(--line);border-radius:12px;padding:10px;background:#0f0f14}
-    .pay-group legend{padding:0 6px;font-weight:800;color:#d8dbea}
-    .radio{display:inline-flex;align-items:center;gap:8px;margin-right:14px}
-    .radio input{accent-color:var(--accent)}
+    /* Payment radios — fixed alignment */
+    .pay-group{
+      display:flex; flex-direction:column; gap:8px;
+      margin:4px 0 2px; border:1px solid var(--line); border-radius:12px;
+      padding:12px; background:#0f0f14; max-width:520px;
+    }
+    .pay-group legend{ padding:0 6px; font-weight:800; color:#d8dbea; }
+    .sellform label.radio{
+      display:flex !important; align-items:center; gap:10px; font-weight:700; /* override generic label rule */
+      line-height:1.2;
+    }
+    .sellform label.radio input{
+      appearance:auto; width:18px; height:18px; margin:0; accent-color:var(--accent);
+      flex:0 0 auto;
+    }
+    .sellform label.radio span{ flex:0 1 auto; }
 
     @media (max-width:640px){
-      .frow{grid-template-columns:1fr}
-      .sellform{padding:14px}
+      .frow{ grid-template-columns:1fr; }
+      .sellform{ padding:14px; }
+      .pay-group{ max-width:100%; }
     }
   </style>
 </body>
