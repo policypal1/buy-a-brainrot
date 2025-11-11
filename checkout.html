@@ -140,7 +140,7 @@
           </div>
 
           <label>Notes (optional)</label>
-          <textarea id="notes" class="ck-textarea" rows="4" placeholder="Anything we should know?"></textarea>
+          <textarea id="notes" class="ck-textarea" rows="4" placeholder="Add your ROBLOX username here for delivery (don’t put Discord @)."></textarea>
 
           <div id="ckError" class="ck-alert"></div>
           <button type="submit" class="btn buy full" id="ckSubmit">Submit Order</button>
@@ -152,7 +152,8 @@
               <li><strong>PayPal:</strong> send to <strong>samuelkumpula235</strong> (Friends &amp; Family).</li>
               <li><strong>Card:</strong> pick “Card (Stripe)” and we’ll DM you a secure Stripe link after submit.</li>
             </ul>
-            <p class="ck-help">As soon as we receive the payment, we’ll add you and join your private server to deliver.</p>
+            <p class="ck-help"><strong>Important:</strong> when you pay, put your <strong>ROBLOX username</strong> in the note (not your Discord @).</p>
+            <p class="ck-help">As soon as we receive the payment, we’ll join your private server and deliver.</p>
           </div>
         </form>
 
@@ -174,20 +175,31 @@
         <div class="ck-card" style="margin-top:12px">
           <h2 class="ck-title">What buyers say</h2>
           <div class="ck-list">
+            <!-- Generic unknown-user avatar (inline SVG data URI) -->
             <div class="ck-item" style="gap:10px">
               <div class="ck-item__left" style="gap:12px">
-                <img class="ck-thumb" src="./RobloxScreenShot20250625_181305616.jpg" alt="" />
+                <img class="ck-thumb" alt="" src="data:image/svg+xml;utf8,
+                  <svg xmlns='http://www.w3.org/2000/svg' width='56' height='56' viewBox='0 0 56 56'>
+                    <rect width='56' height='56' rx='10' fill='%2314161c'/>
+                    <circle cx='28' cy='22' r='10' fill='%23333a46'/>
+                    <rect x='10' y='36' width='36' height='12' rx='6' fill='%23333a46'/>
+                  </svg>"/>
                 <div>
-                  <div class="ck-name">k1ra<span style="color:#f3c96a"> ★★★★★</span></div>
+                  <div class="ck-name">Unknown User<span style="color:#f3c96a"> ★★★★★</span></div>
                   <div class="ck-variant">“Delivery was fast and clean. Would buy again.”</div>
                 </div>
               </div>
             </div>
             <div class="ck-item" style="gap:10px">
               <div class="ck-item__left" style="gap:12px">
-                <img class="ck-thumb" src="./RobloxScreenShot20250625_181305616.jpg" alt="" />
+                <img class="ck-thumb" alt="" src="data:image/svg+xml;utf8,
+                  <svg xmlns='http://www.w3.org/2000/svg' width='56' height='56' viewBox='0 0 56 56'>
+                    <rect width='56' height='56' rx='10' fill='%2314161c'/>
+                    <circle cx='28' cy='22' r='10' fill='%23333a46'/>
+                    <rect x='10' y='36' width='36' height='12' rx='6' fill='%23333a46'/>
+                  </svg>"/>
                 <div>
-                  <div class="ck-name">jsn_420<span style="color:#f3c96a"> ★★★★★</span></div>
+                  <div class="ck-name">New Buyer<span style="color:#f3c96a"> ★★★★★</span></div>
                   <div class="ck-variant">“Got exactly what I paid for, no hassle.”</div>
                 </div>
               </div>
@@ -199,7 +211,7 @@
   </main>
 
   <footer class="footer"><p>© <span id="y"></span> buy-a-brainrot</p></footer>
-  <script src="./checkout.js?v=41" defer></script>
+  <script src="./checkout.js?v=42" defer></script>
   <script>document.addEventListener("DOMContentLoaded",()=>{const y=document.querySelector("#y"); if(y) y.textContent=new Date().getFullYear();});</script>
 </body>
 </html>
