@@ -6,7 +6,7 @@
   <title>Sell your brainrot — buy-a-brainrot</title>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./style.css?v=39" />
+  <link rel="stylesheet" href="./style.css?v=37" />
 </head>
 <body class="sell-page">
   <!-- Background + dim overlay -->
@@ -37,59 +37,53 @@
       No listing fee. We charge a <strong>20% success fee</strong> only after your item sells and the transaction is complete.
     </p>
 
-    <!-- FORM (same layout, new fields) -->
-    <form id="sellForm" class="sellform" autocomplete="on" novalidate>
+    <form id="sellForm" class="sellform" autocomplete="on">
       <div class="frow">
-        <label>Brainrot name *
-          <input required name="item" id="br_name" placeholder="e.g., Los no my hospositos" />
+        <label>Brainrot name
+          <input required name="item" placeholder="e.g., Esok Sekolah" />
         </label>
-        <label>Speed (M/s) *
-          <input required name="speed" id="br_ms" placeholder="e.g., 5.5 M/s" />
+        <label>Speed / stats
+          <input required name="speed" placeholder="e.g., 225M/s" />
         </label>
       </div>
 
       <div class="frow">
-        <label>Sell price (USD) *
-          <input required type="number" min="1" step="0.01" name="price" id="br_price" placeholder="e.g., 5" />
+        <label>Sell price (USD)
+          <input required type="number" min="1" step="0.01" name="price" placeholder="e.g., 35" />
         </label>
-        <label>Listed by (seller name) *
-          <input required name="seller" id="br_seller" placeholder="e.g., luka053697" />
+        <label>Quantity
+          <input required type="number" min="1" step="1" name="qty" value="1" />
         </label>
       </div>
-
-      <label>Image URL (direct link) *
-        <input required name="img" id="br_img" placeholder="https://…/your-image.webp" />
-        <span class="tiny">Tip: Use a direct link (.webp/.png/.jpg). If you don’t have hosting, upload to Imgur or Cloudinary free.</span>
-      </label>
 
       <div class="frow">
-        <label>Roblox username (contact) *
-          <input required name="roblox" id="br_contact" placeholder="Your Roblox username" />
+        <label>Discord
+          <input name="discord" placeholder="@username or yourtag" />
         </label>
-        <label>Discord (optional)
-          <input name="discord" id="br_discord" placeholder="@yourdiscord or yourtag#0000" />
+        <label>Phone
+          <input name="phone" inputmode="tel" placeholder="optional" />
         </label>
       </div>
 
-      <label>Email (optional)
-        <input type="email" name="email" id="br_email" placeholder="you@example.com" />
+      <label>Email
+        <input type="email" name="email" placeholder="you@example.com" />
       </label>
 
-      <label>Notes (optional)
-        <textarea name="notes" id="br_notes" rows="4" placeholder="Anything else we should know?"></textarea>
+      <label>Notes
+        <textarea name="notes" rows="4" placeholder="Anything else we should know?"></textarea>
       </label>
 
-      <!-- Success fee box -->
+      <!-- Success fee box (replaces old $5 listing fee) -->
       <div class="fee-box" aria-live="polite">
         <div><strong>Success fee: 20%</strong> — deducted from your payout after a completed sale.</div>
-        <div class="tiny">We’ll email or DM you after review.</div>
+        <div class="tiny">We’ll email you with next steps after review.</div>
       </div>
 
-      <!-- Boost section (kept as-is) -->
+      <!-- Boost section -->
       <fieldset class="boost">
         <legend>Boost this brainrot (optional) — $3 upfront</legend>
         <label class="radio">
-          <input type="checkbox" name="boost" value="yes" id="br_boost" />
+          <input type="checkbox" name="boost" value="yes" />
           <span>Yes, boost this listing for $3</span>
         </label>
 
@@ -117,7 +111,7 @@
 
       <!-- Storage consent -->
       <label class="consent">
-        <input required type="checkbox" name="store_ok" id="br_terms" />
+        <input required type="checkbox" name="store_ok" />
         <span>
           I understand that once my brainrot is listed and added to the site, we will need to store it on an account to manage delivery and verification.
         </span>
@@ -138,18 +132,13 @@
   </footer>
 
   <script>
-    // 1) Set this to your Google Apps Script webhook URL
-    //    (Deploy > New deployment > Web app; access: Anyone)
-    const SELL_INTAKE_URL = "https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec";
-
-    // Keep your year auto-fill
     document.getElementById("y").textContent = String(new Date().getFullYear());
-
     const form = document.getElementById("sellForm");
     const statusEl = document.getElementById("sellStatus");
-    const boostCheckbox = document.getElementById("br_boost");
+    const boostCheckbox = form.querySelector('input[name="boost"]');
     const boostPay = document.getElementById("boostPay");
 
+    // Enable/disable boost payment method when checkbox toggles
     function syncBoostUI(){
       const enabled = boostCheckbox.checked;
       boostPay.toggleAttribute("disabled", !enabled);
@@ -161,86 +150,47 @@
     // Prefill from ?item= in URL if present
     const params = new URLSearchParams(location.search);
     const itemParam = params.get("item");
-    if (itemParam) document.getElementById("br_name").value = itemParam;
-
-    // Build ready-to-paste product card for index.html
-    function buildIndexCardHTML({ name, ms, price, seller, img }) {
-      const today = new Date();
-      const ymd = today.toISOString().slice(0,10).replaceAll("-","");
-      const esc = (s) => String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
-      return `
-<!-- ${esc(name)} | exact $${Number(price).toFixed(2)} -->
-<article class="card" data-name="${esc(name)}" data-price="${Number(price)}" data-added="${ymd}" data-lock="exact">
-  <span class="flag flag--sale">50% OFF</span>
-  <div class="thumb-wrap"><img class="thumb" src="${esc(img)}" alt="${esc(name)}" /></div>
-  <h3>${esc(name)}</h3>
-  <p class="speed">⚡ ${esc(ms)}</p>
-  <p class="seller">Listed by <strong>${esc(seller)}</strong></p>
-  <div class="qty">
-    <button type="button" class="qty__btn" disabled>−</button>
-    <input class="qty__input" value="1" readonly />
-    <button type="button" class="qty__btn" disabled>+</button>
-  </div>
-  <div class="price"><span class="was"></span><span class="now"></span></div>
-  <div class="actions">
-    <button type="button" class="btn btn--ghost add">Add to Cart</button>
-  </div>
-</article>`.trim();
-    }
+    if (itemParam) form.querySelector('[name="item"]').value = itemParam;
 
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
-      const name = document.getElementById("br_name").value.trim();
-      const ms = document.getElementById("br_ms").value.trim();
-      const price = Number(document.getElementById("br_price").value);
-      const seller = document.getElementById("br_seller").value.trim();
-      const img = document.getElementById("br_img").value.trim();
-      const contact = document.getElementById("br_contact").value.trim();
-      const discord = document.getElementById("br_discord").value.trim();
-      const email = document.getElementById("br_email").value.trim();
-      const notes = document.getElementById("br_notes").value.trim();
-      const termsOk = document.getElementById("br_terms").checked;
+      const raw = new FormData(form);
+      const data = Object.fromEntries(raw.entries());
 
-      if (!name || !ms || !price || !seller || !img || !contact || !termsOk) {
-        statusEl.style.color = "#ff8c8c";
-        statusEl.textContent = "Please fill all required fields.";
-        return;
-      }
+      // Normalize booleans/fields
+      const boost_selected = !!data.boost;
+      const boost_payment = boost_selected ? (data.boost_payment || "cashapp") : null;
 
-      const boost_selected = boostCheckbox.checked;
-      const boost_payment = boost_selected
-        ? (form.querySelector('input[name="boost_payment"]:checked')?.value || "cashapp")
-        : null;
-
-      const cardSnippet = buildIndexCardHTML({ name, ms, price, seller, img });
-
-      const payload = {
-        type: "SELL_SUBMISSION",
-        subject_prefix: "Sell submission",
-        name, ms, price, listed_by: seller, seller,
-        img, notes, contact, discord, email,
-        boost: boost_selected ? { selected: true, amount: 3, payment_method: boost_payment } : { selected: false },
-        fee_model: { kind: "success_fee", percent: 20 },
-        store_ok: true,
-        generated_card_snippet: cardSnippet,
-        ts: new Date().toISOString()
-      };
+      statusEl.style.color = "#a9adc0";
+      statusEl.textContent = "Sending...";
 
       try {
-        statusEl.style.color = "#a9adc0";
-        statusEl.textContent = "Submitting…";
-        const r = await fetch(SELL_INTAKE_URL, {
+        const res = await fetch("/api/sell", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload)
+          body: JSON.stringify({
+            type: "SELL_REQUEST",
+            item: data.item,
+            speed: data.speed,
+            price: data.price,
+            qty: data.qty,
+            discord: data.discord || "",
+            phone: data.phone || "",
+            email: data.email || "",
+            notes: data.notes || "",
+            store_ok: data.store_ok === "on",
+            fee_model: { kind: "success_fee", percent: 20 },
+            boost: boost_selected ? { selected: true, amount: 3, payment_method: boost_payment } : { selected: false }
+          })
         });
-        const j = await r.json().catch(() => ({}));
-        if (!r.ok || j.error) throw new Error(j.error || "Submission failed");
+
+        const payload = await res.json().catch(() => ({ ok: res.ok }));
+        if (!res.ok || !payload.ok) throw new Error(payload.error || "Request failed");
 
         form.reset();
         syncBoostUI();
         statusEl.style.color = "#8cff9a";
-        statusEl.textContent = "Submitted! We’ll review it soon.";
+        statusEl.textContent = "Request sent! Check your email for next steps.";
       } catch (err) {
         statusEl.style.color = "#ff8c8c";
         statusEl.textContent = "Could not send right now. You can also email us at samuelkumpula4@gmail.com.";
@@ -249,7 +199,7 @@
   </script>
 
   <style>
-    /* Background image + dim overlay (unchanged) */
+    /* Background image + dim overlay */
     .sell-page{position:relative}
     .page-bg{
       position:fixed; inset:0; z-index:-2;
@@ -263,7 +213,7 @@
       backdrop-filter:blur(2px);
     }
 
-    /* Form (kept same visual language) */
+    /* Form */
     .sellform{
       display:grid; gap:12px; max-width:760px;
       background:rgba(18,18,23,.74); border:1px solid var(--line);
