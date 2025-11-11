@@ -7,7 +7,7 @@
 
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./style.css?v=31" />
+  <link rel="stylesheet" href="./style.css?v=32" />
 </head>
 <body>
   <!-- Header -->
@@ -21,17 +21,19 @@
     </nav>
   </header>
 
-  <!-- Hero with countdown + trust -->
+  <!-- Hero (image + countdown + trust) -->
   <section class="hero hero--sale">
     <div class="hero__wrap">
       <h1>Real brainrots. Private-server delivery.</h1>
-      <p class="hero__sub">We join your server and deliver—no middlemen, no nonsense.</p>
+      <p class="hero__sub">
+        Everything is <strong>50% off</strong> until midnight. We join your server and deliver—no middlemen, no nonsense.
+      </p>
 
       <div class="countdown">
         <div class="countdown__left">
           <div class="sale-chip">24-HOUR SALE • 50% OFF</div>
           <div class="timer" id="saleTimer">00:00:00</div>
-          <p class="tiny">Resets at midnight. Discount auto-applies to eligible items.</p>
+          <p class="tiny">Resets at midnight. Discount auto-applies to all items.</p>
         </div>
         <ul class="trustlist">
           <li>🔒 Secure checkout options</li>
@@ -44,7 +46,6 @@
 
   <!-- Product Grid -->
   <main class="container">
-
     <div class="toolbar" style="justify-content:flex-end;gap:12px;flex-wrap:wrap">
       <label class="shop-sort">
         <span>Sort:</span>
@@ -56,9 +57,8 @@
     </div>
 
     <section id="grid" class="grid">
-      <!-- Spooky Grande (50% off during sale; original 100) -->
-      <article class="card" id="spooky" data-name="Spooky Grande" data-price="50" data-original="100" data-sale="true" data-added="20251110">
-        <div class="flag flag--sale">50% OFF</div>
+      <!-- Spooky Grande (shows 100 -> 50 with sale) -->
+      <article class="card" id="spooky" data-name="Spooky Grande" data-price="50" data-original="100" data-added="20251110">
         <div class="thumb-wrap"><img class="thumb" src="./Spooky_Grande.webp" alt="Spooky Grande" /></div>
         <h3>Spooky Grande</h3>
         <p class="speed">🕷️ 367.5 million /s</p>
@@ -67,18 +67,14 @@
           <input class="qty__input" value="1" readonly />
           <button type="button" class="qty__btn" disabled>+</button>
         </div>
-        <div class="price">
-          <span class="was" id="spookyWas">$100.00</span>
-          <span class="now" id="spookyNow">$50.00</span>
-        </div>
+        <div class="price"><span class="was"></span><span class="now"></span></div>
         <div class="actions">
           <button type="button" class="btn btn--ghost add">Add to Cart</button>
         </div>
       </article>
 
       <!-- Evildon -->
-      <article class="card" data-name="Evildon" data-tags="evil evildon" data-price="80" data-added="20251110">
-        <div class="flag">IN STOCK</div>
+      <article class="card" data-name="Evildon" data-price="80" data-added="20251110">
         <div class="thumb-wrap"><img class="thumb" src="./Eviledonn.png" alt="Evildon" /></div>
         <h3>Evildon</h3>
         <p class="speed">😈 409 million /s</p>
@@ -87,15 +83,14 @@
           <input class="qty__input" value="1" readonly />
           <button type="button" class="qty__btn" disabled>+</button>
         </div>
-        <div class="price">$80.00</div>
+        <div class="price"><span class="was"></span><span class="now"></span></div>
         <div class="actions">
           <button type="button" class="btn btn--ghost add">Add to Cart</button>
         </div>
       </article>
 
-      <!-- Esok Sekolah (variants in one card) -->
+      <!-- Esok Sekolah (variants) -->
       <article class="card" data-base="Esok Sekolah" data-added="20241101">
-        <div class="flag">IN STOCK</div>
         <div class="thumb-wrap"><img class="thumb" src="./EsokSekolah2.webp" alt="Esok Sekolah" /></div>
         <h3>Esok Sekolah</h3>
         <p class="speed">⚡ Choose your speed</p>
@@ -110,15 +105,14 @@
           <input class="qty__input" value="1" readonly />
           <button type="button" class="qty__btn" disabled>+</button>
         </div>
-        <div class="price"><span class="now" id="esokPrice">$17.00</span></div>
+        <div class="price"><span class="was"></span><span class="now"></span></div>
         <div class="actions">
           <button type="button" class="btn btn--ghost add" data-variant-group="esokVariant">Add to Cart</button>
         </div>
       </article>
 
       <!-- Spaghetti Tualetti -->
-      <article class="card" data-name="Spaghetti Tualetti" data-tags="spaghetti tualetti" data-price="27" data-added="20251110" data-stock="2">
-        <div class="flag">2 LEFT</div>
+      <article class="card" data-name="Spaghetti Tualetti" data-price="27" data-added="20251110" data-stock="2">
         <div class="thumb-wrap"><img class="thumb" src="./Spaghettitualetti.webp" alt="Spaghetti Tualetti" /></div>
         <h3>Spaghetti Tualetti</h3>
         <p class="speed">🍝 60 million /s</p>
@@ -127,15 +121,14 @@
           <input class="qty__input" value="1" readonly />
           <button type="button" class="qty__btn" disabled>+</button>
         </div>
-        <div class="price">$27.00</div>
+        <div class="price"><span class="was"></span><span class="now"></span></div>
         <div class="actions">
           <button type="button" class="btn btn--ghost add">Add to Cart</button>
         </div>
       </article>
 
       <!-- Los-67 -->
-      <article class="card" data-name="Los-67" data-tags="los 67 los-67" data-price="15" data-added="20251110">
-        <div class="flag">IN STOCK</div>
+      <article class="card" data-name="Los-67" data-price="15" data-added="20251110">
         <div class="thumb-wrap"><img class="thumb" src="./Los-67.webp" alt="Los-67" /></div>
         <h3>Los-67</h3>
         <p class="speed">💥 157 million /s</p>
@@ -144,15 +137,14 @@
           <input class="qty__input" value="1" readonly />
           <button type="button" class="qty__btn" disabled>+</button>
         </div>
-        <div class="price">$15.00</div>
+        <div class="price"><span class="was"></span><span class="now"></span></div>
         <div class="actions">
           <button type="button" class="btn btn--ghost add">Add to Cart</button>
         </div>
       </article>
 
-      <!-- Los Chicletiras (variants in one card) -->
+      <!-- Los Chicletiras (variants) -->
       <article class="card" data-base="Los Chicletiras" data-added="20251110">
-        <div class="flag">IN STOCK</div>
         <div class="thumb-wrap"><img class="thumb" src="./Los_ditos.webp" alt="Los Chicletiras" /></div>
         <h3>Los Chicletiras</h3>
         <p class="speed">🍬 Choose your speed</p>
@@ -167,14 +159,14 @@
           <input class="qty__input" value="1" readonly />
           <button type="button" class="qty__btn" disabled>+</button>
         </div>
-        <div class="price"><span class="now" id="chicPrice">$20.00</span></div>
+        <div class="price"><span class="was"></span><span class="now"></span></div>
         <div class="actions">
           <button type="button" class="btn btn--ghost add" data-variant-group="chicVariant">Add to Cart</button>
         </div>
       </article>
     </section>
 
-    <!-- Quick trust/quality strip -->
+    <!-- Quality strip -->
     <section class="quality">
       <div class="quality__item">🧾 Transparent pricing</div>
       <div class="quality__item">🎥 Proof on request</div>
@@ -193,7 +185,22 @@
     </nav>
   </footer>
 
-  <!-- match the real filename -->
-  <script src="./script.js?v=31" defer></script>
+  <aside id="cartDrawer" class="drawer">
+    <div class="drawer__panel">
+      <div class="drawer__top">
+        <h3>Your Cart</h3>
+        <button type="button" id="closeCart" class="drawer__close" aria-label="Close cart">✕</button>
+      </div>
+      <div id="cartItems" class="drawer__body">Cart is empty.</div>
+      <div class="drawer__bottom">
+        <div class="drawer__total">
+          <span>Total</span><strong id="cartTotal">$0.00</strong>
+        </div>
+        <button type="button" id="checkoutBtn" class="btn buy" style="width:100%;">Checkout</button>
+      </div>
+    </div>
+  </aside>
+
+  <script src="./script.js?v=32" defer></script>
 </body>
 </html>
