@@ -3,215 +3,391 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Checkout — buy-a-brainrot</title>
+  <title>buy-a-brainrot — Shop</title>
 
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./style.css?v=41" />
-
-  <style>
-    /* ===== Page background ===== */
-    .ck .page-bg{
-      position:fixed; inset:0; z-index:-2;
-      background:url("./RobloxScreenShot20250625_181305616.jpg") center/cover no-repeat fixed;
-      filter:saturate(1.02) contrast(1.02);
-    }
-    .ck .page-dim{
-      position:fixed; inset:0; z-index:-1;
-      background:radial-gradient(70% 60% at 50% 30%, rgba(12,11,15,.35) 0%, rgba(12,11,15,.78) 60%, rgba(12,11,15,.92) 100%),
-                 rgba(8,7,11,.60);
-      backdrop-filter:blur(1.5px);
-    }
-
-    /* ===== Page shell ===== */
-    .checkout{width:92%;max-width:1100px;margin:24px auto 80px}
-    .steps{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0 18px}
-    .step{display:inline-flex;align-items:center;gap:8px;background:#101014;border:1px solid var(--line);border-radius:999px;padding:6px 10px;font-weight:800}
-    .step.active{background:var(--accent);border-color:var(--accent);color:#fff}
-
-    .ck-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:20px}
-    @media(max-width:900px){ .ck-grid{grid-template-columns:1fr} }
-
-    .ck-card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:18px;box-shadow:var(--shadow)}
-    .ck-title{font-family:Orbitron,Inter,sans-serif;margin:0 0 10px;letter-spacing:.02em}
-
-    /* ===== Summary items ===== */
-    .ck-list{display:grid;gap:10px}
-    .ck-item{display:flex;align-items:center;justify-content:space-between;border:1px solid var(--line);background:#101014;border-radius:12px;padding:10px}
-    .ck-item__left{display:flex;gap:10px;align-items:center}
-    .ck-thumb{width:56px;height:56px;object-fit:cover;border:1px solid var(--line);border-radius:10px;background:#0f0f14}
-    .ck-name{font-weight:800}
-    .ck-variant{color:#a9adc0;font-size:.9rem}
-    .ck-price{font-weight:800}
-    .ck-total{display:flex;justify-content:space-between;margin-top:12px;font-weight:800;font-size:1.05rem}
-
-    /* Sticky summary on wide screens */
-    .ck-aside{position:sticky;top:86px;height:max-content}
-
-    /* ===== Form ===== */
-    .ck-form label{display:block;font-weight:700;margin:12px 0 6px}
-    .ck-input,.ck-textarea{
-      width:100%;background:#101014;border:1px solid var(--line);color:#fff;border-radius:12px;padding:10px 12px;outline:none
-    }
-    .ck-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-    @media(max-width:520px){ .ck-row{grid-template-columns:1fr} }
-
-    .pay-methods{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}
-    .pay-methods label{display:flex;align-items:center;gap:8px;background:#0f0f14;border:1px solid var(--line);padding:10px 12px;border-radius:10px;cursor:pointer;font-weight:800}
-    .pay-methods input{accent-color:var(--accent)}
-
-    .paybox{background:#101014;border:1px dashed var(--line-2);padding:12px;border-radius:12px;margin-top:12px;font-size:.95rem}
-    .paybox strong{color:#fff}
-    .ck-help{color:var(--muted);font-size:.95rem;margin:8px 0 0}
-
-    .ck-alert{margin:10px 0 0;color:#ff9aa7}
-    .btn.full{width:100%}
-
-    /* ===== Top banner ===== */
-    .hero.hero--image{border-bottom:1px solid var(--line);background:
-      radial-gradient(800px 360px at 70% 10%, rgba(255,43,69,.08), transparent 60%),
-      radial-gradient(600px 320px at 20% -10%, rgba(255,43,69,.06), transparent 60%),
-      linear-gradient(180deg, rgba(12,11,15,.86) 0%, rgba(12,11,15,.70) 45%, rgba(12,11,15,.92) 100%)
-    }
-    .hero__inner{height:90px}
-
-    /* ===== Trust strip ===== */
-    .trust{margin-top:22px;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
-    .trust__item{display:flex;gap:10px;align-items:flex-start;background:#101014;border:1px solid var(--line);border-radius:12px;padding:12px}
-    .trust__item b{display:block}
-
-    /* Tiny brand polish */
-    .brand{display:flex;align-items:center;font-family:Orbitron,Inter,sans-serif;font-weight:800}
-    .brand .logo{display:inline-block;margin-right:6px}
-  </style>
+  <link rel="stylesheet" href="./style.css?v=38" />
 </head>
-<body class="ck">
-  <!-- BG -->
-  <div class="page-bg" aria-hidden="true"></div>
-  <div class="page-dim" aria-hidden="true"></div>
-
+<body>
+  <!-- Header -->
   <header class="topbar">
-    <div class="brand"><span class="logo">buy-a-</span><span class="accent">brainrot</span></div>
-    <nav class="nav"><a href="./index.html">Shop</a></nav>
+    <a class="brand" href="./index.html" aria-label="buy-a-brainrot — home">
+      <svg class="brand__logo" width="28" height="28" viewBox="0 0 24 24" aria-hidden="true">
+        <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="#ff2b45"/><stop offset="1" stop-color="#ff5e76"/>
+        </linearGradient></defs>
+        <rect x="2" y="2" width="20" height="20" rx="5" fill="url(#g)"/>
+        <path d="M8 8h8M8 12h8M8 16h5" stroke="#0b0a0f" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+      <span class="logo">buy-a-</span><span class="accent">brainrot</span>
+    </a>
+    <nav class="nav">
+      <a href="./index.html" class="active">Shop</a>
+      <a href="./sell.html">Sell your brainrot</a>
+      <!-- NEW: Verified traders tab -->
+      <a href="#verified-traders">Verified traders</a>
+      <button type="button" class="cart-btn" id="openCart" aria-label="Open cart">
+        <span>Cart</span><span id="cartCount" class="badge">0</span>
+      </button>
+    </nav>
   </header>
 
-  <section class="hero hero--image"><div class="hero__inner"></div></section>
+  <!-- Hero -->
+  <section class="hero hero--sale">
+    <div class="hero__wrap">
+      <h1>Real brainrots. Private-server delivery.</h1>
+      <p class="hero__sub">
+        Everything is <strong>50% off</strong> until midnight. We join your server and deliver—no middlemen, no nonsense.
+      </p>
 
-  <main class="checkout">
-    <div class="steps">
-      <span class="step">1 • Cart</span>
-      <span class="step active">2 • Checkout</span>
-      <span class="step">3 • Delivery</span>
-    </div>
-
-    <div class="ck-grid">
-      <!-- LEFT: form + trust -->
-      <div class="ck-card">
-        <h2 class="ck-title">Your Details</h2>
-
-        <form id="ckForm" class="ck-form">
-          <div class="ck-row">
-            <div>
-              <label>Discord @</label>
-              <input id="discord" class="ck-input" type="text" placeholder="e.g., samsalt294" />
-            </div>
-            <div>
-              <label>Phone</label>
-              <input id="phone" class="ck-input" type="tel" placeholder="###-###-####" />
-            </div>
-          </div>
-
-          <div class="ck-row">
-            <div>
-              <label>Email</label>
-              <input id="email" class="ck-input" type="email" placeholder="you@example.com" />
-            </div>
-            <div>
-              <label>Private Server Link</label>
-              <input id="pslink" class="ck-input" type="url" placeholder="https://..." />
-            </div>
-          </div>
-
-          <label>Payment Method</label>
-          <div class="pay-methods" id="payMethods">
-            <label><input type="radio" name="pay" value="cashapp" checked> Cash App</label>
-            <label><input type="radio" name="pay" value="paypal"> PayPal</label>
-            <label><input type="radio" name="pay" value="card"> Card (Stripe)</label>
-          </div>
-
-          <label>Notes (optional)</label>
-          <textarea id="notes" class="ck-textarea" rows="4" placeholder="Add your ROBLOX username here for delivery (don’t put Discord @)."></textarea>
-
-          <div id="ckError" class="ck-alert"></div>
-          <button type="submit" class="btn buy full" id="ckSubmit">Submit Order</button>
-
-          <div class="paybox" id="payInfo">
-            <p><strong>How payment works</strong></p>
-            <ul style="margin:8px 0 0 18px;line-height:1.5">
-              <li><strong>Cash App:</strong> send the total to <strong>$samuelkumpula</strong>.</li>
-              <li><strong>PayPal:</strong> send to <strong>samuelkumpula235</strong> (Friends &amp; Family).</li>
-              <li><strong>Card:</strong> pick “Card (Stripe)” and we’ll DM you a secure Stripe link after submit.</li>
-            </ul>
-            <p class="ck-help"><strong>Important:</strong> when you pay, put your <strong>ROBLOX username</strong> in the note (not your Discord @).</p>
-            <p class="ck-help">As soon as we receive the payment, we’ll join your private server and deliver.</p>
-          </div>
-        </form>
-
-        <div class="trust">
-          <div class="trust__item">🔒 <div><b>Secure process</b> Your order details go straight to us—no middlemen.</div></div>
-          <div class="trust__item">🎥 <div><b>Proof on request</b> We can show delivery proof or screenshare during delivery.</div></div>
-          <div class="trust__item">⚡ <div><b>Fast delivery</b> Most orders fulfilled shortly after payment confirmation.</div></div>
+      <div class="countdown">
+        <div class="countdown__left">
+          <div class="sale-chip">24-HOUR SALE • 50% OFF</div>
+          <div class="timer" id="saleTimer">00:00:00</div>
+          <p class="tiny">Resets at midnight. Discount auto-applies to all items.</p>
         </div>
+        <ul class="trustlist">
+          <li>🔒 Secure checkout options</li>
+          <li>🤝 Delivery proof on request</li>
+          <li>⭐ 5-star community rated</li>
+        </ul>
       </div>
-
-      <!-- RIGHT: summary + reviews -->
-      <aside class="ck-aside">
-        <div class="ck-card">
-          <h2 class="ck-title">Order Summary</h2>
-          <div id="ckItems" class="ck-list">Loading...</div>
-          <div class="ck-total"><span>Total</span><span id="ckTotal">$0.00</span></div>
-        </div>
-
-        <div class="ck-card" style="margin-top:12px">
-          <h2 class="ck-title">What buyers say</h2>
-          <div class="ck-list">
-            <!-- Generic unknown-user avatar (inline SVG data URI) -->
-            <div class="ck-item" style="gap:10px">
-              <div class="ck-item__left" style="gap:12px">
-                <img class="ck-thumb" alt="" src="data:image/svg+xml;utf8,
-                  <svg xmlns='http://www.w3.org/2000/svg' width='56' height='56' viewBox='0 0 56 56'>
-                    <rect width='56' height='56' rx='10' fill='%2314161c'/>
-                    <circle cx='28' cy='22' r='10' fill='%23333a46'/>
-                    <rect x='10' y='36' width='36' height='12' rx='6' fill='%23333a46'/>
-                  </svg>"/>
-                <div>
-                  <div class="ck-name">Unknown User<span style="color:#f3c96a"> ★★★★★</span></div>
-                  <div class="ck-variant">“Delivery was fast and clean. Would buy again.”</div>
-                </div>
-              </div>
-            </div>
-            <div class="ck-item" style="gap:10px">
-              <div class="ck-item__left" style="gap:12px">
-                <img class="ck-thumb" alt="" src="data:image/svg+xml;utf8,
-                  <svg xmlns='http://www.w3.org/2000/svg' width='56' height='56' viewBox='0 0 56 56'>
-                    <rect width='56' height='56' rx='10' fill='%2314161c'/>
-                    <circle cx='28' cy='22' r='10' fill='%23333a46'/>
-                    <rect x='10' y='36' width='36' height='12' rx='6' fill='%23333a46'/>
-                  </svg>"/>
-                <div>
-                  <div class="ck-name">New Buyer<span style="color:#f3c96a"> ★★★★★</span></div>
-                  <div class="ck-variant">“Got exactly what I paid for, no hassle.”</div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </aside>
     </div>
+  </section>
+
+  <!-- Product Grid (single, unified) -->
+  <main class="container">
+    <div class="toolbar" style="justify-content:flex-end;gap:12px;flex-wrap:wrap">
+      <label class="shop-sort">
+        <span>Sort:</span>
+        <select id="sortSelect">
+          <option value="price-asc" selected>Price: Low → High</option>
+          <option value="price-desc">Price: High → Low</option>
+          <option value="newest">Newest</option>
+        </select>
+      </label>
+    </div>
+
+    <!-- Seller key / legend -->
+    <div class="seller-key" aria-label="Seller key">
+      <div class="seller-chip company">Sold by buy-a-brainrot</div>
+      <div class="seller-chip individual">“Listed by …” = sold by an individual</div>
+    </div>
+
+    <section id="grid" class="grid">
+      <!-- Los no my hospositos | exact $5, listed by luka053697 -->
+      <article class="card" data-name="Los no my hospositos" data-price="5" data-added="20251111" data-lock="exact" id="los-hospositos">
+        <span class="flag flag--sale">50% OFF</span>
+        <div class="thumb-wrap"><img class="thumb" src="./Loshotspotsitos.webp" alt="Los no my hospositos" /></div>
+        <h3>Los no my hospositos</h3>
+        <p class="speed">⚡ 5.5 million per second</p>
+        <p class="seller">Listed by <strong>luka053697</strong></p>
+        <div class="qty">
+          <button type="button" class="qty__btn" disabled>−</button>
+          <input class="qty__input" value="1" readonly />
+          <button type="button" class="qty__btn" disabled>+</button>
+        </div>
+        <div class="price"><span class="was"></span><span class="now"></span></div>
+        <div class="actions">
+          <button type="button" class="btn btn--ghost add">Add to Cart</button>
+        </div>
+      </article>
+
+      <!-- Los Combo (variants $5 / $8 exact) -->
+      <article class="card" data-base="Los Combo" data-added="20251110" data-lock="exact">
+        <span class="flag flag--sale">50% OFF</span>
+        <div class="thumb-wrap"><img class="thumb" src="./Stop_taking_my_chips_im_just_a_baybeh.webp" alt="Los Combo" /></div>
+        <h3>Los Combo</h3>
+        <p class="speed">🍟 Choose your speed</p>
+        <div class="variant" role="group" aria-label="Los Combo options">
+          <label><input type="radio" name="losCombo" value="15M/s" data-price="5" checked> 15 million per second — $5</label>
+          <label><input type="radio" name="losCombo" value="45M/s" data-price="8"> 45 million per second — $8</label>
+        </div>
+        <div class="qty">
+          <button type="button" class="qty__btn" disabled>−</button>
+          <input class="qty__input" value="1" readonly />
+          <button type="button" class="qty__btn" disabled>+</button>
+        </div>
+        <div class="price"><span class="was"></span><span class="now"></span></div>
+        <div class="actions">
+          <button type="button" class="btn btn--ghost add" data-variant-group="losCombo">Add to Cart</button>
+        </div>
+      </article>
+
+      <!-- Los Mobilis | exact $5.99 -->
+      <article class="card" data-name="Los Mobilis" data-price="5.99" data-added="20251110" data-lock="exact">
+        <span class="flag flag--sale">50% OFF</span>
+        <div class="thumb-wrap"><img class="thumb" src="./Losmobil.webp" alt="Los Mobilis" /></div>
+        <h3>Los Mobilis</h3>
+        <p class="speed">🧠 22 million per second</p>
+        <div class="qty">
+          <button type="button" class="qty__btn" disabled>−</button>
+          <input class="qty__input" value="1" readonly />
+          <button type="button" class="qty__btn" disabled>+</button>
+        </div>
+        <div class="price"><span class="was"></span><span class="now"></span></div>
+        <div class="actions">
+          <button type="button" class="btn btn--ghost add">Add to Cart</button>
+        </div>
+      </article>
+
+      <!-- Los Chicletiras (variants: 7.99 / 9.99) -->
+      <article class="card" data-base="Los Chicletiras" data-added="20251110">
+        <span class="flag flag--sale">50% OFF</span>
+        <div class="thumb-wrap"><img class="thumb" src="./Los_ditos.webp" alt="Los Chicletiras" /></div>
+        <h3>Los Chicletiras</h3>
+        <p class="speed">🍬 Choose your speed</p>
+        <div class="variant" role="group" aria-label="Chicletiras variant">
+          <label><input type="radio" name="chicVariant" value="28M/s" data-price="7.99" checked> 28 million per second — $7.99</label>
+          <label><input type="radio" name="chicVariant" value="43M/s" data-price="9.99"> 43 million per second — $9.99</label>
+        </div>
+        <div class="qty">
+          <button type="button" class="qty__btn" disabled>−</button>
+          <input class="qty__input" value="1" readonly />
+          <button type="button" class="qty__btn" disabled>+</button>
+        </div>
+        <div class="price"><span class="was"></span><span class="now"></span></div>
+        <div class="actions">
+          <button type="button" class="btn btn--ghost add" data-variant-group="chicVariant">Add to Cart</button>
+        </div>
+      </article>
+
+      <!-- Spaghetti Tualetti | 14.99 (toilet, allow 2) -->
+      <article class="card" data-name="Spaghetti Tualetti" data-price="14.99" data-added="20251110" data-stock="2">
+        <span class="flag flag--sale">50% OFF</span>
+        <div class="thumb-wrap"><img class="thumb" src="./Spaghettitualetti.webp" alt="Spaghetti Tualetti" /></div>
+        <h3>Spaghetti Tualetti</h3>
+        <p class="speed">🍝 60 million per second</p>
+        <div class="qty">
+          <button type="button" class="qty__btn" disabled>−</button>
+          <input class="qty__input" value="1" readonly />
+          <button type="button" class="qty__btn" disabled>+</button>
+        </div>
+        <div class="price"><span class="was"></span><span class="now"></span></div>
+        <div class="actions">
+          <button type="button" class="btn btn--ghost add">Add to Cart</button>
+        </div>
+      </article>
+
+      <!-- Los-67 | 16.99 -->
+      <article class="card" data-name="Los-67" data-price="16.99" data-added="20251110">
+        <span class="flag flag--sale">50% OFF</span>
+        <div class="thumb-wrap"><img class="thumb" src="./Los-67.webp" alt="Los-67" /></div>
+        <h3>Los-67</h3>
+        <p class="speed">💥 157 million per second</p>
+        <div class="qty">
+          <button type="button" class="qty__btn" disabled>−</button>
+          <input class="qty__input" value="1" readonly />
+          <button type="button" class="qty__btn" disabled>+</button>
+        </div>
+        <div class="price"><span class="was"></span><span class="now"></span></div>
+        <div class="actions">
+          <button type="button" class="btn btn--ghost add">Add to Cart</button>
+        </div>
+      </article>
+
+      <!-- Spooky Grande | 29.99 (was 50) -->
+      <article class="card" id="spooky" data-name="Spooky Grande" data-price="29.99" data-was="50" data-added="20251110">
+        <span class="flag flag--sale">50% OFF</span>
+        <div class="thumb-wrap"><img class="thumb" src="./Spooky_Grande.webp" alt="Spooky Grande" /></div>
+        <h3>Spooky Grande</h3>
+        <p class="speed">🕷️ 367.5 million per second</p>
+        <div class="qty">
+          <button type="button" class="qty__btn" disabled>−</button>
+          <input class="qty__input" value="1" readonly />
+          <button type="button" class="qty__btn" disabled>+</button>
+        </div>
+        <div class="price"><span class="was"></span><span class="now"></span></div>
+        <div class="actions">
+          <button type="button" class="btn btn--ghost add">Add to Cart</button>
+        </div>
+      </article>
+
+      <!-- Evildon | 39.99 (was 60) -->
+      <article class="card" data-name="Evildon" data-price="39.99" data-was="60" data-added="20251110">
+        <span class="flag flag--sale">50% OFF</span>
+        <div class="thumb-wrap"><img class="thumb" src="./Eviledonn.png" alt="Evildon" /></div>
+        <h3>Evildon</h3>
+        <p class="speed">😈 30 million per second</p>
+        <div class="qty">
+          <button type="button" class="qty__btn" disabled>−</button>
+          <input class="qty__input" value="1" readonly />
+          <button type="button" class="qty__btn" disabled>+</button>
+        </div>
+        <div class="price"><span class="was"></span><span class="now"></span></div>
+        <div class="actions">
+          <button type="button" class="btn btn--ghost add">Add to Cart</button>
+        </div>
+      </article>
+
+      <!-- Esok Sekolah (variants: 12.99 / 24.99) -->
+      <article class="card" data-base="Esok Sekolah" data-added="20241101">
+        <span class="flag flag--sale">50% OFF</span>
+        <div class="thumb-wrap"><img class="thumb" src="./EsokSekolah2.webp" alt="Esok Sekolah" /></div>
+        <h3>Esok Sekolah</h3>
+        <p class="speed">⚡ Pick your millions per second</p>
+        <div class="variant" role="group" aria-label="Esok variant">
+          <label><input type="radio" name="esokVariant" value="30M/s" data-price="12.99" checked> 30 million per second — $12.99</label>
+          <label><input type="radio" name="esokVariant" value="225M/s" data-price="24.99"> 225 million per second — $24.99</label>
+        </div>
+        <div class="qty">
+          <button type="button" class="qty__btn" disabled>−</button>
+          <input class="qty__input" value="1" readonly />
+          <button type="button" class="qty__btn" disabled>+</button>
+        </div>
+        <div class="price"><span class="was"></span><span class="now"></span></div>
+        <div class="actions">
+          <button type="button" class="btn btn--ghost add" data-variant-group="esokVariant">Add to Cart</button>
+        </div>
+      </article>
+
+      <!-- Los Bros | exact $20 -->
+      <article class="card" data-name="Los Bros" data-price="20" data-added="20251110" data-lock="exact">
+        <span class="flag flag--sale">50% OFF</span>
+        <div class="thumb-wrap"><img class="thumb" src="./BROOOOOOOO.png" alt="Los Bros" /></div>
+        <h3>Los Bros</h3>
+        <p class="speed">👊 144 million per second</p>
+        <div class="qty">
+          <button type="button" class="qty__btn" disabled>−</button>
+          <input class="qty__input" value="1" readonly />
+          <button type="button" class="qty__btn" disabled>+</button>
+        </div>
+        <div class="price"><span class="was"></span><span class="now"></span></div>
+        <div class="actions">
+          <button type="button" class="btn btn--ghost add">Add to Cart</button>
+        </div>
+      </article>
+
+      <!-- Secret Lucky Block | $10, stock 3 -->
+      <article class="card" data-name="Secret Lucky Block" data-price="10" data-added="20251111" data-stock="3" data-lock="exact">
+        <span class="flag flag--sale">50% OFF</span>
+        <div class="thumb-wrap"><img class="thumb" src="./SecretLuckyBlock.webp" alt="Secret Lucky Block" /></div>
+        <h3>Secret Lucky Block</h3>
+        <p class="speed">❓ ? million per second</p>
+        <div class="qty">
+          <button type="button" class="qty__btn" disabled>−</button>
+          <input class="qty__input" value="1" readonly />
+          <button type="button" class="qty__btn" disabled>+</button>
+        </div>
+        <div class="price"><span class="was"></span><span class="now"></span></div>
+        <div class="actions">
+          <button type="button" class="btn btn--ghost add">Add to Cart</button>
+        </div>
+      </article>
+
+      <!-- 1x1x1x1 | $2, 1.1 million/s -->
+      <article class="card" data-name="1x1x1x1" data-price="2" data-added="20251111" data-lock="exact">
+        <span class="flag flag--sale">50% OFF</span>
+        <div class="thumb-wrap"><img class="thumb" src="./1x1x1x1t.webp" alt="1x1x1x1" /></div>
+        <h3>1x1x1x1</h3>
+        <p class="speed">🧊 1.1 million per second</p>
+        <div class="qty">
+          <button type="button" class="qty__btn" disabled>−</button>
+          <input class="qty__input" value="1" readonly />
+          <button type="button" class="qty__btn" disabled>+</button>
+        </div>
+        <div class="price"><span class="was"></span><span class="now"></span></div>
+        <div class="actions">
+          <button type="button" class="btn btn--ghost add">Add to Cart</button>
+        </div>
+      </article>
+    </section>
+
+    <!-- How it works -->
+    <section class="hiw hiw--cards hiw--glassy">
+      <h2 class="section-title">How delivery works</h2>
+      <div class="hiw__grid">
+        <div class="hiw__card"><div class="hiw__num">1</div><h4>Add to cart</h4><p>Pick your brainrot and place the order.</p></div>
+        <div class="hiw__card"><div class="hiw__num">2</div><h4>We join</h4><p>Share your private server invite. No middlemen.</p></div>
+        <div class="hiw__card"><div class="hiw__num">3</div><h4>Delivery proof</h4><p>We provide proof on request. Fast support if you need it.</p></div>
+      </div>
+    </section>
+
+    <!-- Trust strip -->
+    <section class="quality quality--chips quality--neon">
+      <div class="quality__item"><span class="q-ico">🧾</span> <strong>Transparent pricing</strong></div>
+      <div class="quality__item"><span class="q-ico">🎥</span> <strong>Proof on request</strong></div>
+      <div class="quality__item"><span class="q-ico">💬</span> <strong>Fast support</strong></div>
+      <div class="quality__item"><span class="q-ico">🛡️</span> <strong>Safe delivery flow</strong></div>
+    </section>
+
+    <!-- NEW: Verified traders section -->
+    <section id="verified-traders" class="verified">
+      <h2 class="section-title">Verified traders</h2>
+      <div class="verified__grid">
+        <article class="verified-card">
+          <div class="verified__avatar">S</div>
+          <div class="verified__body">
+            <div class="verified__name">samsalt294</div>
+            <div class="verified__tag">✔️ Verified trader</div>
+            <p class="verified__note">
+              Trusted seller with completed trades and proof available on request.
+            </p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- Reviews -->
+    <section class="reviews">
+      <h2 class="section-title">Recent reviews</h2>
+      <div class="reviews__grid">
+        <article class="rev">
+          <div class="rev__head">
+            <div class="rev__avatar">L</div>
+            <div><div class="rev__name">Lana</div><div class="rev__meta">Verified purchase • 2d ago</div></div>
+            <div class="rev__stars" aria-label="5 stars">★★★★★</div>
+          </div>
+          <p>Delivery took like 10 minutes. Sent proof, worked first try.</p>
+        </article>
+        <article class="rev">
+          <div class="rev__head">
+            <div class="rev__avatar">M</div>
+            <div><div class="rev__name">Miguel</div><div class="rev__meta">Verified purchase • 4d ago</div></div>
+            <div class="rev__stars" aria-label="5 stars">★★★★★</div>
+          </div>
+          <p>Price was solid during the 50% off. Will order again.</p>
+        </article>
+        <article class="rev">
+          <div class="rev__head">
+            <div class="rev__avatar">A</div>
+            <div><div class="rev__name">Ava</div><div class="rev__meta">Verified purchase • 1w ago</div></div>
+            <div class="rev__stars" aria-label="★★★★☆">★★★★☆</div>
+          </div>
+          <p>Support answered fast. Took a few minutes to coordinate, but all good.</p>
+        </article>
+      </div>
+    </section>
   </main>
 
-  <footer class="footer"><p>© <span id="y"></span> buy-a-brainrot</p></footer>
-  <script src="./checkout.js?v=42" defer></script>
-  <script>document.addEventListener("DOMContentLoaded",()=>{const y=document.querySelector("#y"); if(y) y.textContent=new Date().getFullYear();});</script>
+  <footer class="footer">
+    <p>© <span id="y"></span> buy-a-brainrot • Private-server delivery</p>
+    <nav class="footer-nav">
+      <a href="./sell.html">Sell your brainrot</a>
+      <a href="#">How it works</a>
+      <a href="#">FAQ</a>
+      <a href="#">Refunds</a>
+      <a href="#">Contact</a>
+    </nav>
+  </footer>
+
+  <aside id="cartDrawer" class="drawer">
+    <div class="drawer__panel">
+      <div class="drawer__top">
+        <h3>Your Cart</h3>
+        <button type="button" id="closeCart" class="drawer__close" aria-label="Close cart">✕</button>
+      </div>
+      <div id="cartItems" class="drawer__body">Cart is empty.</div>
+      <div class="drawer__bottom">
+        <div class="drawer__total">
+          <span>Total</span><strong id="cartTotal">$0.00</strong>
+        </div>
+        <button type="button" id="checkoutBtn" class="btn buy" style="width:100%;">Checkout</button>
+      </div>
+    </div>
+  </aside>
+
+  <script src="./script.js?v=38" defer></script>
 </body>
 </html>
